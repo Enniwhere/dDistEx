@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.SourceTree;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -91,9 +89,5 @@ public class ChordRing {
             }
         }
         return false;
-    }
-
-    public int getSize(){
-        return size;
     }
 }

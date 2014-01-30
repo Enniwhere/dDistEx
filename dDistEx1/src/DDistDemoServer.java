@@ -1,31 +1,28 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.net.*;
+import java.io.*;
 
 /**
- * Created by simon on 1/30/14.
+ *
+ * A very simple server which will way for a connection from a client and print 
+ * what the client sends. When the client closes the connection, the server is
+ * ready for the next client.
  */
-public class ChordRingServer {
 
-    private ChordRing ring;
+public class DDistDemoServer {
+
+    /*
+     * Your group should use port number 40HGG, where H is your "hold nummer (1,2 or 3) 
+     * and GG is gruppe nummer 00, 01, 02, ... So, if you are in group 3 on hold 1 you
+     * use the port number 40103. This will avoid the unfortunate situation that you
+     * connect to each others servers.
+     */
     protected int portNumber = 40101;
     protected ServerSocket serverSocket;
-
-    public ChordRingServer(int size){
-        ring = new ChordRing(size);
-    }
 
     /**
      *
      * Will print out the IP address of the local host and the port on which this
-     * server is accepting connections.
+     * server is accepting connections. 
      */
     protected void printLocalHostAddress() {
         try {
@@ -68,7 +65,7 @@ public class ChordRingServer {
 
     /**
      *
-     * Waits for the next client to connect on port number portNumber or takes the
+     * Waits for the next client to connect on port number portNumber or takes the 
      * next one in line in case a client is already trying to connect. Returns the
      * socket of the connection, null if there were any failures.
      */
@@ -83,7 +80,7 @@ public class ChordRingServer {
     }
 
     public void run() {
-        System.out.println("Chord ring deployed. KILL ALL HUMANS.");
+        System.out.println("Hello world!");
 
         printLocalHostAddress();
 
@@ -119,11 +116,9 @@ public class ChordRingServer {
     }
 
     public static void main(String[] args) throws IOException {
-        ChordRingServer server = new ChordRingServer(16);
+        DDistDemoServer server = new DDistDemoServer();
         server.run();
     }
 
-
-
-
 }
+

@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
- * Created by simon on 1/29/14.
  */
 public class ChordRing {
 
@@ -21,11 +21,33 @@ public class ChordRing {
     public boolean join(Node node){
         if (nodes.isEmpty()){
             nodes.add(node);
-            node.setKeys(keys);
+
             return true;
         } else if (nodes.size() < this.size){
             Node root = nodes.get(0);
-            Node keyNode = root.lookup(value % size);
+            Random random = new Random();
+            while (true){
+                int id = random.nextInt(size-1);
+                Node keyNode = root.lookup(id);
+                if (keyNode.getId() != id){
+                    nodes.add(node);
+                    node.setId(id);
+                    Node keyNodePredecessor = keyNode.getPredecessor();
+                    node.setPredecessor(keyNodePredecessor);
+                    node.setSuccessor(keyNode);
+                    keyNode.setPredecessor(node);
+                    keyNodePredecessor.setSuccessor(node);
+                    return true;
+                }
+            }
+
+
+        }
+        return false;
+    }
+
+    public boolean leave(int id){
+        if (nodes.contains(node)){
 
         }
         return false;

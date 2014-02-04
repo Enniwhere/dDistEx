@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="Node and ChordRing in progress&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx5/src/ChordRing.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx5/src/Helper.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx5/src/Node.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx5/src/NodeClient.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx5/dDistEx5.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/dDistEx1/dDistEx1.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx4/src/ChordRing.java" afterPath="$PROJECT_DIR$/dDistEx4/src/ChordRing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx4/src/Node.java" afterPath="$PROJECT_DIR$/dDistEx4/src/Node.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java" afterPath="$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -79,8 +75,11 @@
       <file leaf-file-name="ChordRing.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="4" selection-start="194" selection-end="326" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1440">
-              <folding />
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
+              <folding>
+                <element signature="e#3288#3289#0" expanded="true" />
+                <element signature="e#3315#3316#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -94,10 +93,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ChordRingServer.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="ChordRingServer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="26" selection-start="171" selection-end="175" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+            <state line="94" column="58" selection-start="2781" selection-end="2781" vertical-scroll-proportion="0.9429658" vertical-offset="914" max-vertical-offset="2025">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -105,10 +104,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Node.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DDistDemoClient.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="44" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1380">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DDistDemoServer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="4" selection-start="2631" selection-end="3884" vertical-scroll-proportion="0.0" vertical-offset="1185" max-vertical-offset="1950">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Node.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx5/src/Node.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="0.49270073" vertical-offset="0" max-vertical-offset="810">
+            <state line="19" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
               <folding />
             </state>
           </provider>
@@ -153,8 +172,9 @@
     <option name="changedFiles">
       <list>
         <option value="$PROJECT_DIR$/dDistEx4/src/Node.java" />
-        <option value="$PROJECT_DIR$/dDistEx4/src/ChordRing.java" />
         <option value="$PROJECT_DIR$/dDistEx5/src/Helper.java" />
+        <option value="$PROJECT_DIR$/dDistEx4/src/ChordRing.java" />
+        <option value="$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java" />
         <option value="$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java" />
       </list>
     </option>
@@ -306,6 +326,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx1" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
@@ -325,6 +377,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/dDistEx1/src" />
       <recent name="$PROJECT_DIR$/dDistEx5/src" />
     </key>
   </component>
@@ -525,7 +578,11 @@
       <created>1391072402307</created>
       <updated>1391072402307</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Node and ChordRing in progress&#10;">
+      <created>1391075077774</created>
+      <updated>1391075077774</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -571,7 +628,8 @@
       <TodoPanelSettings />
     </option>
     <MESSAGE value="Node and ChordRing in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="Node and ChordRing in progress" />
+    <MESSAGE value="Node and ChordRing in progress&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Node and ChordRing in progress&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -609,26 +667,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="4" selection-start="194" selection-end="326" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1440">
+        <state line="19" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="810">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="26" selection-start="171" selection-end="175" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
+          <folding>
+            <element signature="e#3288#3289#0" expanded="true" />
+            <element signature="e#3315#3316#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="44" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1380">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="4" selection-start="2631" selection-end="3884" vertical-scroll-proportion="0.0" vertical-offset="1185" max-vertical-offset="1950">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Node.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="0.49270073" vertical-offset="0" max-vertical-offset="810">
-          <folding />
+        <state line="94" column="58" selection-start="2781" selection-end="2781" vertical-scroll-proportion="0.9429658" vertical-offset="914" max-vertical-offset="2025">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

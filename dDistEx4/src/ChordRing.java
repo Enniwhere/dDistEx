@@ -92,4 +92,8 @@ public class ChordRing {
         }
         return false;
     }
+
+    public int getSize(){
+        return size;
+    }
 }

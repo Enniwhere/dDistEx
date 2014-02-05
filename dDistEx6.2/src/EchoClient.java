@@ -5,11 +5,11 @@ import java.rmi.RemoteException;
 import java.util.Scanner;
 
 public class EchoClient {
-
+    private static final int portNumber = 1099;
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
         String host = "localhost";
         if(args.length > 0) { host = args[0];}
-        Echo server = (Echo) Naming.lookup("//" + host + ":" + EchoServer.portNumber + "/dDistEcho");
+        Echo server = (Echo) Naming.lookup("//" + host + ":" + portNumber + "/dDistEcho");
 
 
         Scanner sc = new Scanner(System.in);

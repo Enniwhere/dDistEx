@@ -11,9 +11,21 @@ public class EchoClient {
         if(args.length > 0) { host = args[0];}
         Echo server = (Echo) Naming.lookup("//" + host + ":" + portNumber + "/dDistEcho");
 
-
         Scanner sc = new Scanner(System.in);
-        while(sc.hasNextLine()) System.out.println("Server replies: " + server.echo(sc.nextLine()));
+        while(sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if(line.equals("Test")) {
+                long l = System.currentTimeMillis();
+                for(int i=0; i<9999; i++) {
+                    server.echo("TESTING TIME");
+                }
+                System.out.println((l - System.currentTimeMillis())/9999);
+            }
+            else {
+                System.out.println("Server replies: " + line);
+            }
+        }
+
 
     }
 }

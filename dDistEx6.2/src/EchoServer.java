@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.net.InetAddress;
 import java.rmi.registry.*;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -14,13 +15,23 @@ public class EchoServer extends UnicastRemoteObject implements Echo {
 
     @Override
     public String echo(String message) throws RemoteException {
+        if(message.equals("/0")) {
+            int i = 1/0;
+            return "i = " + i;
+        }
+        if(message.equals("loop")) {
+            while(true) {
+                //doNothing
+            }
+        }
         System.out.println("Server received: " + message);
         return message;
     }
 
     public static void main(String[] args) throws IOException {
         EchoServer server = new EchoServer();
-        Runtime.getRuntime().exec("rmiregistry 1099");
+        System.out.println(InetAddress.getLocalHost());
+                Runtime.getRuntime().exec("rmiregistry 1099");
         LocateRegistry.createRegistry(1099);
 
         Naming.rebind("//localhost:" + portNumber + "/dDistEcho", server);

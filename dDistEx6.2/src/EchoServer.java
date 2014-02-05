@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 public class EchoServer extends UnicastRemoteObject implements Echo {
-    public static final int portNumber = 1099;
+    private static final int portNumber = 1099;
 
     public EchoServer() throws RemoteException {
         super();

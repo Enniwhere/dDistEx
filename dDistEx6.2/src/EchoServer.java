@@ -15,6 +15,15 @@ public class EchoServer extends UnicastRemoteObject implements Echo {
 
     @Override
     public String echo(String message) throws RemoteException {
+        if(message.equals("/0")) {
+            int i = 1/0;
+            return "i = " + i;
+        }
+        if(message.equals("loop")) {
+            while(true) {
+                //doNothing
+            }
+        }
         System.out.println("Server received: " + message);
         return message;
     }

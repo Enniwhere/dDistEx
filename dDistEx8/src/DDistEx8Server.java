@@ -1,6 +1,4 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -13,7 +11,7 @@ import java.net.UnknownHostException;
  * ready for the next client.
  */
 
-public class DDistDemoServer {
+public class DDistEx8Server {
 
     /*
      * Your group should use port number 40HGG, where H is your "hold nummer (1,2 or 3) 
@@ -97,16 +95,30 @@ public class DDistDemoServer {
             if (socket != null) {
                 System.out.println("Connection from " + socket);
                 try {
-                    BufferedReader fromClient = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                    // For reading from standard input
+                    BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+                    // For sending text to the server
+                    ObjectOutputStream toClient = new ObjectOutputStream(socket.getOutputStream());
+
                     String s;
+                    ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    Object obj;
                     // Read and print what the client is sending
-                    while ((s = fromClient.readLine()) != null) { // Ctrl-D terminates the connection
-                        System.out.println("From the client: " + s);
+                    while ((obj = objectInputStream.readObject()) != null) { // Ctrl-D terminates the connection
+                        if (obj instanceof QA){
+                            QA qa = (QA) obj;
+                            System.out.println(qa.getQuestion() + "> ");
+                            s = stdin.readLine();
+                            qa.setAnswer(s);
+                            toClient.writeObject(qa);
+                        }
                     }
                     socket.close();
                 } catch (IOException e) {
                     // We report but otherwise ignore IOExceptions
                     System.err.println(e);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
                 System.out.println("Connection closed by client.");
             } else {
@@ -121,7 +133,7 @@ public class DDistDemoServer {
     }
 
     public static void main(String[] args) throws IOException {
-        DDistDemoServer server = new DDistDemoServer();
+        DDistEx8Server server = new DDistEx8Server();
         server.run();
     }
 

@@ -66,7 +66,6 @@ public class DistributedTextEditor extends JFrame {
                                 startTransmitting();
                                 startReceiving();
                                 connected = true;
-                                break;
                             }
                         } catch (IOException e) {
                             // We ignore IOExceptions
@@ -95,7 +94,7 @@ public class DistributedTextEditor extends JFrame {
                 startReceiving();
                 connected = true;
             } catch (IOException ex) {
-                // We ignore IOExceptions
+                setTitle("Disconnected");
             }
             changed = false;
             Save.setEnabled(false);
@@ -105,8 +104,12 @@ public class DistributedTextEditor extends JFrame {
 
     Action Disconnect = new AbstractAction("Disconnect") {
         public void actionPerformed(ActionEvent e) {
+            saveOld();
+            deregisterOnPort();
             if(listenThread != null){
                 listenThread.interrupt();
+                System.out.println(listenThread.isInterrupted());
+
             }
             if(connected){
                 eventReplayerThread.interrupt();
@@ -117,12 +120,15 @@ public class DistributedTextEditor extends JFrame {
                 } catch (IOException e1) {
                     // Ignore exceptions
                 }
-                deregisterOnPort();
                 connected = false;
 
             }
             setTitle("Disconnected");
-
+            area1.setText("");
+            area2.setText("");
+            changed = false;
+            Save.setEnabled(false);
+            SaveAs.setEnabled(false);
         }
     };
 

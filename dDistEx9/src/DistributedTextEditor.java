@@ -4,10 +4,8 @@ import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.text.*;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.util.Enumeration;
 
 public class DistributedTextEditor extends JFrame {
 
@@ -219,14 +217,29 @@ public class DistributedTextEditor extends JFrame {
 
     // Added code
     private String getLocalHostAddress() {
-        String localhostAddress;
+        String localhostAddress = "";
         try {
             InetAddress localhost = InetAddress.getLocalHost();
             localhostAddress = localhost.getHostAddress();
+            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+            while (interfaces.hasMoreElements()) {
+                NetworkInterface iface = interfaces.nextElement();
+                // filters out 127.0.0.1 and inactive interfaces
+                if (iface.isLoopback() || !iface.isUp())
+                    continue;
+
+                Enumeration<InetAddress> addresses = iface.getInetAddresses();
+                while(addresses.hasMoreElements()) {
+                    InetAddress addr = addresses.nextElement();
+                    System.out.println(iface.getDisplayName() + " " + addr.getHostAddress());
+                }
+            }
         } catch (UnknownHostException e) {
             System.err.println("Cannot resolve the Internet address of the local host.");
             System.err.println(e);
             localhostAddress = "Cannot resolve the local host address";
+        } catch (SocketException e) {
+            e.printStackTrace();
         }
         return localhostAddress;
     }

@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class QA {
+public class QA implements Serializable{
     private String question;
     private String answer;
 
@@ -11,11 +12,11 @@ public class QA {
         return question;
     }
 
-    public void setAnswer(String q) {
-        question = q;
+    public void setAnswer(String a) {
+        answer = a;
     }
 
     public String getAnswer() {
-        return question;
+        return answer;
     }
 }

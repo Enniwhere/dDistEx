@@ -19,10 +19,10 @@ public class EchoClient {
                 for(int i=0; i<9999; i++) {
                     server.echo("TESTING TIME");
                 }
-                System.out.println((l - System.currentTimeMillis())/9999);
+                System.out.println((l - System.currentTimeMillis())/10000);
             }
             else {
-                System.out.println("Server replies: " + line);
+                System.out.println("Server replies: " + server.echo(line));
             }
         }
 

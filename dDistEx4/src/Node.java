@@ -9,10 +9,12 @@ public class Node {
     private Set<Integer> keys = new HashSet<Integer>();
     private int id;
 
+
     public Node(){
         successor = this;
         predecessor = this;
     }
+
 
     public Node lookup(Integer key){
         if (keys.contains(key)){

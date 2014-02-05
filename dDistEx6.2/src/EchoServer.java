@@ -33,6 +33,7 @@ public class EchoServer extends UnicastRemoteObject implements Echo {
         System.out.println(InetAddress.getLocalHost());
                 Runtime.getRuntime().exec("rmiregistry 1099");
         LocateRegistry.createRegistry(1099);
+        System.out.println("Contact on this address: "+InetAddress.getLocalHost());
 
         Naming.rebind("//localhost:" + portNumber + "/dDistEcho", server);
     }

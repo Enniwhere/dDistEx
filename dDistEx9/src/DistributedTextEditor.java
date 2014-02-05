@@ -1,9 +1,16 @@
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DefaultEditorKit;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.Enumeration;
 
@@ -59,6 +66,7 @@ public class DistributedTextEditor extends JFrame {
                                 startTransmitting();
                                 startReceiving();
                                 connected = true;
+                                break;
                             }
                         } catch (IOException e) {
                             // We ignore IOExceptions
@@ -66,7 +74,7 @@ public class DistributedTextEditor extends JFrame {
                     }
                 }
             };
-            Thread listenThread = new Thread(listener);
+            listenThread = new Thread(listener);
             listenThread.start();
 
             changed = false;
@@ -97,8 +105,24 @@ public class DistributedTextEditor extends JFrame {
 
     Action Disconnect = new AbstractAction("Disconnect") {
         public void actionPerformed(ActionEvent e) {
+            if(listenThread != null){
+                listenThread.interrupt();
+            }
+            if(connected){
+                eventReplayerThread.interrupt();
+                eventTransmitterThread.interrupt();
+                try {
+                    socket.close();
+                    socket = null;
+                } catch (IOException e1) {
+                    // Ignore exceptions
+                }
+                deregisterOnPort();
+                connected = false;
+
+            }
             setTitle("Disconnected");
-            // TODO
+
         }
     };
 
@@ -128,6 +152,7 @@ public class DistributedTextEditor extends JFrame {
 
     Action Copy = m.get(DefaultEditorKit.copyAction);
     Action Paste = m.get(DefaultEditorKit.pasteAction);
+    private Thread listenThread;
 
     public DistributedTextEditor() {
         area1.setFont(new Font("Monospaced",Font.PLAIN,12));
@@ -250,13 +275,15 @@ public class DistributedTextEditor extends JFrame {
      * for connections. For this you should call waitForConnectionFromClient().
      */
     private void registerOnPort() {
-        try {
-            serverSocket = new ServerSocket(listenPort);
-        } catch (IOException e) {
-            serverSocket = null;
-            System.err.println("Cannot open server socket on port number" + listenPort);
-            System.err.println(e);
-            System.exit(-1);
+        if(serverSocket == null){
+            try {
+                serverSocket = new ServerSocket(listenPort);
+            } catch (IOException e) {
+                serverSocket = null;
+                System.err.println("Cannot open server socket on port number" + listenPort);
+                System.err.println(e);
+                System.exit(-1);
+            }
         }
     }
 

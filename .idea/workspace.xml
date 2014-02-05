@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/PlaidPenguin.txt" />
-      <change type="DELETED" beforePath="C:\Users\Niels\IdeaProjects\dDistEx\dDistEx6\src\Echo.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Niels\IdeaProjects\dDistEx\dDistEx6\src\EchoClient.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Users\Niels\IdeaProjects\dDistEx\dDistEx6\src\EchoServer.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java" afterPath="$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java" afterPath="$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java" afterPath="$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx3/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx3/src/EventReplayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx4/src/Node.java" afterPath="$PROJECT_DIR$/dDistEx4/src/Node.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -88,7 +78,7 @@
       <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="41" selection-start="3813" selection-end="3813" vertical-scroll-proportion="0.31848553" vertical-offset="1472" max-vertical-offset="3621">
+            <state line="108" column="41" selection-start="3813" selection-end="3813" vertical-scroll-proportion="1.5588236" vertical-offset="661" max-vertical-offset="3621">
               <folding>
                 <element signature="e#1354#1533#0" expanded="true" />
                 <element signature="e#1526#1527#0" expanded="true" />
@@ -526,7 +516,11 @@
       <created>1391075998864</created>
       <updated>1391075998864</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Disconnect in-progress">
+      <created>1391607359222</created>
+      <updated>1391607359222</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -551,7 +545,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25183016" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2554859" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2554859" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -575,7 +569,8 @@
     <MESSAGE value="Node and ChordRing in progress" />
     <MESSAGE value="Node and ChordRing in progress&#10;" />
     <MESSAGE value="Exercise 5 in progress" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exercise 5 in progress" />
+    <MESSAGE value="Disconnect in-progress" />
+    <option name="LAST_COMMIT_MESSAGE" value="Disconnect in-progress" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -609,7 +604,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="799" />
+        <state line="18" column="23" selection-start="516" selection-end="516" vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="799">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java">
@@ -643,7 +640,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="23" selection-start="540" selection-end="540" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544" />
+        <state line="18" column="23" selection-start="540" selection-end="540" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java">
@@ -672,7 +671,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1785" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1785">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx5/src/Helper.java">
@@ -723,7 +724,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx5/src/Helper.java">
@@ -808,7 +811,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.6666667" vertical-offset="0" max-vertical-offset="714" />
+        <state line="29" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.6666667" vertical-offset="0" max-vertical-offset="714">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/Echo.java">
@@ -818,12 +823,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PlaidPenguin.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="104" column="0" selection-start="9727" selection-end="9727" vertical-scroll-proportion="0.8333333" vertical-offset="1258" max-vertical-offset="1870" />
+        <state line="104" column="0" selection-start="9727" selection-end="9727" vertical-scroll-proportion="0.8333333" vertical-offset="1258" max-vertical-offset="1870">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666" />
+        <state line="9" column="13" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666">
+          <folding />
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx8/src/QA.java">
@@ -882,7 +891,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="41" selection-start="3813" selection-end="3813" vertical-scroll-proportion="0.31848553" vertical-offset="1472" max-vertical-offset="3621">
+        <state line="108" column="41" selection-start="3813" selection-end="3813" vertical-scroll-proportion="1.5588236" vertical-offset="661" max-vertical-offset="3621">
           <folding>
             <element signature="e#1354#1533#0" expanded="true" />
             <element signature="e#1526#1527#0" expanded="true" />

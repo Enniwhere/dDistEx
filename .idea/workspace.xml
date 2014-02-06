@@ -7,7 +7,7 @@
     </list>
     <ignored path="dDistEx.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684413386" ignored="false" />
+    <file path="/Dummy.txt" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684440984" ignored="false" />
     <file path="/EchoClient.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391596895101" ignored="false" />
     <file path="/EchoServer.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391596154591" ignored="false" />
     <file path="/DistributedTextEditor.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391683961250" ignored="false" />
@@ -713,7 +713,11 @@
       <created>1391684435205</created>
       <updated>1391684435205</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Afleveringsopgave">
+      <created>1391684450203</created>
+      <updated>1391684450203</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">

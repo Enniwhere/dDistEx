@@ -1,7 +1,7 @@
-import java.util.concurrent.LinkedBlockingQueue;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  *
@@ -36,25 +36,25 @@ public class DocumentEventCapturer extends DocumentFilter {
         return eventHistory.take();
     }
 
-    public void insertString(FilterBypass fb, int offset,
-                             String str, AttributeSet a)
+    public void insertString(FilterBypass filterBypass, int offset,
+                             String string, AttributeSet attributeSet)
             throws BadLocationException {
 	
 	/* Queue a copy of the event and then modify the textarea */
-        eventHistory.add(new TextInsertEvent(offset, str));
-        super.insertString(fb, offset, str, a);
+        eventHistory.add(new TextInsertEvent(offset, string));
+        super.insertString(filterBypass, offset, string, attributeSet);
     }
 
-    public void remove(FilterBypass fb, int offset, int length)
+    public void remove(FilterBypass filterBypass, int offset, int length)
             throws BadLocationException {
 	/* Queue a copy of the event and then modify the textarea */
         eventHistory.add(new TextRemoveEvent(offset, length));
-        super.remove(fb, offset, length);
+        super.remove(filterBypass, offset, length);
     }
 
-    public void replace(FilterBypass fb, int offset,
+    public void replace(FilterBypass filterBypass, int offset,
                         int length,
-                        String str, AttributeSet a)
+                        String str, AttributeSet attributeSet)
             throws BadLocationException {
 	
 	/* Queue a copy of the event and then modify the text */
@@ -62,6 +62,6 @@ public class DocumentEventCapturer extends DocumentFilter {
             eventHistory.add(new TextRemoveEvent(offset, length));
         }
         eventHistory.add(new TextInsertEvent(offset, str));
-        super.replace(fb, offset, length, str, a);
+        super.replace(filterBypass, offset, length, str, attributeSet);
     }
 }

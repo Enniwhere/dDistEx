@@ -63,6 +63,7 @@ public class DistributedTextEditor extends JFrame {
                             socket = serverSocket.accept();
                             if (socket != null) {
                                 setTitle(getTitle() + ". Connection established from " + socket);
+                                area2.setText("");
                                 startTransmitting();
                                 startReceiving();
                                 connected = true;
@@ -86,6 +87,7 @@ public class DistributedTextEditor extends JFrame {
         public void actionPerformed(ActionEvent e) {
             saveOld();
             area1.setText("");
+            area2.setText("");
             setTitle("Connecting to " + ipaddress.getText() + ":" + portNumber.getText() + "...");
             try {
                 socket = new Socket(ipaddress.getText(),Integer.parseInt(portNumber.getText()));
@@ -104,25 +106,14 @@ public class DistributedTextEditor extends JFrame {
 
     Action Disconnect = new AbstractAction("Disconnect") {
         public void actionPerformed(ActionEvent e) {
-            saveOld();
             deregisterOnPort();
             if(listenThread != null){
                 listenThread.interrupt();
-                System.out.println(listenThread.isInterrupted());
-
+                listenThread = null;
             }
-            if(connected){
-                eventReplayerThread.interrupt();
-                eventTransmitterThread.interrupt();
-                try {
-                    socket.close();
-                    socket = null;
-                } catch (IOException e1) {
-                    // Ignore exceptions
-                }
-                connected = false;
 
-            }
+            connectionClosed();
+
             setTitle("Disconnected");
             area1.setText("");
             area2.setText("");
@@ -322,7 +313,6 @@ public class DistributedTextEditor extends JFrame {
 
     public synchronized void connectionClosed() {
         if(connected){
-            saveOld();
 
             try {
                 socket.close();
@@ -332,10 +322,20 @@ public class DistributedTextEditor extends JFrame {
             }
 
             connected = false;
-            setTitle("Disconnected");
 
-            if (eventReplayerThread != null) eventReplayerThread.interrupt();
-            if (eventTransmitterThread != null) eventTransmitterThread.interrupt();
+            if (listenThread == null) setTitle("Disconnected");
+            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
+
+            if (eventReplayerThread != null) {
+                eventReplayerThread.interrupt();
+                eventReplayerThread = null;
+                eventReplayer = null;
+            }
+            if (eventTransmitterThread != null) {
+                eventTransmitterThread.interrupt();
+                eventTransmitterThread = null;
+                eventTransmitter = null;
+            }
 
         }
     }

@@ -31,6 +31,7 @@ public class EventTransmitter implements Runnable {
                 outputStream.writeObject(mte);
             } catch (IOException e){
                 distributedTextEditor.connectionClosed();
+                wasInterrupted = true;
             } catch (Exception _) {
                 wasInterrupted = true;
             }

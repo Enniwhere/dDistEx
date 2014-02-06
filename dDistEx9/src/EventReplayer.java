@@ -61,6 +61,7 @@ public class EventReplayer implements Runnable {
                 }
             } catch (IOException e){
                 distributedTextEditor.connectionClosed();
+                wasInterrupted = true;
             } catch (Exception _) {
                 wasInterrupted = true;
             }

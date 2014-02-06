@@ -3,14 +3,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-/**
- *
- * Takes the event recorded by the DocumentEventCapturer and replays
- * them in a JTextArea. The delay of 1 sec is only to make the individual
- * steps in the reply visible to humans.
- *
- * @author Jesper Buus Nielsen
- *
+/*
+ * This eventReplayer uses events from its inputStream and replays them in the textfield in the editor
  */
 public class EventReplayer implements Runnable {
 

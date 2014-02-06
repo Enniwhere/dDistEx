@@ -1,15 +1,10 @@
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
-/**
- *
- * Takes the event recorded by the DocumentEventCapturer and replays
- * them in a JTextArea. The delay of 1 sec is only to make the individual
- * steps in the reply visible to humans.
- *
- * @author Jesper Buus Nielsen
- *
- */
+/*
+* This Runnable has a reference to a documentEventCapturer, it takes event from it and streams it through the
+* outputStream that is given to it. If connection is lost, it invokes connectionClosed.
+*/
 public class EventTransmitter implements Runnable {
 
     private DistributedTextEditor distributedTextEditor;

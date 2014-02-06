@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DefaultEditorKit;
@@ -12,32 +11,34 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import java.util.Enumeration;
 
 public class DistributedTextEditor extends JFrame {
-
-    // Added code
-    protected int listenPort = 40101;
-    protected ServerSocket serverSocket;
-    protected Socket socket;
-
-    private JTextArea area1 = new JTextArea(20,120);
-    private JTextArea area2 = new JTextArea(20,120);
+    private JTextArea area1 = new JTextArea(20, 120);
+    private JTextArea area2 = new JTextArea(20, 120);
     private JTextField ipaddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");
-
-    private EventTransmitter eventTransmitter;
-    private Thread eventTransmitterThread;
-    private EventReplayer eventReplayer;
-    private Thread eventReplayerThread;
-
     private JFileChooser dialog =
             new JFileChooser(System.getProperty("user.dir"));
-
     private String currentFile = "Untitled";
     private boolean changed = false;
     private boolean connected = false;
     private DocumentEventCapturer documentEventCapturer = new DocumentEventCapturer();
+
+    protected ServerSocket serverSocket;
+    protected Socket socket;
+
+    // Added Fields
+    private int listenPort = 40101;
+    private EventTransmitter eventTransmitter;
+    private Thread eventTransmitterThread;
+    private EventReplayer eventReplayer;
+    private Thread eventReplayerThread;
+    private Thread listenThread;
+    //end of added fields
+
+    ActionMap m = area1.getActionMap();
+    Action Copy = m.get(DefaultEditorKit.copyAction);
+    Action Paste = m.get(DefaultEditorKit.pasteAction);
 
     private KeyListener k1 = new KeyAdapter() {
         public void keyPressed(KeyEvent e) {
@@ -47,42 +48,60 @@ public class DistributedTextEditor extends JFrame {
         }
     };
 
+
+    /*
+    Firing the "Listen" action will start a thread that listens for a client to connect.
+    The registerOnPort checks if the port could be registered
+    When a connection has been established it will start two new threads; "EventTransmitter" and "EventReplayer"
+    They are initialised and started in helper-methods at the bottom. Each thread gets a reference to this
+    DistributedTextEditor as well as either an input- or outputStream. For the sake of the EventTransmitter
+    it will also have a reference to the DocumentEventCapturer to be able to fetch events from it.
+     */
     Action Listen = new AbstractAction("Listen") {
         public void actionPerformed(ActionEvent e) {
             saveOld();
             area1.setText("");
-
-            // Added code
-            registerOnPort();
-            setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
-            Runnable listener = new Runnable() {
-                @Override
-                public void run() {
-                    while (true) {
-                        try {
-                            socket = serverSocket.accept();
-                            if (socket != null) {
-                                setTitle(getTitle() + ". Connection established from " + socket);
-                                area2.setText("");
-                                startTransmitting();
-                                startReceiving();
-                                connected = true;
+            Listen.setEnabled(false);
+            Connect.setEnabled(false);
+            Disconnect.setEnabled(true);
+            if(registerOnPort()) {
+                setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
+                Runnable listener = new Runnable() {
+                    @Override
+                    public void run() {
+                        while (true) {
+                            try {
+                                socket = serverSocket.accept();
+                                if (socket != null) {
+                                    setTitle(getTitle() + ". Connection established from " + socket);
+                                    area2.setText("");
+                                    startTransmitting();
+                                    startReceiving();
+                                    connected = true;
+                                }
+                            } catch (IOException e) {
+                                connectionClosed();
                             }
-                        } catch (IOException e) {
-                            // We ignore IOExceptions
                         }
                     }
-                }
-            };
-            listenThread = new Thread(listener);
-            listenThread.start();
-
+                };
+                listenThread = new Thread(listener);
+                listenThread.start();
+            } else {
+                setTitle("Could not register on port, maybe its already registered?");
+            }
             changed = false;
             Save.setEnabled(false);
             SaveAs.setEnabled(false);
         }
     };
 
+    /*
+    When this action is fired the client will attempt to connect to a given IP and portnumber.
+    When the connection is established this DistributedTextEditor will also start two new threads, just as
+    the "Listen" action above. If for some reason an exception is thrown there is a small cleanup in the method
+    "connectionClosed".
+     */
     Action Connect = new AbstractAction("Connect") {
         public void actionPerformed(ActionEvent e) {
             saveOld();
@@ -90,11 +109,14 @@ public class DistributedTextEditor extends JFrame {
             area2.setText("");
             setTitle("Connecting to " + ipaddress.getText() + ":" + portNumber.getText() + "...");
             try {
-                socket = new Socket(ipaddress.getText(),Integer.parseInt(portNumber.getText()));
+                socket = new Socket(ipaddress.getText(), Integer.parseInt(portNumber.getText()));
                 setTitle("Connected to " + ipaddress.getText() + ":" + portNumber.getText());
                 startTransmitting();
                 startReceiving();
                 connected = true;
+                Listen.setEnabled(false);
+                Connect.setEnabled(false);
+                Disconnect.setEnabled(true);
             } catch (IOException ex) {
                 connectionClosed();
             }
@@ -104,16 +126,20 @@ public class DistributedTextEditor extends JFrame {
         }
     };
 
+
+    /*
+    When "Disconnect" is fired the first thing to happens is the Editor deregisters on port,
+    If the editor was currently listening (but no connection was made yet) that thread will be interrupted
+    Then the helper method connectionClosed is run. connectionClosed can be found at the bottom.
+     */
     Action Disconnect = new AbstractAction("Disconnect") {
         public void actionPerformed(ActionEvent e) {
             deregisterOnPort();
-            if(listenThread != null){
+            if (listenThread != null) {
                 listenThread.interrupt();
                 listenThread = null;
             }
-
             connectionClosed();
-
             setTitle("Disconnected");
             area1.setText("");
             area2.setText("");
@@ -125,7 +151,7 @@ public class DistributedTextEditor extends JFrame {
 
     Action Save = new AbstractAction("Save") {
         public void actionPerformed(ActionEvent e) {
-            if(!currentFile.equals("Untitled"))
+            if (!currentFile.equals("Untitled"))
                 saveFile(currentFile);
             else
                 saveFileAs();
@@ -145,36 +171,29 @@ public class DistributedTextEditor extends JFrame {
         }
     };
 
-    ActionMap m = area1.getActionMap();
-
-    Action Copy = m.get(DefaultEditorKit.copyAction);
-    Action Paste = m.get(DefaultEditorKit.pasteAction);
-    private Thread listenThread;
-
     public DistributedTextEditor() {
-        area1.setFont(new Font("Monospaced",Font.PLAIN,12));
-
-        area2.setFont(new Font("Monospaced",Font.PLAIN,12));
-        ((AbstractDocument)area1.getDocument()).setDocumentFilter(documentEventCapturer);
+        area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        area1.addKeyListener(k1);
+        area2.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area2.setEditable(false);
-
-        Container content = getContentPane();
-        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
 
         JScrollPane scroll1 =
                 new JScrollPane(area1,
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        content.add(scroll1,BorderLayout.CENTER);
 
         JScrollPane scroll2 =
                 new JScrollPane(area2,
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        content.add(scroll2,BorderLayout.CENTER);
 
-        content.add(ipaddress,BorderLayout.CENTER);
-        content.add(portNumber,BorderLayout.CENTER);
+        Container content = getContentPane();
+        content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
+        content.add(scroll1, BorderLayout.CENTER);
+        content.add(scroll2, BorderLayout.CENTER);
+        content.add(ipaddress, BorderLayout.CENTER);
+        content.add(portNumber, BorderLayout.CENTER);
 
         JMenuBar JMB = new JMenuBar();
         setJMenuBar(JMB);
@@ -190,7 +209,6 @@ public class DistributedTextEditor extends JFrame {
         file.add(Save);
         file.add(SaveAs);
         file.add(Quit);
-
         edit.add(Copy);
         edit.add(Paste);
         edit.getItem(0).setText("Copy");
@@ -198,27 +216,21 @@ public class DistributedTextEditor extends JFrame {
 
         Save.setEnabled(false);
         SaveAs.setEnabled(false);
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
-        area1.addKeyListener(k1);
         setTitle("Disconnected");
         setVisible(true);
-        area1.insert("Example of how to capture stuff from the event queue and replay it in another buffer.\n" +
-                "Try to type and delete stuff in the top area.\n" +
-                "Then figure out how it works.\n", 0);
-
-
+        area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
     }
 
     private void saveFileAs() {
-        if(dialog.showSaveDialog(null)==JFileChooser.APPROVE_OPTION)
+        if (dialog.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
             saveFile(dialog.getSelectedFile().getAbsolutePath());
     }
 
     private void saveOld() {
-        if(changed) {
-            if(JOptionPane.showConfirmDialog(this, "Would you like to save "+ currentFile +" ?","Save",JOptionPane.YES_NO_OPTION)== JOptionPane.YES_OPTION)
+        if (changed) {
+            if (JOptionPane.showConfirmDialog(this, "Would you like to save " + currentFile + " ?", "Save", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
                 saveFile(currentFile);
         }
     }
@@ -231,59 +243,44 @@ public class DistributedTextEditor extends JFrame {
             currentFile = fileName;
             changed = false;
             Save.setEnabled(false);
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
         }
     }
 
 
-    // Added code
+    // This method is simply used to find the local host address.
     private String getLocalHostAddress() {
         String localhostAddress = "";
         try {
             InetAddress localhost = InetAddress.getLocalHost();
             localhostAddress = localhost.getHostAddress();
-            Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-            while (interfaces.hasMoreElements()) {
-                NetworkInterface iface = interfaces.nextElement();
-                // filters out 127.0.0.1 and inactive interfaces
-                if (iface.isLoopback() || !iface.isUp())
-                    continue;
-
-                Enumeration<InetAddress> addresses = iface.getInetAddresses();
-                while(addresses.hasMoreElements()) {
-                    InetAddress addr = addresses.nextElement();
-                    System.out.println(iface.getDisplayName() + " " + addr.getHostAddress());
-                }
-            }
         } catch (UnknownHostException e) {
             System.err.println("Cannot resolve the Internet address of the local host.");
             System.err.println(e);
             localhostAddress = "Cannot resolve the local host address";
-        } catch (SocketException e) {
-            e.printStackTrace();
         }
         return localhostAddress;
     }
 
-    /**
-     * Added code
-     * Will register this server on the port number portNumber. Will not start waiting
-     * for connections. For this you should call waitForConnectionFromClient().
+
+    /*
+    Will register this server on the port number portNumber.
      */
-    private void registerOnPort() {
-        if(serverSocket == null){
+    private boolean registerOnPort() {
+        if (serverSocket == null) {
             try {
                 serverSocket = new ServerSocket(listenPort);
+                return true;
             } catch (IOException e) {
                 serverSocket = null;
-                System.err.println("Cannot open server socket on port number" + listenPort);
-                System.err.println(e);
-                System.exit(-1);
             }
         }
+        return false;
     }
 
+    /*
+    Will deregister the server on the port
+     */
     private void deregisterOnPort() {
         if (serverSocket != null) {
             try {
@@ -295,34 +292,39 @@ public class DistributedTextEditor extends JFrame {
         }
     }
 
+    //This method is responsible for starting the eventTransmitterThread.
     private void startTransmitting() throws IOException {
         eventTransmitter = new EventTransmitter(documentEventCapturer, new ObjectOutputStream(socket.getOutputStream()), this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();
     }
 
+    //This method is responsible for starting the eventReplayerThread
     private void startReceiving() throws IOException {
         eventReplayer = new EventReplayer(new ObjectInputStream(socket.getInputStream()), area2, this);
         eventReplayerThread = new Thread(eventReplayer);
         eventReplayerThread.start();
     }
 
-    public static void main(String[] arg) {
-        new DistributedTextEditor();
-    }
-
+    /*
+    This is our cleanup method that is run whenever a connection is closed. It is invoked from the
+    eventTransmitter and eventReplayer whenever a connection was lost. It is also invoked from the action
+    file -> Disconnect. This method is synchronized to avoid concurrency problems. Theres a difference wether
+    the Editor was currently a client or server. A client should disconnect if the server stops responding, but
+    the server should keep running when a client disconnect. The transmitter and replayer are intterupted aswell.
+    */
     public synchronized void connectionClosed() {
-        if(connected){
-
+        Listen.setEnabled(true);
+        Connect.setEnabled(true);
+        Disconnect.setEnabled(false);
+        if (connected) {
+            connected = false;
             try {
                 socket.close();
                 socket = null;
             } catch (IOException e1) {
                 // Ignore exceptions
             }
-
-            connected = false;
-
             if (listenThread == null) setTitle("Disconnected");
             else setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
 
@@ -336,7 +338,11 @@ public class DistributedTextEditor extends JFrame {
                 eventTransmitterThread = null;
                 eventTransmitter = null;
             }
-
         }
     }
+
+    public static void main(String[] arg) {
+        new DistributedTextEditor();
+    }
+
 }

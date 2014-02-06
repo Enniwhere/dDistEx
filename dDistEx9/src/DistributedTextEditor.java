@@ -37,7 +37,7 @@ public class DistributedTextEditor extends JFrame {
     private String currentFile = "Untitled";
     private boolean changed = false;
     private boolean connected = false;
-    private DocumentEventCapturer dec = new DocumentEventCapturer();
+    private DocumentEventCapturer documentEventCapturer = new DocumentEventCapturer();
 
     private KeyListener k1 = new KeyAdapter() {
         public void keyPressed(KeyEvent e) {
@@ -94,7 +94,7 @@ public class DistributedTextEditor extends JFrame {
                 startReceiving();
                 connected = true;
             } catch (IOException ex) {
-                setTitle("Disconnected");
+                connectionClosed();
             }
             changed = false;
             Save.setEnabled(false);
@@ -164,7 +164,7 @@ public class DistributedTextEditor extends JFrame {
         area1.setFont(new Font("Monospaced",Font.PLAIN,12));
 
         area2.setFont(new Font("Monospaced",Font.PLAIN,12));
-        ((AbstractDocument)area1.getDocument()).setDocumentFilter(dec);
+        ((AbstractDocument)area1.getDocument()).setDocumentFilter(documentEventCapturer);
         area2.setEditable(false);
 
         Container content = getContentPane();
@@ -305,13 +305,13 @@ public class DistributedTextEditor extends JFrame {
     }
 
     private void startTransmitting() throws IOException {
-        eventTransmitter = new EventTransmitter(dec, new ObjectOutputStream(socket.getOutputStream()));
+        eventTransmitter = new EventTransmitter(documentEventCapturer, new ObjectOutputStream(socket.getOutputStream()), this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();
     }
 
     private void startReceiving() throws IOException {
-        eventReplayer = new EventReplayer(new ObjectInputStream(socket.getInputStream()),area2);
+        eventReplayer = new EventReplayer(new ObjectInputStream(socket.getInputStream()), area2, this);
         eventReplayerThread = new Thread(eventReplayer);
         eventReplayerThread.start();
     }
@@ -320,4 +320,23 @@ public class DistributedTextEditor extends JFrame {
         new DistributedTextEditor();
     }
 
+    public synchronized void connectionClosed() {
+        if(connected){
+            saveOld();
+
+            try {
+                socket.close();
+                socket = null;
+            } catch (IOException e1) {
+                // Ignore exceptions
+            }
+
+            connected = false;
+            setTitle("Disconnected");
+
+            if (eventReplayerThread != null) eventReplayerThread.interrupt();
+            if (eventTransmitterThread != null) eventTransmitterThread.interrupt();
+
+        }
+    }
 }

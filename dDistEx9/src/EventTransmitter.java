@@ -1,5 +1,4 @@
-import javax.swing.JTextArea;
-import java.awt.EventQueue;
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 /**
@@ -13,20 +12,25 @@ import java.io.ObjectOutputStream;
  */
 public class EventTransmitter implements Runnable {
 
-    private DocumentEventCapturer dec;
+    private DistributedTextEditor distributedTextEditor;
+    private DocumentEventCapturer documentEventCapturer;
     private ObjectOutputStream outputStream;
 
-    public EventTransmitter(DocumentEventCapturer dec, ObjectOutputStream outputStream) {
-        this.dec = dec;
+
+    public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor distributedTextEditor) {
+        this.documentEventCapturer = documentEventCapturer;
         this.outputStream = outputStream;
+        this.distributedTextEditor = distributedTextEditor;
     }
 
     public void run() {
         boolean wasInterrupted = false;
         while (!wasInterrupted) {
             try {
-                MyTextEvent mte = dec.take();
+                MyTextEvent mte = documentEventCapturer.take();
                 outputStream.writeObject(mte);
+            } catch (IOException e){
+                distributedTextEditor.connectionClosed();
             } catch (Exception _) {
                 wasInterrupted = true;
             }

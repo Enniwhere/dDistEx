@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 
 /**
@@ -15,10 +16,12 @@ public class EventReplayer implements Runnable {
 
     private ObjectInputStream inputStream;
     private JTextArea area;
+    private DistributedTextEditor distributedTextEditor;
 
-    public EventReplayer(ObjectInputStream inputStream, JTextArea area) {
+    public EventReplayer(ObjectInputStream inputStream, JTextArea area, DistributedTextEditor distributedTextEditor) {
         this.inputStream = inputStream;
         this.area = area;
+        this.distributedTextEditor = distributedTextEditor;
     }
 
     public void run() {
@@ -56,6 +59,8 @@ public class EventReplayer implements Runnable {
                         }
                     });
                 }
+            } catch (IOException e){
+                distributedTextEditor.connectionClosed();
             } catch (Exception _) {
                 wasInterrupted = true;
             }

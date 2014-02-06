@@ -2,18 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="Afleveringsopgave">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java" afterPath="$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx9/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684440984" ignored="false" />
+    <file path="/Dummy.txt" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684487658" ignored="false" />
     <file path="/EchoClient.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391596895101" ignored="false" />
     <file path="/EchoServer.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391596154591" ignored="false" />
-    <file path="/DistributedTextEditor.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391683961250" ignored="false" />
+    <file path="/DistributedTextEditor.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391706910052" ignored="false" />
     <file path="/fragment.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391609882681" ignored="false" />
     <file path="/EventTransmitter.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684090273" ignored="false" />
-    <file path="/EventReplayer.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684203684" ignored="false" />
+    <file path="/EventReplayer.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391685097527" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,15 +76,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="296" column="113" selection-start="10808" selection-end="10808" vertical-scroll-proportion="0.0">
+            <state line="353" column="37" selection-start="13021" selection-end="13021" vertical-scroll-proportion="0.9128205">
               <folding>
                 <element signature="class#2350:3931" expanded="false" />
                 <element signature="e#2763#3598#0" expanded="true" />
                 <element signature="e#3579#3580#0" expanded="true" />
-                <element signature="class#4312:5229" expanded="false" />
                 <element signature="class#6097:6325" expanded="false" />
                 <element signature="class#6352:6477" expanded="false" />
                 <element signature="class#6502:6646" expanded="false" />
@@ -94,7 +95,7 @@
       <file leaf-file-name="DocumentEventCapturer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="29" column="26" selection-start="1203" selection-end="1203" vertical-scroll-proportion="0.0">
+            <state line="36" column="14" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -109,10 +110,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx9/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="102" selection-start="209" selection-end="209" vertical-scroll-proportion="0.12655087">
+            <state line="6" column="102" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -147,9 +148,9 @@
         <option value="$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java" />
         <option value="$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java" />
         <option value="$PROJECT_DIR$/dDistEx3/src/DistributedTextEditor.java" />
-        <option value="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" />
         <option value="$PROJECT_DIR$/dDistEx9/src/EventTransmitter.java" />
         <option value="$PROJECT_DIR$/dDistEx9/src/EventReplayer.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" />
       </list>
     </option>
   </component>
@@ -717,7 +718,11 @@
       <created>1391684450203</created>
       <updated>1391684450203</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Afleveringsopgave">
+      <created>1391684494511</created>
+      <updated>1391684494511</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -887,28 +892,6 @@
         <state line="5" column="13" selection-start="59" selection-end="59" vertical-scroll-proportion="0.21144278" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="26" selection-start="1203" selection-end="1203" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="113" selection-start="10808" selection-end="10808" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="class#2350:3931" expanded="false" />
-            <element signature="e#2763#3598#0" expanded="true" />
-            <element signature="e#3579#3580#0" expanded="true" />
-            <element signature="class#4312:5229" expanded="false" />
-            <element signature="class#6097:6325" expanded="false" />
-            <element signature="class#6352:6477" expanded="false" />
-            <element signature="class#6502:6646" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx9/src/EventTransmitter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="87" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0">
@@ -918,8 +901,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx9/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="102" selection-start="209" selection-end="209" vertical-scroll-proportion="0.12655087">
+        <state line="6" column="102" selection-start="209" selection-end="209" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="14" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="353" column="37" selection-start="13021" selection-end="13021" vertical-scroll-proportion="0.9128205">
+          <folding>
+            <element signature="class#2350:3931" expanded="false" />
+            <element signature="e#2763#3598#0" expanded="true" />
+            <element signature="e#3579#3580#0" expanded="true" />
+            <element signature="class#6097:6325" expanded="false" />
+            <element signature="class#6352:6477" expanded="false" />
+            <element signature="class#6502:6646" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

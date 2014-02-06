@@ -326,7 +326,12 @@ public class DistributedTextEditor extends JFrame {
                 // Ignore exceptions
             }
             if (listenThread == null) setTitle("Disconnected");
-            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
+            else {
+                setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
+                Listen.setEnabled(false);
+                Connect.setEnabled(false);
+                Disconnect.setEnabled(true);
+            }
 
             if (eventReplayerThread != null) {
                 eventReplayerThread.interrupt();

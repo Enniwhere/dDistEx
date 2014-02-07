@@ -4,15 +4,14 @@
     <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="Afleveringsopgave">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java" afterPath="$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx9/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684487658" ignored="false" />
+    <file path="/Dummy.txt" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391707035298" ignored="false" />
     <file path="/EchoClient.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391596895101" ignored="false" />
     <file path="/EchoServer.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391596154591" ignored="false" />
-    <file path="/DistributedTextEditor.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391706910052" ignored="false" />
+    <file path="/DistributedTextEditor.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391760865703" ignored="false" />
     <file path="/fragment.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391609882681" ignored="false" />
     <file path="/EventTransmitter.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391684090273" ignored="false" />
     <file path="/EventReplayer.java" changelist="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" time="1391685097527" ignored="false" />
@@ -79,7 +78,7 @@
       <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="353" column="37" selection-start="13021" selection-end="13021" vertical-scroll-proportion="0.9128205">
+            <state line="307" column="49" selection-start="11262" selection-end="11262" vertical-scroll-proportion="0.08717949">
               <folding>
                 <element signature="class#2350:3931" expanded="false" />
                 <element signature="e#2763#3598#0" expanded="true" />
@@ -722,7 +721,11 @@
       <created>1391684494511</created>
       <updated>1391684494511</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Afleveringsopgave">
+      <created>1391707063943</created>
+      <updated>1391707063943</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -915,7 +918,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="353" column="37" selection-start="13021" selection-end="13021" vertical-scroll-proportion="0.9128205">
+        <state line="307" column="49" selection-start="11262" selection-end="11262" vertical-scroll-proportion="0.08717949">
           <folding>
             <element signature="class#2350:3931" expanded="false" />
             <element signature="e#2763#3598#0" expanded="true" />

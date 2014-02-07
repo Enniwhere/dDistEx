@@ -314,9 +314,10 @@ public class DistributedTextEditor extends JFrame {
     the server should keep running when a client disconnect. The transmitter and replayer are intterupted aswell.
     */
     public synchronized void connectionClosed() {
-        Listen.setEnabled(true);
-        Connect.setEnabled(true);
-        Disconnect.setEnabled(false);
+        boolean checkListening = listenThread != null;
+        Listen.setEnabled(!checkListening);
+        Connect.setEnabled(!checkListening);
+        Disconnect.setEnabled(checkListening);
         if (connected) {
             connected = false;
             try {
@@ -326,13 +327,7 @@ public class DistributedTextEditor extends JFrame {
                 // Ignore exceptions
             }
             if (listenThread == null) setTitle("Disconnected");
-            else {
-                setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
-                Listen.setEnabled(false);
-                Connect.setEnabled(false);
-                Disconnect.setEnabled(true);
-            }
-
+            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
             if (eventReplayerThread != null) {
                 eventReplayerThread.interrupt();
                 eventReplayerThread = null;

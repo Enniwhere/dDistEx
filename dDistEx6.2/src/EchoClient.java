@@ -25,7 +25,5 @@ public class EchoClient {
                 System.out.println("Server replies: " + server.echo(line));
             }
         }
-
-
     }
 }

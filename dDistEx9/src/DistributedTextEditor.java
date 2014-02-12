@@ -28,7 +28,6 @@ public class DistributedTextEditor extends JFrame {
     protected Socket socket;
 
     // Added Fields
-    private int listenPort = 40101;
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -60,12 +59,11 @@ public class DistributedTextEditor extends JFrame {
     Action Listen = new AbstractAction("Listen") {
         public void actionPerformed(ActionEvent e) {
             saveOld();
-            area1.setText("");
             Listen.setEnabled(false);
             Connect.setEnabled(false);
             Disconnect.setEnabled(true);
             if(registerOnPort()) {
-                setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
+                setTitle("I'm listening on " + getLocalHostAddress() + ":" + Integer.parseInt(portNumber.getText()));
                 Runnable listener = new Runnable() {
                     @Override
                     public void run() {
@@ -74,6 +72,7 @@ public class DistributedTextEditor extends JFrame {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
                                     setTitle(getTitle() + ". Connection established from " + socket);
+                                    area1.setText("");
                                     area2.setText("");
                                     startTransmitting();
                                     startReceiving();
@@ -269,7 +268,7 @@ public class DistributedTextEditor extends JFrame {
     private boolean registerOnPort() {
         if (serverSocket == null) {
             try {
-                serverSocket = new ServerSocket(listenPort);
+                serverSocket = new ServerSocket(Integer.parseInt(portNumber.getText()));
                 return true;
             } catch (IOException e) {
                 serverSocket = null;
@@ -327,7 +326,7 @@ public class DistributedTextEditor extends JFrame {
                 // Ignore exceptions
             }
             if (listenThread == null) setTitle("Disconnected");
-            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + listenPort);
+            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + Integer.parseInt(portNumber.getText()));
             if (eventReplayerThread != null) {
                 eventReplayerThread.interrupt();
                 eventReplayerThread = null;

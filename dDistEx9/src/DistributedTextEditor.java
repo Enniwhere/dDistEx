@@ -10,7 +10,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class DistributedTextEditor extends JFrame {
     private JTextArea area1 = new JTextArea(20, 120);
@@ -33,6 +38,8 @@ public class DistributedTextEditor extends JFrame {
     private EventReplayer eventReplayer;
     private Thread eventReplayerThread;
     private Thread listenThread;
+    private Pattern portPattern = Pattern.compile("^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])$");
+    private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
     //end of added fields
 
     ActionMap m = area1.getActionMap();
@@ -63,7 +70,7 @@ public class DistributedTextEditor extends JFrame {
             Connect.setEnabled(false);
             Disconnect.setEnabled(true);
             if(registerOnPort()) {
-                setTitle("I'm listening on " + getLocalHostAddress() + ":" + Integer.parseInt(portNumber.getText()));
+                setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
                 Runnable listener = new Runnable() {
                     @Override
                     public void run() {
@@ -108,8 +115,8 @@ public class DistributedTextEditor extends JFrame {
             area2.setText("");
             setTitle("Connecting to " + ipaddress.getText() + ":" + portNumber.getText() + "...");
             try {
-                socket = new Socket(ipaddress.getText(), Integer.parseInt(portNumber.getText()));
-                setTitle("Connected to " + ipaddress.getText() + ":" + portNumber.getText());
+                socket = new Socket(getIPAddress(), getPortNumber());
+                setTitle("Connected to " + ipaddress.getText() + ":" + getPortNumber());
                 startTransmitting();
                 startReceiving();
                 connected = true;
@@ -268,7 +275,7 @@ public class DistributedTextEditor extends JFrame {
     private boolean registerOnPort() {
         if (serverSocket == null) {
             try {
-                serverSocket = new ServerSocket(Integer.parseInt(portNumber.getText()));
+                serverSocket = new ServerSocket(getPortNumber());
                 return true;
             } catch (IOException e) {
                 serverSocket = null;
@@ -326,7 +333,7 @@ public class DistributedTextEditor extends JFrame {
                 // Ignore exceptions
             }
             if (listenThread == null) setTitle("Disconnected");
-            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + Integer.parseInt(portNumber.getText()));
+            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
             if (eventReplayerThread != null) {
                 eventReplayerThread.interrupt();
                 eventReplayerThread = null;
@@ -344,4 +351,17 @@ public class DistributedTextEditor extends JFrame {
         new DistributedTextEditor();
     }
 
+    public int getPortNumber() {
+        String portNumberString = portNumber.getText();
+        Matcher matcher = portPattern.matcher(portNumberString);
+        if(matcher.matches()) return Integer.parseInt(portNumberString);
+        return 40101;
+    }
+
+    public String getIPAddress() {
+        String ipAddressString = ipaddress.getText();
+        Matcher matcher = ipPattern.matcher(ipAddressString);
+        if(matcher.matches()) return ipAddressString;
+        return "localhost";
+    }
 }

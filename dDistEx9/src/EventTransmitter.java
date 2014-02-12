@@ -7,15 +7,15 @@ import java.io.ObjectOutputStream;
 */
 public class EventTransmitter implements Runnable {
 
-    private DistributedTextEditor distributedTextEditor;
+    private DistributedTextEditor callback;
     private DocumentEventCapturer documentEventCapturer;
     private ObjectOutputStream outputStream;
 
 
-    public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor distributedTextEditor) {
+    public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor callback) {
         this.documentEventCapturer = documentEventCapturer;
         this.outputStream = outputStream;
-        this.distributedTextEditor = distributedTextEditor;
+        this.callback = callback;
     }
 
     public void run() {
@@ -25,7 +25,7 @@ public class EventTransmitter implements Runnable {
                 MyTextEvent mte = documentEventCapturer.take();
                 outputStream.writeObject(mte);
             } catch (IOException e){
-                distributedTextEditor.connectionClosed();
+                callback.connectionClosed();
                 wasInterrupted = true;
             } catch (Exception _) {
                 wasInterrupted = true;

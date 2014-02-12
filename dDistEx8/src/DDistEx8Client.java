@@ -111,7 +111,7 @@ public class DDistEx8Client {
 
             senderThread.start();
             listenerThread.start();
-            while(senderThread.isAlive() || listenerThread.isAlive()){}
+            while(senderThread.isAlive() && listenerThread.isAlive()){}
             try {
                 socket.close();
             } catch (IOException e) {

@@ -10,12 +10,12 @@ public class EventReplayer implements Runnable {
 
     private ObjectInputStream inputStream;
     private JTextArea area;
-    private DistributedTextEditor distributedTextEditor;
+    private DistributedTextEditor callback;
 
-    public EventReplayer(ObjectInputStream inputStream, JTextArea area, DistributedTextEditor distributedTextEditor) {
+    public EventReplayer(ObjectInputStream inputStream, JTextArea area, DistributedTextEditor callback) {
         this.inputStream = inputStream;
         this.area = area;
-        this.distributedTextEditor = distributedTextEditor;
+        this.callback = callback;
     }
 
     public void run() {
@@ -24,29 +24,32 @@ public class EventReplayer implements Runnable {
 
             try {
                 Object obj = inputStream.readObject();
-                if (obj instanceof TextInsertEvent) {
-                    final TextInsertEvent tie = (TextInsertEvent)obj;
+                if (obj instanceof  MyConnectionEvent){
+                    handleConnectionEvent((MyConnectionEvent) obj);
+
+                } else if (obj instanceof TextInsertEvent) {
+                    final TextInsertEvent textInsertEvent = (TextInsertEvent)obj;
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
-                                area.insert(tie.getText(), tie.getOffset());
+                                area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
                             } catch (Exception e) {
-                                System.err.println(e);
-				    /* We catch all axceptions, as an uncaught exception would make the 
+                                e.printStackTrace();
+				    /* We catch all exceptions, as an uncaught exception would make the
 				     * EDT unwind, which is now healthy.
 				     */
                             }
                         }
                     });
                 } else if (obj instanceof TextRemoveEvent) {
-                    final TextRemoveEvent tre = (TextRemoveEvent)obj;
+                    final TextRemoveEvent textRemoveEvent = (TextRemoveEvent)obj;
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
-                                area.replaceRange(null, tre.getOffset(), tre.getOffset()+tre.getLength());
+                                area.replaceRange(null, textRemoveEvent.getOffset(), textRemoveEvent.getOffset()+textRemoveEvent.getLength());
                             } catch (Exception e) {
-                                System.err.println(e);
-				    /* We catch all axceptions, as an uncaught exception would make the 
+                                e.printStackTrace();
+				    /* We catch all exceptions, as an uncaught exception would make the
 				     * EDT unwind, which is now healthy.
 				     */
                             }
@@ -54,13 +57,21 @@ public class EventReplayer implements Runnable {
                     });
                 }
             } catch (IOException e){
-                distributedTextEditor.connectionClosed();
+                callback.connectionClosed();
                 wasInterrupted = true;
             } catch (Exception _) {
                 wasInterrupted = true;
             }
         }
         System.out.println("I'm the thread running the EventReplayer, now I die!");
+    }
+
+    private void handleConnectionEvent(MyConnectionEvent obj) {
+        if (obj.getType() == ConnectionEventTypes.DISCONNECT_REQUEST){
+            callback.replyToDisconnect();
+        } else if (obj.getType() == ConnectionEventTypes.DISCONNECT_REPLY_OK){
+            callback.connectionClosed();
+        }
     }
 
 }

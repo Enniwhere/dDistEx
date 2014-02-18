@@ -64,4 +64,8 @@ public class DocumentEventCapturer extends DocumentFilter {
         eventHistory.add(new TextInsertEvent(offset, str));
         super.replace(filterBypass, offset, length, str, attributeSet);
     }
+
+    public void clearEventHistory() {
+       eventHistory = new LinkedBlockingQueue<MyTextEvent>();
+    }
 }

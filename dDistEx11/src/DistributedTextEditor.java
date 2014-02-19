@@ -18,7 +18,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DistributedTextEditor extends JFrame {
-    private JTextArea area1 = new JTextArea(20, 120);
+    private JTextArea area1 = new JTextArea(new DistributedDocument(),"",20, 120);
     private JTextArea area2 = new JTextArea(20, 120);
     private JTextField ipAddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");

@@ -43,6 +43,7 @@ public class EventReplayer implements Runnable {
                     final double[] timestamp = textInsertEvent.getTimestamp();
                     int senderIndex = textInsertEvent.getSender();
 
+                    callback.incrementLamportTime();
 
                     System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
                     while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1.0 ||
@@ -68,7 +69,7 @@ public class EventReplayer implements Runnable {
                                             }
                                         }
                                         callback.adjustVectorClock(timestamp);
-                                        callback.incrementLamportTime();
+
                                         areaDocument.disableFilter();
                                         area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
                                         areaDocument.enableFilter();
@@ -89,8 +90,7 @@ public class EventReplayer implements Runnable {
                     final double[] timestamp = textRemoveEvent.getTimestamp();
                     int senderIndex = textRemoveEvent.getSender();
 
-                    //callback.adjustVectorClock(timestamp);
-                    //callback.incrementLamportTime();
+                    callback.incrementLamportTime();
 
                     System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
                     while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1.0 ||
@@ -114,7 +114,7 @@ public class EventReplayer implements Runnable {
                                             }
                                         }
                                         callback.adjustVectorClock(timestamp);
-                                        callback.incrementLamportTime();
+
                                         areaDocument.disableFilter();
                                         area.replaceRange(null, textRemoveEvent.getOffset(), textRemoveEvent.getOffset()+textRemoveEvent.getLength());
                                         areaDocument.enableFilter();

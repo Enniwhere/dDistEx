@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="DocEventCap renamed local variables&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/DocumentEventCapturer.java" afterPath="$PROJECT_DIR$/dDistEx9/src/DocumentEventCapturer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/MyTextEvent.java" afterPath="$PROJECT_DIR$/dDistEx9/src/MyTextEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/TextInsertEvent.java" afterPath="$PROJECT_DIR$/dDistEx9/src/TextInsertEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx9/src/TextRemoveEvent.java" afterPath="$PROJECT_DIR$/dDistEx9/src/TextRemoveEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx.iml" afterPath="$PROJECT_DIR$/dDistEx.iml" />
+    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -541,7 +536,11 @@
       <created>1392202877342</created>
       <updated>1392202877342</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="This should fix Ex9">
+      <created>1392803101049</created>
+      <updated>1392803101049</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -594,7 +593,8 @@
     <MESSAGE value="Disconnect in-progress&#10;" />
     <MESSAGE value="DocEventCap renamed local variables" />
     <MESSAGE value="Patterns added for ip and portnum" />
-    <option name="LAST_COMMIT_MESSAGE" value="Patterns added for ip and portnum" />
+    <MESSAGE value="This should fix Ex9" />
+    <option name="LAST_COMMIT_MESSAGE" value="This should fix Ex9" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

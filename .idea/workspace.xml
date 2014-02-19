@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
+    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" afterPath="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -14,7 +17,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CreatePatchCommitExecutor">
-    <option name="PATCH_PATH" value="$PROJECT_DIR$" />
+    <option name="PATCH_PATH" value="" />
   </component>
   <component name="DaemonCodeAnalyzer">
     <disable_hints />
@@ -66,35 +69,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="431" column="19" selection-start="16236" selection-end="16236" vertical-scroll-proportion="0.0" vertical-offset="5712" max-vertical-offset="6330">
-              <folding>
-                <element signature="e#1537#1550#0" expanded="true" />
-                <element signature="e#1616#1624#0" expanded="true" />
-                <element signature="e#2345#2524#0" expanded="true" />
-                <element signature="e#2517#2518#0" expanded="true" />
-                <element signature="e#3509#4550#0" expanded="true" />
-                <element signature="e#4531#4532#0" expanded="true" />
-                <element signature="e#15242#15243#0" expanded="true" />
-                <element signature="e#15277#15278#0" expanded="true" />
-                <element signature="e#15988#16001#0" expanded="true" />
-              </folding>
+            <state line="416" column="5" selection-start="15711" selection-end="15711" vertical-scroll-proportion="0.35893154" vertical-offset="6432" max-vertical-offset="7208">
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
+      <file leaf-file-name="DocumentEventCapturer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="60" column="118" selection-start="3075" selection-end="3075" vertical-scroll-proportion="0.47368422" vertical-offset="567" max-vertical-offset="2055">
-              <folding>
-                <element signature="e#1409#3814#0" expanded="true" />
-                <element signature="e#3791#3792#0" expanded="true" />
-                <element signature="e#4003#6547#0" expanded="true" />
-                <element signature="e#6524#6525#0" expanded="true" />
-              </folding>
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1309">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -102,34 +90,7 @@
       <file leaf-file-name="TextRemoveEvent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="13" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TextInsertEvent.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="29" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Collections.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/java/util/Collections.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="215" column="27" selection-start="9992" selection-end="9992" vertical-scroll-proportion="0.0" vertical-offset="2339" max-vertical-offset="59310">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConnectionEventTypes.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dDistEx11/src/ConnectionEventTypes.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="75" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+            <state line="12" column="0" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="391">
               <folding />
             </state>
           </provider>
@@ -138,40 +99,26 @@
       <file leaf-file-name="MyTextEvent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/MyTextEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="34" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="735">
-              <folding>
-                <element signature="e#360#361#0" expanded="true" />
-                <element signature="e#396#397#0" expanded="true" />
-                <element signature="e#434#435#0" expanded="true" />
-                <element signature="e#466#467#0" expanded="true" />
-                <element signature="e#518#519#0" expanded="true" />
-                <element signature="e#560#561#0" expanded="true" />
-                <element signature="e#590#591#0" expanded="true" />
-                <element signature="e#619#620#0" expanded="true" />
-                <element signature="e#660#661#0" expanded="true" />
-                <element signature="e#696#697#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LamportTimeComparator.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dDistEx11/src/LamportTimeComparator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="0" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+            <state line="7" column="13" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="119" max-vertical-offset="833">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ComparatorTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/dDistEx11/src/ComparatorTest.java">
+      <file leaf-file-name="TextInsertEvent.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="73" selection-start="336" selection-end="336" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#529#542#0" expanded="true" />
-              </folding>
+            <state line="5" column="13" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="85" max-vertical-offset="459">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="48" column="0" selection-start="1890" selection-end="1890" vertical-scroll-proportion="0.0" vertical-offset="551" max-vertical-offset="2261">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -184,32 +131,47 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Niels" />
+      </list>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/dDistEx11/src/DistributedDocument.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/MyConnectionEvent.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/ConnectionEventTypes.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/LamportTimeComparator.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/ComparatorTest.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/MyTextEvent.java" />
+        <option value="$PROJECT_DIR$/dDistEx4/src/Node.java" />
+        <option value="$PROJECT_DIR$/dDistEx5/src/Helper.java" />
+        <option value="$PROJECT_DIR$/dDistEx4/src/ChordRing.java" />
+        <option value="$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java" />
+        <option value="$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java" />
+        <option value="$PROJECT_DIR$/dDistEx8/src/QA.java" />
+        <option value="$PROJECT_DIR$/dDistEx8/src/DDistDemoServer.java" />
+        <option value="$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java" />
+        <option value="$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java" />
+        <option value="$PROJECT_DIR$/PlaidPenguin.txt" />
+        <option value="$PROJECT_DIR$/dDistEx3/src/EventReplayer.java" />
+        <option value="$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/EventReplayer.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/MyTextEvent.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/TextInsertEvent.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/TextRemoveEvent.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java" />
+        <option value="$PROJECT_DIR$/dDistEx9/src/DocumentEventCapturer.java" />
+        <option value="$PROJECT_DIR$/dDistEx9.1/src/DistributedTextEditor.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
+        <option value="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
-    <option name="y" value="27" />
-    <option name="width" value="1602" />
-    <option name="height" value="874" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -285,42 +247,19 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+        </subPane>
+      </pane>
+      <pane id="Scope">
+        <subPane subId="Default">
           <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dDistEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dDistEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dDistEx9" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dDistEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dDistEx" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dDistEx9" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            <PATH_ELEMENT USER_OBJECT="Root">
+              <option name="myItemId" value="" />
+              <option name="myItemType" value="" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -330,17 +269,57 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="project.structure.last.edited" value="Artifacts" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/dDistEx11/src" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="recentsLimit" value="5" />
+    <property name="restartRequiresConfirmation" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="FullScreen" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="162" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="162" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="162" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="837" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="166" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="155" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="161" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="841" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
+    <property name="LayoutCode.rearrangeEntriesJava" value="false" />
   </component>
-  <component name="RunManager" selected="Application.ComparatorTest">
-    <configuration default="false" name="DistributedTextEditor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Niels\IdeaProjects\dDistEx" />
+      <recent name="$PROJECT_DIR$/dDistEx8/src" />
+      <recent name="$PROJECT_DIR$/dDistEx1/src" />
+      <recent name="$PROJECT_DIR$/dDistEx5/src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.DistributedTextEditor (2)">
+    <configuration default="false" name="DistributedTextEditor (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="DistributedTextEditor" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="dDistEx9" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="DistributedTextEditor (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="DistributedTextEditor" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -356,8 +335,8 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="ComparatorTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="ComparatorTest" />
+    <configuration default="false" name="DistributedTextEditor (3)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="DistributedTextEditor" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -499,14 +478,50 @@
       <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
       <method />
     </configuration>
-    <list size="2">
+    <configuration default="false" name="DistributedTextEditor" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="DistributedTextEditor" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/dDistEx3/" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="dDistEx3" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <configuration default="false" name="ChordRing" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="ChordRing" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PROGRAM_PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/dDistEx4/" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="dDistEx4" />
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method />
+    </configuration>
+    <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.DistributedTextEditor" />
-      <item index="1" class="java.lang.String" itemvalue="Application.ComparatorTest" />
+      <item index="1" class="java.lang.String" itemvalue="Application.ChordRing" />
+      <item index="2" class="java.lang.String" itemvalue="Application.DistributedTextEditor (1)" />
+      <item index="3" class="java.lang.String" itemvalue="Application.DistributedTextEditor (2)" />
+      <item index="4" class="java.lang.String" itemvalue="Application.DistributedTextEditor (3)" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Application.ComparatorTest" />
-        <item index="1" class="java.lang.String" itemvalue="Application.DistributedTextEditor" />
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Application.DistributedTextEditor (2)" />
+        <item index="1" class="java.lang.String" itemvalue="Application.DistributedTextEditor (3)" />
+        <item index="2" class="java.lang.String" itemvalue="Application.DistributedTextEditor (1)" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -539,68 +554,77 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="" />
-      <created>1392803569906</created>
-      <updated>1392803569906</updated>
+      <changelist id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="" />
+      <created>1391070059841</created>
+      <updated>1391070059841</updated>
     </task>
-    <task id="LOCAL-00001" summary="Updated exercise 11">
-      <created>1392804080862</created>
-      <updated>1392804080862</updated>
+    <task id="LOCAL-00001" summary="Node and ChordRing in progress">
+      <created>1391072402307</created>
+      <updated>1391072402307</updated>
     </task>
-    <task id="LOCAL-00002" summary="Updated exercise 11&#10;">
-      <created>1392804336504</created>
-      <updated>1392804336504</updated>
+    <task id="LOCAL-00002" summary="Node and ChordRing in progress&#10;">
+      <created>1391075077774</created>
+      <updated>1391075077774</updated>
     </task>
-    <task id="LOCAL-00003" summary="Made the editors write to the same field, and eliminated the feedback loop.">
-      <created>1392808096518</created>
-      <updated>1392808096518</updated>
+    <task id="LOCAL-00003" summary="Exercise 5 in progress">
+      <created>1391075998864</created>
+      <updated>1391075998864</updated>
     </task>
-    <task id="LOCAL-00004" summary="Made the editors write to the same field, and eliminated the feedback loop.&#10;">
-      <created>1392808549719</created>
-      <updated>1392808549719</updated>
+    <task id="LOCAL-00004" summary="Disconnect in-progress">
+      <created>1391607359222</created>
+      <updated>1391607359222</updated>
     </task>
-    <task id="LOCAL-00005" summary="Tried to enforce causal communication.&#10;">
-      <created>1392813192731</created>
-      <updated>1392813192731</updated>
+    <task id="LOCAL-00005" summary="Disconnect in-progress&#10;">
+      <created>1391607438784</created>
+      <updated>1391607438784</updated>
     </task>
-    <task id="LOCAL-00006" summary="Tried to enforce causal communication.&#10;">
-      <created>1392813199720</created>
-      <updated>1392813199720</updated>
+    <task id="LOCAL-00006" summary="DocEventCap renamed local variables">
+      <created>1391675994186</created>
+      <updated>1391675994186</updated>
     </task>
-    <task id="LOCAL-00007" summary="Tried to enforce causal communication.&#10;">
-      <created>1392816573456</created>
-      <updated>1392816573456</updated>
+    <task id="LOCAL-00007" summary="Patterns added for ip and portnum">
+      <created>1392202877342</created>
+      <updated>1392202877342</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="This should fix Ex9">
+      <created>1392803101049</created>
+      <updated>1392803101049</updated>
+    </task>
+    <task id="LOCAL-00009" summary="This should fix Ex9&#10;">
+      <created>1392803208352</created>
+      <updated>1392803208352</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="27" width="1602" height="874" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275862" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24967825" sideWeight="0.8365651" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39889196" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25614488" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39889196" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2554859" sideWeight="0.5" order="11" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32963988" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31177232" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3291536" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31191224" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Metrics" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.251875" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25614488" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19180088" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2523511" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32825485" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
@@ -616,12 +640,16 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Updated exercise 11" />
-    <MESSAGE value="Updated exercise 11&#10;" />
-    <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop." />
-    <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop.&#10;" />
-    <MESSAGE value="Tried to enforce causal communication.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to enforce causal communication.&#10;" />
+    <MESSAGE value="Node and ChordRing in progress" />
+    <MESSAGE value="Node and ChordRing in progress&#10;" />
+    <MESSAGE value="Exercise 5 in progress" />
+    <MESSAGE value="Disconnect in-progress" />
+    <MESSAGE value="Disconnect in-progress&#10;" />
+    <MESSAGE value="DocEventCap renamed local variables" />
+    <MESSAGE value="Patterns added for ip and portnum" />
+    <MESSAGE value="This should fix Ex9" />
+    <MESSAGE value="This should fix Ex9&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="This should fix Ex9&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -630,274 +658,281 @@
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
+  <component name="com.sixrr.metrics.MetricsReloaded">
+    <option name="selectedProfile" value="" />
+    <option name="autoscroll" value="false" />
+    <option name="showOnlyWarnings" value="false" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dDistEx9/src/ConnectionEventTypes.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="180">
-          <folding />
-        </state>
+        <state line="44" column="13" selection-start="1550" selection-end="1550" vertical-scroll-proportion="0.0" vertical-offset="748" max-vertical-offset="2210" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="1241" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1785" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Helper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="40" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="731" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2295" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx8/src/QA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="0" selection-start="343" selection-end="343" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="459" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="7" selection-start="651" selection-end="651" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="1581" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="4" selection-start="2631" selection-end="3884" vertical-scroll-proportion="0.0" vertical-offset="1377" max-vertical-offset="2210" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="16" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1207" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/NodeClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="23" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="187" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="0" selection-start="882" selection-end="882" vertical-scroll-proportion="0.0" vertical-offset="782" max-vertical-offset="1241" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1575" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Helper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="57" selection-start="548" selection-end="548" vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="645" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2025" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="44" selection-start="654" selection-end="654" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1395" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="4" selection-start="2631" selection-end="3884" vertical-scroll-proportion="0.0" vertical-offset="1185" max-vertical-offset="1950" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="51" selection-start="418" selection-end="418" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1065" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/NodeClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="23" selection-start="63" selection-end="63" vertical-scroll-proportion="0.0" vertical-offset="45" max-vertical-offset="165" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="20" selection-start="936" selection-end="936" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1065" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Helper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="40" selection-start="548" selection-end="548" vertical-scroll-proportion="0.12616822" vertical-offset="303" max-vertical-offset="731" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/ChordRingServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2025" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="16" selection-start="418" selection-end="418" vertical-scroll-proportion="-0.037861917" vertical-offset="323" max-vertical-offset="918" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx5/src/NodeClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="3" column="23" selection-start="63" selection-end="63" vertical-scroll-proportion="0.11358575" vertical-offset="0" max-vertical-offset="449" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="44" column="13" selection-start="1550" selection-end="1550" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="2193" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx1/src/DDistDemoClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="7" selection-start="651" selection-end="651" vertical-scroll-proportion="0.0" vertical-offset="374" max-vertical-offset="1564" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="0" selection-start="727" selection-end="727" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/EchoServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="0" selection-start="763" selection-end="763" vertical-scroll-proportion="0.6666667" vertical-offset="0" max-vertical-offset="714" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx6.2/src/Echo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17" selection-start="0" selection-end="123" vertical-scroll-proportion="0.055555556" vertical-offset="0" max-vertical-offset="612" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PlaidPenguin.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="104" column="0" selection-start="9727" selection-end="9727" vertical-scroll-proportion="0.8333333" vertical-offset="1258" max-vertical-offset="1870" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/ChordRing.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="13" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1666" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx8/src/QA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1" column="0" selection-start="29" selection-end="29" vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="476" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx4/src/Node.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="16" selection-start="723" selection-end="723" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="952" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx3/src/DocumentEventCapturer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="52" selection-start="607" selection-end="607" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1190" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx3/src/EventReplayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="17" selection-start="685" selection-end="685" vertical-scroll-proportion="0.0" vertical-offset="442" max-vertical-offset="1224" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/TextRemoveEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="0" selection-end="239" vertical-scroll-proportion="0.34517765" vertical-offset="0" max-vertical-offset="591" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/TextInsertEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="13" selection-start="58" selection-end="58" vertical-scroll-proportion="0.1388889" vertical-offset="0" max-vertical-offset="612" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx3/src/DistributedTextEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="13" selection-start="3974" selection-end="3974" vertical-scroll-proportion="0.0" vertical-offset="1819" max-vertical-offset="4301" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/MyTextEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="1" selection-start="256" selection-end="256" vertical-scroll-proportion="0.3611111" vertical-offset="0" max-vertical-offset="612" />
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_25/src.zip!/java/lang/Thread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="723" column="0" selection-start="26932" selection-end="26932" vertical-scroll-proportion="0.33184856" vertical-offset="11513" max-vertical-offset="33898" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/EventReplayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="0" selection-start="1453" selection-end="1453" vertical-scroll-proportion="0.0" vertical-offset="646" max-vertical-offset="1411" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/EventTransmitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="697" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx9/src/DocumentEventCapturer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="0" selection-start="547" selection-end="547" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1190" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx9/src/DistributedTextEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="38" selection-start="1636" selection-end="1636" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="5730">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
+        <state line="35" column="19" selection-start="1287" selection-end="1287" vertical-scroll-proportion="0.0" vertical-offset="595" max-vertical-offset="6188" />
       </provider>
     </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/javax/swing/text/Document.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="237" column="17" selection-start="9753" selection-end="9753" vertical-scroll-proportion="0.0" vertical-offset="2692" max-vertical-offset="6885">
+        <state line="5" column="13" selection-start="58" selection-end="58" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="374">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/javax/swing/text/AttributeSet.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.7.0_25/src.zip!/javax/swing/text/DocumentFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2640">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/javax/swing/JTextArea.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="249" column="23" selection-start="8457" selection-end="8457" vertical-scroll-proportion="0.0" vertical-offset="2790" max-vertical-offset="11640">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/javax/swing/text/DocumentFilter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="88" column="57" selection-start="3368" selection-end="3368" vertical-scroll-proportion="0.0" vertical-offset="960" max-vertical-offset="2535">
-          <folding>
-            <element signature="e#0#7724#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/javax/swing/text/PlainDocument.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="20" selection-start="4620" selection-end="4628" vertical-scroll-proportion="-6.148148" vertical-offset="1874" max-vertical-offset="4875">
-          <folding>
-            <element signature="e#4702#4703#0" expanded="false" />
-            <element signature="e#4736#4737#0" expanded="false" />
-            <element signature="e#12149#12158#0" expanded="false" />
-            <element signature="e#12210#12219#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/javax/swing/text/AbstractDocument.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="656" column="22" selection-start="24152" selection-end="24166" vertical-scroll-proportion="-6.148148" vertical-offset="8999" max-vertical-offset="45675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/MyConnectionEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="5" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedDocument.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="29" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
+        <state line="98" column="13" selection-start="3873" selection-end="3873" vertical-scroll-proportion="0.4314721" vertical-offset="1020" max-vertical-offset="2873" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="39" selection-start="1794" selection-end="1794" vertical-scroll-proportion="0.0" vertical-offset="390" max-vertical-offset="1110">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1258">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="64" selection-start="932" selection-end="932" vertical-scroll-proportion="0.0" vertical-offset="74" max-vertical-offset="675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/ConnectionEventTypes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="75" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/java/util/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="215" column="27" selection-start="9992" selection-end="9992" vertical-scroll-proportion="0.0" vertical-offset="2339" max-vertical-offset="59310">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/ComparatorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="73" selection-start="336" selection-end="336" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#529#542#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="431" column="19" selection-start="16236" selection-end="16236" vertical-scroll-proportion="0.0" vertical-offset="5712" max-vertical-offset="6330">
-          <folding>
-            <element signature="e#1537#1550#0" expanded="true" />
-            <element signature="e#1616#1624#0" expanded="true" />
-            <element signature="e#2345#2524#0" expanded="true" />
-            <element signature="e#2517#2518#0" expanded="true" />
-            <element signature="e#3509#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#15242#15243#0" expanded="true" />
-            <element signature="e#15277#15278#0" expanded="true" />
-            <element signature="e#15988#16001#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/dDistEx11.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="526">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/LamportTimeComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="390">
+        <state line="12" column="0" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="391">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/MyTextEvent.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="34" selection-start="733" selection-end="733" vertical-scroll-proportion="0.0" vertical-offset="104" max-vertical-offset="735">
-          <folding>
-            <element signature="e#360#361#0" expanded="true" />
-            <element signature="e#396#397#0" expanded="true" />
-            <element signature="e#434#435#0" expanded="true" />
-            <element signature="e#466#467#0" expanded="true" />
-            <element signature="e#518#519#0" expanded="true" />
-            <element signature="e#560#561#0" expanded="true" />
-            <element signature="e#590#591#0" expanded="true" />
-            <element signature="e#619#620#0" expanded="true" />
-            <element signature="e#660#661#0" expanded="true" />
-            <element signature="e#696#697#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="13" selection-start="250" selection-end="250" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+        <state line="7" column="13" selection-start="88" selection-end="88" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="663">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="29" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
+        <state line="7" column="13" selection-start="281" selection-end="281" vertical-scroll-proportion="-0.30232558" vertical-offset="232" max-vertical-offset="765">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="118" selection-start="3075" selection-end="3075" vertical-scroll-proportion="0.47368422" vertical-offset="567" max-vertical-offset="2055">
-          <folding>
-            <element signature="e#1409#3814#0" expanded="true" />
-            <element signature="e#3791#3792#0" expanded="true" />
-            <element signature="e#4003#6547#0" expanded="true" />
-            <element signature="e#6524#6525#0" expanded="true" />
-          </folding>
+        <state line="48" column="0" selection-start="1890" selection-end="1890" vertical-scroll-proportion="0.0" vertical-offset="551" max-vertical-offset="2261">
+          <folding />
         </state>
       </provider>
     </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <last-edited>No facets are configured</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <last-edited>1.7</last-edited>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="416" column="5" selection-start="15711" selection-end="15711" vertical-scroll-proportion="0.35893154" vertical-offset="6432" max-vertical-offset="7208">
+          <folding />
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
 

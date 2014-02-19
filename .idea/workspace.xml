@@ -547,7 +547,11 @@
       <created>1392808549719</created>
       <updated>1392808549719</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Tried to enforce causal communication.&#10;">
+      <created>1392813192731</created>
+      <updated>1392813192731</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -596,7 +600,8 @@
     <MESSAGE value="Updated exercise 11&#10;" />
     <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop." />
     <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made the editors write to the same field, and eliminated the feedback loop.&#10;" />
+    <MESSAGE value="Tried to enforce causal communication.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to enforce causal communication.&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

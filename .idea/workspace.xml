@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java" afterPath="$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -608,7 +606,11 @@
       <created>1392823216922</created>
       <updated>1392823216922</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Tried to fix problems with logical clocks">
+      <created>1392823839359</created>
+      <updated>1392823839359</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -661,7 +663,8 @@
     <MESSAGE value="Tried to fix freeze by removing some synchronization" />
     <MESSAGE value="Tried to fix freeze by removing some synchronization&#10;" />
     <MESSAGE value="Fixed the causal algorithm" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the causal algorithm" />
+    <MESSAGE value="Tried to fix problems with logical clocks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix problems with logical clocks" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

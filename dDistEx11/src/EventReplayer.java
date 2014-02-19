@@ -39,22 +39,24 @@ public class EventReplayer implements Runnable {
 
                 } else if (obj instanceof TextInsertEvent) {
                     final TextInsertEvent textInsertEvent = (TextInsertEvent)obj;
+                    callback.eventHistory.add(textInsertEvent);
+                    final double[] timestamp = textInsertEvent.getTimestamp();
+                    int senderIndex = textInsertEvent.getSender();
+                    callback.adjustVectorClock(timestamp);
+                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
+                            timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
+                        Thread.sleep(100);
+                    }
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
                                 if (areaDocument != null){
-                                    callback.eventHistory.add(textInsertEvent);
-                                    double[] timestamp = textInsertEvent.getTimestamp();
-                                    int senderIndex = textInsertEvent.getSender();
-                                    callback.adjustVectorClock(timestamp);
-                                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
-                                           timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                                        Thread.sleep(100);
-                                    }
+
 
                                     synchronized (areaDocument){
                                         int receiverIndex = callback.getLamportIndex();
                                         ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
+
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                                         Collections.sort(historyInterval,comparator);
                                         for (MyTextEvent event : historyInterval){
@@ -77,19 +79,20 @@ public class EventReplayer implements Runnable {
                     });
                 } else if (obj instanceof TextRemoveEvent) {
                     final TextRemoveEvent textRemoveEvent = (TextRemoveEvent)obj;
+                    callback.eventHistory.add(textRemoveEvent);
+                    callback.adjustVectorClock(textRemoveEvent.getTimestamp());
+                    final double[] timestamp = textRemoveEvent.getTimestamp();
+                    int senderIndex = textRemoveEvent.getSender();
+                    callback.adjustVectorClock(timestamp);
+                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
+                            timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
+                        Thread.sleep(100);
+                    }
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
                                 if (areaDocument != null){
-                                    callback.eventHistory.add(textRemoveEvent);
-                                    callback.adjustVectorClock(textRemoveEvent.getTimestamp());
-                                    double[] timestamp = textRemoveEvent.getTimestamp();
-                                    int senderIndex = textRemoveEvent.getSender();
-                                    callback.adjustVectorClock(timestamp);
-                                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
-                                           timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                                        //wait
-                                    }
+
 
                                     synchronized (areaDocument){
                                         int receiverIndex = callback.getLamportIndex();

@@ -12,5 +12,10 @@ public class TextInsertEvent extends MyTextEvent {
         this.text = text;
     }
     public String getText() { return text; }
+
+    @Override
+    public int getTextLengthChange(){
+        return text.length();
+    }
 }
 

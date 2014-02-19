@@ -309,11 +309,11 @@ public class DistributedTextEditor extends JFrame {
     private void startTransmitting() throws IOException {
         documentEventCapturer.clearEventHistory();
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-        MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
+       /* MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
         incrementLamportTime();
         initEvent.setTimestamp(getTimestamp());
         initEvent.setSender(lamportIndex);
-        outputStream.writeObject(initEvent);
+        outputStream.writeObject(initEvent);*/
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();

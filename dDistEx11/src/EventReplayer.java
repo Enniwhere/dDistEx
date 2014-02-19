@@ -33,6 +33,7 @@ public class EventReplayer implements Runnable {
 
             try {
                 Object obj = inputStream.readObject();
+                System.out.println("Object received");
                 if (obj instanceof  MyConnectionEvent){
                     handleConnectionEvent((MyConnectionEvent) obj);
 
@@ -48,7 +49,7 @@ public class EventReplayer implements Runnable {
                                     callback.adjustVectorClock(timestamp);
                                     while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
                                            timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                                        //wait
+                                        Thread.sleep(100);
                                     }
 
                                     synchronized (areaDocument){

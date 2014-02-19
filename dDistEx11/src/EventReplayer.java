@@ -43,9 +43,12 @@ public class EventReplayer implements Runnable {
                     final double[] timestamp = textInsertEvent.getTimestamp();
                     int senderIndex = textInsertEvent.getSender();
                     callback.adjustVectorClock(timestamp);
-                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
+                    callback.incrementLamportTime();
+                    System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
+                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1.0 ||
                             timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                        Thread.sleep(100);
+                        System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
+                        Thread.sleep(1000);
                     }
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
@@ -84,15 +87,17 @@ public class EventReplayer implements Runnable {
                     final double[] timestamp = textRemoveEvent.getTimestamp();
                     int senderIndex = textRemoveEvent.getSender();
                     callback.adjustVectorClock(timestamp);
-                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
+                    callback.incrementLamportTime();
+                    System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
+                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1.0 ||
                             timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                        Thread.sleep(100);
+                        System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
+                        Thread.sleep(1000);
                     }
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
                                 if (areaDocument != null){
-
 
                                     synchronized (areaDocument){
                                         int receiverIndex = callback.getLamportIndex();
@@ -120,9 +125,11 @@ public class EventReplayer implements Runnable {
                     });
                 }
             } catch (IOException e){
+                e.printStackTrace();
                 callback.connectionClosed();
                 wasInterrupted = true;
             } catch (Exception _) {
+                _.printStackTrace();
                 wasInterrupted = true;
             }
         }

@@ -123,6 +123,7 @@ public class DistributedTextEditor extends JFrame {
                 lamportIndex = 1;
                 vectorClockArray.add(0,new Double(0));
                 vectorClockArray.add(1,new Double(0.1));
+                System.out.println("Vector clock initialized with values " + vectorClockArray.get(0) + " and " + vectorClockArray.get(1));
                 startTransmitting();
                 System.out.println("Transmitting thread started");
                 startReceiving();
@@ -397,7 +398,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public double getLamportTime(int index) {
-        System.out.println("Get lamport time called");
+        System.out.println("Get lamport time called with index " + index);
         return vectorClockArray.get(index);
     }
 
@@ -419,7 +420,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public void adjustVectorClock(double[] timestamp) {
-        System.out.println("adjustVectorClock called");
+        System.out.println("adjustVectorClock called with a timestamp with length " + timestamp.length);
         for (int i = 0; i < timestamp.length; i++) {
             vectorClockArray.set(i,Math.max(vectorClockArray.get(i),timestamp[i]));
         }

@@ -304,7 +304,10 @@ public class DistributedTextEditor extends JFrame {
     private void startTransmitting() throws IOException {
         documentEventCapturer.clearEventHistory();
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-        outputStream.writeObject(new TextInsertEvent(0, area1.getText()));
+        MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
+        initEvent.setTimestamp(getTimestamp());
+        initEvent.setSender(lamportIndex);
+        outputStream.writeObject(initEvent);
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();

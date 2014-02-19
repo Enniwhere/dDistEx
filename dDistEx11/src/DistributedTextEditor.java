@@ -14,6 +14,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,8 +34,11 @@ public class DistributedTextEditor extends JFrame {
     protected Socket socket;
 
     // Added Fields
+    private int lamportIndex = 0;
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
+    public volatile ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
+    private ArrayList<Double> vectorClockArray = new ArrayList<Double>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -79,6 +83,9 @@ public class DistributedTextEditor extends JFrame {
                             try {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
+                                    lamportIndex = 0;
+                                    vectorClockArray.add(0,new Double(0));
+                                    vectorClockArray.add(1,new Double(0.1));
                                     setTitle(getTitle() + ". Connection established from " + socket);
                                     area2.setText("");
                                     startTransmitting();
@@ -112,6 +119,9 @@ public class DistributedTextEditor extends JFrame {
             try {
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + portNumber.getText());
+                lamportIndex = 1;
+                vectorClockArray.add(0,new Double(0));
+                vectorClockArray.add(1,new Double(0.1));
                 startTransmitting();
                 startReceiving();
                 connected = true;
@@ -377,4 +387,48 @@ public class DistributedTextEditor extends JFrame {
         new DistributedTextEditor();
     }
 
+    public synchronized double getLamportTime(int index) {
+        return vectorClockArray.get(index);
+    }
+
+    public synchronized boolean setLamportTime(double lamportTime,int index) {
+        if (this.vectorClockArray.get(index) >= lamportTime){
+            return false;
+        }
+        this.vectorClockArray.set(index,lamportTime);
+        return true;
+    }
+
+    public int getLamportIndex() {
+        return lamportIndex;
+    }
+
+    public synchronized void incrementLamportTime() {
+        lamportIndex += 1;
+    }
+
+    public double[] getTimestamp() {
+        double[] timestamp = new double[vectorClockArray.size()];
+        for (int i = 0; i < vectorClockArray.size(); i++){
+            timestamp[i] = vectorClockArray.get(i);
+        }
+        return timestamp;
+    }
+
+    public void adjustVectorClock(double[] timestamp) {
+        for (int i = 0; i < timestamp.length; i++) {
+            vectorClockArray.set(i,Math.max(vectorClockArray.get(i),timestamp[i]));
+        }
+    }
+
+    public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
+        ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
+        for (MyTextEvent event : eventHistory){
+            double time = event.getTimestamp()[lamportIndex];
+            if (time > start && time <= end){
+                res.add(event);
+            }
+        }
+        return res;
+    }
 }

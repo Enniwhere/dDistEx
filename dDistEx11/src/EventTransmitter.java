@@ -22,8 +22,12 @@ public class EventTransmitter implements Runnable {
         boolean wasInterrupted = false;
         while (!wasInterrupted) {
             try {
-                MyTextEvent mte = documentEventCapturer.take();
-                outputStream.writeObject(mte);
+                MyTextEvent textEvent = documentEventCapturer.take();
+                callback.incrementLamportTime();
+                textEvent.setTimestamp(callback.getTimestamp());
+                textEvent.setSender(callback.getLamportIndex());
+                callback.eventHistory.add(textEvent);
+                outputStream.writeObject(textEvent);
             } catch (IOException e){
                 callback.connectionClosed();
                 wasInterrupted = true;

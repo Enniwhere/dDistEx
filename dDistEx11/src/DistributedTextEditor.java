@@ -309,11 +309,11 @@ public class DistributedTextEditor extends JFrame {
     private void startTransmitting() throws IOException {
         documentEventCapturer.clearEventHistory();
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-        MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
+       /* MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
         incrementLamportTime();
         initEvent.setTimestamp(getTimestamp());
         initEvent.setSender(lamportIndex);
-        outputStream.writeObject(initEvent);
+        outputStream.writeObject(initEvent);*/
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();
@@ -397,6 +397,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public double getLamportTime(int index) {
+        System.out.println("Get lamport time called");
         return vectorClockArray.get(index);
     }
 
@@ -405,6 +406,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public void incrementLamportTime() {
+        System.out.println("Increment lamport time called");
         vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex)+1);
     }
 
@@ -417,6 +419,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public void adjustVectorClock(double[] timestamp) {
+        System.out.println("adjustVectorClock called");
         for (int i = 0; i < timestamp.length; i++) {
             vectorClockArray.set(i,Math.max(vectorClockArray.get(i),timestamp[i]));
         }

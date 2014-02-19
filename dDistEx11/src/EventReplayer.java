@@ -3,6 +3,8 @@ import javax.swing.text.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /*
  * This eventReplayer uses events from its inputStream and replays them in the textfield in the editor
@@ -40,7 +42,25 @@ public class EventReplayer implements Runnable {
                         public void run() {
                             try {
                                 if (areaDocument != null){
+                                    callback.eventHistory.add(textInsertEvent);
+                                    double[] timestamp = textInsertEvent.getTimestamp();
+                                    int senderIndex = textInsertEvent.getSender();
+                                    callback.adjustVectorClock(timestamp);
+                                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
+                                           timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
+                                        //wait
+                                    }
+
                                     synchronized (areaDocument){
+                                        int receiverIndex = callback.getLamportIndex();
+                                        ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
+                                        LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
+                                        Collections.sort(historyInterval,comparator);
+                                        for (MyTextEvent event : historyInterval){
+                                            if (event.getOffset() <= textInsertEvent.getOffset()){
+                                                textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
+                                            }
+                                        }
                                         areaDocument.disableFilter();
                                         area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
                                         areaDocument.enableFilter();
@@ -60,7 +80,26 @@ public class EventReplayer implements Runnable {
                         public void run() {
                             try {
                                 if (areaDocument != null){
+                                    callback.eventHistory.add(textRemoveEvent);
+                                    callback.adjustVectorClock(textRemoveEvent.getTimestamp());
+                                    double[] timestamp = textRemoveEvent.getTimestamp();
+                                    int senderIndex = textRemoveEvent.getSender();
+                                    callback.adjustVectorClock(timestamp);
+                                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
+                                           timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
+                                        //wait
+                                    }
+
                                     synchronized (areaDocument){
+                                        int receiverIndex = callback.getLamportIndex();
+                                        ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
+                                        LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
+                                        Collections.sort(historyInterval,comparator);
+                                        for (MyTextEvent event : historyInterval){
+                                            if (event.getOffset() <= textRemoveEvent.getOffset()){
+                                                textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
+                                            }
+                                        }
                                         areaDocument.disableFilter();
                                         area.replaceRange(null, textRemoveEvent.getOffset(), textRemoveEvent.getOffset()+textRemoveEvent.getLength());
                                         areaDocument.enableFilter();
@@ -87,6 +126,7 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleConnectionEvent(MyConnectionEvent obj) {
+
         if (obj.getType() == ConnectionEventTypes.DISCONNECT_REQUEST){
             callback.replyToDisconnect();
         } else if (obj.getType() == ConnectionEventTypes.DISCONNECT_REPLY_OK){

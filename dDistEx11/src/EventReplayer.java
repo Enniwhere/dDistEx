@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.text.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,13 +10,19 @@ import java.io.ObjectInputStream;
 public class EventReplayer implements Runnable {
 
     private ObjectInputStream inputStream;
-    private JTextArea area;
+    private final JTextArea area;
     private DistributedTextEditor callback;
+    private DistributedDocument areaDocument;
 
-    public EventReplayer(ObjectInputStream inputStream, JTextArea area, DistributedTextEditor callback) {
+    public EventReplayer(ObjectInputStream inputStream, final JTextArea area, DistributedTextEditor callback) {
         this.inputStream = inputStream;
         this.area = area;
         this.callback = callback;
+        if (area.getDocument() instanceof DistributedDocument)
+            this.areaDocument = ((DistributedDocument)area.getDocument());
+        else
+            this.areaDocument = null;
+
     }
 
     public void run() {
@@ -32,7 +39,13 @@ public class EventReplayer implements Runnable {
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
-                                area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
+                                if (areaDocument != null){
+                                    synchronized (areaDocument){
+                                        areaDocument.disableFilter();
+                                        area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
+                                        areaDocument.enableFilter();
+                                    }
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
 				    /* We catch all exceptions, as an uncaught exception would make the
@@ -46,7 +59,14 @@ public class EventReplayer implements Runnable {
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
                             try {
-                                area.replaceRange(null, textRemoveEvent.getOffset(), textRemoveEvent.getOffset()+textRemoveEvent.getLength());
+                                if (areaDocument != null){
+                                    synchronized (areaDocument){
+                                        areaDocument.disableFilter();
+                                        area.replaceRange(null, textRemoveEvent.getOffset(), textRemoveEvent.getOffset()+textRemoveEvent.getLength());
+                                        areaDocument.enableFilter();
+                                    }
+                                }
+
                             } catch (Exception e) {
                                 e.printStackTrace();
 				    /* We catch all exceptions, as an uncaught exception would make the

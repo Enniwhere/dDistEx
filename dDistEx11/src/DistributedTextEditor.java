@@ -38,7 +38,7 @@ public class DistributedTextEditor extends JFrame {
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
     public volatile ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
-    private ArrayList<Double> vectorClockArray = new ArrayList<Double>();
+    private volatile ArrayList<Double> vectorClockArray = new ArrayList<Double>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -93,6 +93,7 @@ public class DistributedTextEditor extends JFrame {
                                     connected = true;
                                 }
                             } catch (IOException e) {
+                                e.printStackTrace();
                                 connectionClosed();
                             }
                         }
@@ -123,12 +124,16 @@ public class DistributedTextEditor extends JFrame {
                 vectorClockArray.add(0,new Double(0));
                 vectorClockArray.add(1,new Double(0.1));
                 startTransmitting();
+                System.out.println("Transmitting thread started");
                 startReceiving();
+                System.out.println("Receiving thread started");
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
+                System.out.println("Connection established");
             } catch (IOException ex) {
+                ex.printStackTrace();
                 connectionClosed();
             }
             changed = false;
@@ -306,13 +311,8 @@ public class DistributedTextEditor extends JFrame {
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
         incrementLamportTime();
-        System.out.println(lamportIndex);
-        for(Double d : vectorClockArray){
-            System.out.println(d);
-        }
         initEvent.setTimestamp(getTimestamp());
         initEvent.setSender(lamportIndex);
-
         outputStream.writeObject(initEvent);
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
@@ -396,23 +396,15 @@ public class DistributedTextEditor extends JFrame {
         new DistributedTextEditor();
     }
 
-    public synchronized double getLamportTime(int index) {
+    public double getLamportTime(int index) {
         return vectorClockArray.get(index);
-    }
-
-    public synchronized boolean setLamportTime(double lamportTime,int index) {
-        if (this.vectorClockArray.get(index) >= lamportTime){
-            return false;
-        }
-        this.vectorClockArray.set(index,lamportTime);
-        return true;
     }
 
     public int getLamportIndex() {
         return lamportIndex;
     }
 
-    public synchronized void incrementLamportTime() {
+    public void incrementLamportTime() {
         vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex)+1);
     }
 

@@ -32,7 +32,7 @@ public class DocumentEventCapturer extends DocumentFilter {
      *
      * @return Head of the recorded event queue. 
      */
-    MyTextEvent take() throws InterruptedException {
+    public MyTextEvent take() throws InterruptedException {
         return eventHistory.take();
     }
 
@@ -63,5 +63,9 @@ public class DocumentEventCapturer extends DocumentFilter {
         }
         eventHistory.add(new TextInsertEvent(offset, str));
         super.replace(filterBypass, offset, length, str, attributeSet);
+    }
+
+    public void clearEventHistory() {
+       eventHistory = new LinkedBlockingQueue<MyTextEvent>();
     }
 }

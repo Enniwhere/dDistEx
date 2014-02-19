@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" afterPath="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -72,7 +70,7 @@
       <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="416" column="5" selection-start="15711" selection-end="15711" vertical-scroll-proportion="0.35893154" vertical-offset="6432" max-vertical-offset="7208">
+            <state line="307" column="31" selection-start="11654" selection-end="11654" vertical-scroll-proportion="0.34056762" vertical-offset="4624" max-vertical-offset="7140">
               <folding />
             </state>
           </provider>
@@ -594,7 +592,11 @@
       <created>1392803208352</created>
       <updated>1392803208352</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="This should fix Ex9&#10;">
+      <created>1392818736531</created>
+      <updated>1392818736531</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -928,7 +930,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="416" column="5" selection-start="15711" selection-end="15711" vertical-scroll-proportion="0.35893154" vertical-offset="6432" max-vertical-offset="7208">
+        <state line="307" column="31" selection-start="11654" selection-end="11654" vertical-scroll-proportion="0.34056762" vertical-offset="4624" max-vertical-offset="7140">
           <folding />
         </state>
       </provider>

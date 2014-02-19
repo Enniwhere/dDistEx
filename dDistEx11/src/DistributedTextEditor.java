@@ -306,10 +306,6 @@ public class DistributedTextEditor extends JFrame {
         outputStream = new ObjectOutputStream(socket.getOutputStream());
         MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
         incrementLamportTime();
-        System.out.println(lamportIndex);
-        for(Double d : vectorClockArray){
-            System.out.println(d);
-        }
         initEvent.setTimestamp(getTimestamp());
         initEvent.setSender(lamportIndex);
 

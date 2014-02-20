@@ -20,8 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DistributedTextEditor extends JFrame {
-    private JTextArea area1 = new JTextArea(new DistributedDocument(),"",20, 120);
-    private JTextArea area2 = new JTextArea(20, 120);
+    private JTextArea area1 = new JTextArea(new DistributedDocument(),"",35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");
     private JFileChooser dialog =
@@ -89,7 +88,6 @@ public class DistributedTextEditor extends JFrame {
                                     vectorClockArray.add(0,new Double(0));
                                     vectorClockArray.add(1,new Double(0.1));
                                     setTitle(getTitle() + ". Connection established from " + socket);
-                                    area2.setText("");
                                     startTransmitting();
                                     startReceiving();
                                     connected = true;
@@ -118,8 +116,7 @@ public class DistributedTextEditor extends JFrame {
      */
     Action Connect = new AbstractAction("Connect") {
         public void actionPerformed(ActionEvent e) {
-            area1.setText("");              
-            area2.setText("");
+            area1.setText("");
             setTitle("Connecting to " + getIPAddress() + ":" + portNumber.getText() + "...");
             try {
                 socket = new Socket(getIPAddress(), getPortNumber());
@@ -159,7 +156,6 @@ public class DistributedTextEditor extends JFrame {
             }
             connectionClosed();
             setTitle("Disconnected");
-            area2.setText("");
             changed = false;
         }
     };
@@ -232,8 +228,6 @@ public class DistributedTextEditor extends JFrame {
     public DistributedTextEditor() {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
-        area2.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        area2.setEditable(false);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
 
         JScrollPane scroll1 =
@@ -241,15 +235,11 @@ public class DistributedTextEditor extends JFrame {
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                         JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
-        JScrollPane scroll2 =
-                new JScrollPane(area2,
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+
 
         Container content = getContentPane();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.add(scroll1, BorderLayout.CENTER);
-        content.add(scroll2, BorderLayout.CENTER);
         content.add(ipAddress, BorderLayout.CENTER);
         content.add(portNumber, BorderLayout.CENTER);
 
@@ -388,7 +378,6 @@ public class DistributedTextEditor extends JFrame {
         Listen.setEnabled(!checkListening);
         Connect.setEnabled(!checkListening);
         Disconnect.setEnabled(checkListening);
-        area2.setText("");
         if (connected) {
             connected = false;
             try {

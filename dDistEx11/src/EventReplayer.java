@@ -32,7 +32,7 @@ public class EventReplayer implements Runnable {
         while (!wasInterrupted) {
 
             try {
-                if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
+                if (callback.isDebugging()) Thread.sleep(500);      // Debugging purposes
                 Object obj = inputStream.readObject();
                 System.out.println("Object received");
                 if (obj instanceof  MyConnectionEvent){

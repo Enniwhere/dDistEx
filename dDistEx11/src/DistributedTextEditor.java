@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -100,6 +101,7 @@ public class DistributedTextEditor extends JFrame {
                         }
                     }
                 };
+                area1.setText("");
                 listenThread = new Thread(listener);
                 listenThread.start();
             } else {
@@ -116,6 +118,7 @@ public class DistributedTextEditor extends JFrame {
      */
     Action Connect = new AbstractAction("Connect") {
         public void actionPerformed(ActionEvent e) {
+            area1.setText("");              
             area2.setText("");
             setTitle("Connecting to " + getIPAddress() + ":" + portNumber.getText() + "...");
             try {
@@ -197,6 +200,35 @@ public class DistributedTextEditor extends JFrame {
         }
     };
 
+    Action WriteSentence = new AbstractAction ("Write Sentence") {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+        Runnable sentenceWriter = new Runnable() {
+                @Override
+                public void run() {
+                    String[] randomSentences = new String[]{"Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "1234567890 0987654321 1234567890 0987654321",
+                            "These String were made for testing, and thats just what they'll do", "Nullam luctus massa a augue dictum adipiscing. Nullam."};
+                    int index = (int)(Math.random()*4);
+                    String randomString = randomSentences[index];
+                    for (int i = 0; i < randomString.length(); i++) {
+                        area1.insert("" +randomString.charAt(i), i );
+                        try {
+                            Thread.sleep(200);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }
+            };
+            Thread sentenceThread = new Thread(sentenceWriter);
+            sentenceThread.start();
+        }
+    };
+
+
+
     public DistributedTextEditor() {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
@@ -233,6 +265,7 @@ public class DistributedTextEditor extends JFrame {
         file.add(Disconnect);
         file.addSeparator();
         file.add(Debug);
+        file.add(WriteSentence);
         file.add(Save);
         file.add(SaveAs);
         file.add(Quit);
@@ -379,6 +412,8 @@ public class DistributedTextEditor extends JFrame {
             outputStream = null;
             inputStream = null;
         }
+        vectorClockArray.clear();
+        eventHistory.clear();
     }
 
     public int getPortNumber() {
@@ -408,9 +443,7 @@ public class DistributedTextEditor extends JFrame {
         }
     }
 
-    public static void main(String[] arg) {
-        new DistributedTextEditor();
-    }
+
 
     public double getLamportTime(int index) {
         //System.out.println("Get lamport time called with index " + index);
@@ -463,4 +496,9 @@ public class DistributedTextEditor extends JFrame {
     public boolean isDebugging() {
         return debugIsOn;
     }
+
+    public static void main(String[] args) {
+        new DistributedTextEditor();
+    }
+
 }

@@ -31,7 +31,7 @@ public class EventTransmitter implements Runnable {
                 textEvent.setTimestamp(callback.getTimestamp());
                 textEvent.setSender(callback.getLamportIndex());
                 synchronized (textEvent){
-                    callback.eventHistory.add(textEvent);
+                    callback.addEventToHistory(textEvent);
                     System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
                     outputStream.writeObject(textEvent);
                 }

@@ -37,7 +37,7 @@ public class DistributedTextEditor extends JFrame {
     private int lamportIndex = 0;
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
-    public volatile ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
+    private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
     private ArrayList<Double> vectorClockArray = new ArrayList<Double>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
@@ -232,10 +232,10 @@ public class DistributedTextEditor extends JFrame {
         file.add(Connect);
         file.add(Disconnect);
         file.addSeparator();
+        file.add(Debug);
         file.add(Save);
         file.add(SaveAs);
         file.add(Quit);
-        file.add(Debug);
         edit.add(Copy);
         edit.add(Paste);
         edit.getItem(0).setText("Copy");
@@ -441,14 +441,22 @@ public class DistributedTextEditor extends JFrame {
         }
     }
 
-    public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
+    public synchronized ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         for (MyTextEvent event : eventHistory){
             double time = event.getTimestamp()[lamportIndex];
-            if (time > start && time < end){
+            if (time >= start && time <= end){
                 res.add(event);
             }
         }
         return res;
+    }
+
+    public synchronized void addEventToHistory(MyTextEvent textEvent) {
+        eventHistory.add(textEvent);
+    }
+
+    public boolean isDebugging() {
+        return debugIsOn;
     }
 }

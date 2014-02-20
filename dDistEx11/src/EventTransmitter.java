@@ -23,33 +23,18 @@ public class EventTransmitter implements Runnable {
 
     public void run() {
         boolean wasInterrupted = false;
-        Runnable eventTaker = new Runnable() {
-            boolean wasInterrupted = false;
-            @Override
-            public void run() {
-                while (!wasInterrupted) {
-                    try {
-                        MyTextEvent textEvent = documentEventCapturer.take();
-                        callback.incrementLamportTime();
-                        textEvent.setTimestamp(callback.getTimestamp());
-                        textEvent.setSender(callback.getLamportIndex());
-                        callback.eventHistory.add(textEvent);
-                        eventHolder.add(textEvent);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
 
-                }
-        }};
-        Thread takerThread = new Thread(eventTaker);
-        takerThread.start();
         while (!wasInterrupted) {
             try {
-                MyTextEvent textEvent = eventHolder.take();
-                Thread.sleep(1000);      // Debugging purposes
-
-                System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
-                outputStream.writeObject(textEvent);
+                MyTextEvent textEvent = documentEventCapturer.take();
+                callback.incrementLamportTime();
+                textEvent.setTimestamp(callback.getTimestamp());
+                textEvent.setSender(callback.getLamportIndex());
+                synchronized (textEvent){
+                    callback.eventHistory.add(textEvent);
+                    System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
+                    outputStream.writeObject(textEvent);
+                }
             } catch (IOException e){
                 callback.connectionClosed();
                 wasInterrupted = true;

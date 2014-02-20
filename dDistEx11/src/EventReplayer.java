@@ -87,7 +87,9 @@ public class EventReplayer implements Runnable {
                                         callback.adjustVectorClock(timestamp);
 
                                         areaDocument.disableFilter();
-                                        area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
+                                        if(area.getText().length() > textInsertEvent.getOffset()) {
+                                            area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
+                                        } else area.append(textInsertEvent.getText());
                                         areaDocument.enableFilter();
                                     }
                                 }

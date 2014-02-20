@@ -37,7 +37,7 @@ public class DistributedTextEditor extends JFrame {
     private int lamportIndex = 0;
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
-    private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
+    public volatile ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
     private ArrayList<Double> vectorClockArray = new ArrayList<Double>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
@@ -46,7 +46,6 @@ public class DistributedTextEditor extends JFrame {
     private Thread listenThread;
     private Pattern portPattern = Pattern.compile("^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])$");
     private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
-    private boolean debugIsOn = false;
     //end of added fields
 
     ActionMap m = area1.getActionMap();
@@ -94,7 +93,6 @@ public class DistributedTextEditor extends JFrame {
                                     connected = true;
                                 }
                             } catch (IOException e) {
-                                e.printStackTrace();
                                 connectionClosed();
                             }
                         }
@@ -124,18 +122,13 @@ public class DistributedTextEditor extends JFrame {
                 lamportIndex = 1;
                 vectorClockArray.add(0,new Double(0));
                 vectorClockArray.add(1,new Double(0.1));
-                System.out.println("Vector clock initialized with values " + vectorClockArray.get(0) + " and " + vectorClockArray.get(1));
                 startTransmitting();
-                System.out.println("Transmitting thread started");
                 startReceiving();
-                System.out.println("Receiving thread started");
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
-                System.out.println("Connection established");
             } catch (IOException ex) {
-                ex.printStackTrace();
                 connectionClosed();
             }
             changed = false;
@@ -184,19 +177,6 @@ public class DistributedTextEditor extends JFrame {
     };
 
 
-    Action Debug = new AbstractAction ("Debug") {
-        public void actionPerformed(ActionEvent e) {
-            if(!debugIsOn){
-            setTitle("Debug mode activated");
-            debugIsOn = true;
-            }
-            else {
-             setTitle("Debug mode deactivated");
-                debugIsOn = false;
-            }
-        }
-    };
-
     public DistributedTextEditor() {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
@@ -232,7 +212,6 @@ public class DistributedTextEditor extends JFrame {
         file.add(Connect);
         file.add(Disconnect);
         file.addSeparator();
-        file.add(Debug);
         file.add(Save);
         file.add(SaveAs);
         file.add(Quit);
@@ -325,11 +304,10 @@ public class DistributedTextEditor extends JFrame {
     private void startTransmitting() throws IOException {
         documentEventCapturer.clearEventHistory();
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-       /* MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
-        incrementLamportTime();
+        MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
         initEvent.setTimestamp(getTimestamp());
         initEvent.setSender(lamportIndex);
-        outputStream.writeObject(initEvent);*/
+        outputStream.writeObject(initEvent);
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();
@@ -412,9 +390,16 @@ public class DistributedTextEditor extends JFrame {
         new DistributedTextEditor();
     }
 
-    public double getLamportTime(int index) {
-        //System.out.println("Get lamport time called with index " + index);
+    public synchronized double getLamportTime(int index) {
         return vectorClockArray.get(index);
+    }
+
+    public synchronized boolean setLamportTime(double lamportTime,int index) {
+        if (this.vectorClockArray.get(index) >= lamportTime){
+            return false;
+        }
+        this.vectorClockArray.set(index,lamportTime);
+        return true;
     }
 
     public int getLamportIndex() {
@@ -422,8 +407,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public synchronized void incrementLamportTime() {
-        //System.out.println("Increment lamport time called");
-        vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex)+1);
+        lamportIndex += 1;
     }
 
     public double[] getTimestamp() {
@@ -434,8 +418,7 @@ public class DistributedTextEditor extends JFrame {
         return timestamp;
     }
 
-    public synchronized void adjustVectorClock(double[] timestamp) {
-        //System.out.println("adjustVectorClock called with a timestamp with length " + timestamp.length);
+    public void adjustVectorClock(double[] timestamp) {
         for (int i = 0; i < timestamp.length; i++) {
             vectorClockArray.set(i,Math.max(vectorClockArray.get(i),timestamp[i]));
         }
@@ -443,24 +426,12 @@ public class DistributedTextEditor extends JFrame {
 
     public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
-        synchronized (eventHistory){
         for (MyTextEvent event : eventHistory){
             double time = event.getTimestamp()[lamportIndex];
             if (time > start && time <= end){
                 res.add(event);
             }
         }
-        }
         return res;
-    }
-
-    public void addEventToHistory(MyTextEvent textEvent) {
-        synchronized (eventHistory){
-            eventHistory.add(textEvent);
-        }
-    }
-
-    public boolean isDebugging() {
-        return debugIsOn;
     }
 }

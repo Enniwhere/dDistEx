@@ -47,6 +47,7 @@ public class DistributedTextEditor extends JFrame {
     private Pattern portPattern = Pattern.compile("^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])$");
     private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
     private boolean debugIsOn = false;
+    private DistributedDocument area1Document;
     //end of added fields
 
     ActionMap m = area1.getActionMap();
@@ -84,11 +85,11 @@ public class DistributedTextEditor extends JFrame {
                             try {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
+                                    area1Document.enableFilter();
                                     lamportIndex = 0;
-                                    vectorClockArray.add(0,new Double(0));
-                                    vectorClockArray.add(1,new Double(0.1));
+                                    vectorClockArray.add(0, new Double(0));
+                                    vectorClockArray.add(1, new Double(0.1));
                                     setTitle(getTitle() + ". Connection established from " + socket);
-                                    area1.setText("");
                                     startTransmitting();
                                     startReceiving();
                                     connected = true;
@@ -122,6 +123,7 @@ public class DistributedTextEditor extends JFrame {
             try {
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + portNumber.getText());
+                area1Document.enableFilter();
                 lamportIndex = 1;
                 vectorClockArray.add(0,new Double(0));
                 vectorClockArray.add(1,new Double(0.1));
@@ -230,7 +232,7 @@ public class DistributedTextEditor extends JFrame {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
-
+        area1Document = (DistributedDocument) area1.getDocument();
         JScrollPane scroll1 =
                 new JScrollPane(area1,
                         JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -272,8 +274,7 @@ public class DistributedTextEditor extends JFrame {
         setTitle("Disconnected");
         setVisible(true);
         area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
-
-
+        area1Document.disableFilter();
     }
 
     private void saveFileAs() {
@@ -404,6 +405,7 @@ public class DistributedTextEditor extends JFrame {
         }
         vectorClockArray.clear();
         eventHistory.clear();
+        area1Document.disableFilter();
     }
 
     public int getPortNumber() {

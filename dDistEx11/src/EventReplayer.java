@@ -42,7 +42,7 @@ public class EventReplayer implements Runnable {
                     final TextInsertEvent textInsertEvent = (TextInsertEvent)obj;
 
                     final double[] timestamp = textInsertEvent.getTimestamp();
-                    int senderIndex = textInsertEvent.getSender();
+                    final int senderIndex = textInsertEvent.getSender();
 
                     System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
                     while ( timestamp[senderIndex] != callback.getLamportTime(senderIndex) + 1 ||
@@ -58,6 +58,7 @@ public class EventReplayer implements Runnable {
 
                                     synchronized (areaDocument){
                                         int receiverIndex = callback.getLamportIndex();
+
                                         ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
 
                                         System.out.println("Got the event history between " + timestamp[receiverIndex] + " and " + callback.getLamportTime(receiverIndex));
@@ -66,7 +67,8 @@ public class EventReplayer implements Runnable {
                                         Collections.sort(historyInterval,comparator);
 
                                         for (MyTextEvent event : historyInterval){
-                                            if (event.getOffset() <= textInsertEvent.getOffset()){
+                                            if (event.getOffset() <= textInsertEvent.getOffset() &&
+                                                (event.getOffset() != textInsertEvent.getOffset() || receiverIndex < senderIndex)){
                                                 System.out.print("Adjusted offset from " + textInsertEvent.getOffset() + " to ");
                                                 textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
                                                 System.out.print(textInsertEvent.getOffset());

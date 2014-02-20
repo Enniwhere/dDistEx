@@ -59,7 +59,6 @@ public class EventReplayer implements Runnable {
                                     synchronized (areaDocument){
                                         int receiverIndex = callback.getLamportIndex();
                                         ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
-
                                         System.out.println("Got the event history between " + timestamp[receiverIndex] + " and " + callback.getLamportTime(receiverIndex));
 
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
@@ -118,7 +117,7 @@ public class EventReplayer implements Runnable {
                                         Collections.sort(historyInterval,comparator);
                                         for (MyTextEvent event : historyInterval){
                                             if (event.getOffset() < textRemoveEvent.getOffset()){
-                                                textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
+                                                textRemoveEvent.setOffset(Math.max(0, textRemoveEvent.getOffset() + event.getTextLengthChange()));
                                             }
                                             else {
                                                 event.setOffset(event.getOffset() + textRemoveEvent.getTextLengthChange());

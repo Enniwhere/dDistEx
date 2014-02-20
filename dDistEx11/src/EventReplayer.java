@@ -48,7 +48,7 @@ public class EventReplayer implements Runnable {
                     while ( timestamp[senderIndex] != callback.getLamportTime(senderIndex) + 1 ||
                             timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
                         //System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     }
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
@@ -69,11 +69,15 @@ public class EventReplayer implements Runnable {
                                         for (MyTextEvent event : historyInterval){
                                             if (event.getOffset() <= textInsertEvent.getOffset() &&
                                                 (event.getOffset() != textInsertEvent.getOffset() || receiverIndex < senderIndex)){
-                                                System.out.print("Adjusted offset from " + textInsertEvent.getOffset() + " to ");
-                                                textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
-                                                System.out.print(textInsertEvent.getOffset());
-                                                if (event instanceof TextInsertEvent){
+                                                //System.out.print("Adjusted offset from " + textInsertEvent.getOffset() + " to ");
+                                                //System.out.print(textInsertEvent.getOffset());
+                                                /*if (event instanceof TextInsertEvent){
                                                     System.out.println(" from the event inserting " + ((TextInsertEvent) event).getText() + " at offset " + event.getOffset());
+                                                } */
+                                                if(event instanceof TextRemoveEvent && event.getOffset()+((TextRemoveEvent) event).getLength() > textInsertEvent.getOffset()){
+                                                    textInsertEvent.setOffset(event.getOffset());
+                                                } else {
+                                                    textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
                                                 }
                                             } else {
                                                 event.setOffset(event.getOffset() + textInsertEvent.getTextLengthChange());
@@ -106,7 +110,7 @@ public class EventReplayer implements Runnable {
                     while ( timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
                             timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
                         //System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     }
                     EventQueue.invokeLater(new Runnable() {
                         public void run() {
@@ -120,7 +124,11 @@ public class EventReplayer implements Runnable {
                                         Collections.sort(historyInterval,comparator);
                                         for (MyTextEvent event : historyInterval){
                                             if (event.getOffset() < textRemoveEvent.getOffset()){
-                                                textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
+                                                if(event instanceof TextRemoveEvent && event.getOffset()+((TextRemoveEvent) event).getLength() > textRemoveEvent.getOffset()){
+                                                    textRemoveEvent.setOffset(event.getOffset());
+                                                } else {
+                                                    textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
+                                                }
                                             }
                                             else {
                                                 event.setOffset(event.getOffset() + textRemoveEvent.getTextLengthChange());

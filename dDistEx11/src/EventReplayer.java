@@ -32,6 +32,7 @@ public class EventReplayer implements Runnable {
         while (!wasInterrupted) {
 
             try {
+                Thread.sleep(1000);      // Debugging purposes
                 Object obj = inputStream.readObject();
                 System.out.println("Object received");
                 if (obj instanceof  MyConnectionEvent){
@@ -72,6 +73,8 @@ public class EventReplayer implements Runnable {
                                                 if (event instanceof TextInsertEvent){
                                                     System.out.println(" from the event inserting " + ((TextInsertEvent) event).getText() + " at offset " + event.getOffset());
                                                 }
+                                            } else {
+                                                event.setOffset(event.getOffset() + textInsertEvent.getTextLengthChange());
                                             }
                                         }
                                         //callback.eventHistory.add(textInsertEvent);
@@ -116,6 +119,9 @@ public class EventReplayer implements Runnable {
                                         for (MyTextEvent event : historyInterval){
                                             if (event.getOffset() < textRemoveEvent.getOffset()){
                                                 textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
+                                            }
+                                            else {
+                                                event.setOffset(event.getOffset() + textRemoveEvent.getTextLengthChange());
                                             }
                                         }
                                         //callback.eventHistory.add(textRemoveEvent);

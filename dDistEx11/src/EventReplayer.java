@@ -69,7 +69,7 @@ public class EventReplayer implements Runnable {
                                                 System.out.print("Adjusted offset from " + textInsertEvent.getOffset() + " to ");
                                                 textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
                                                 System.out.print(textInsertEvent.getOffset());
-                                                if ( event instanceof TextInsertEvent){
+                                                if (event instanceof TextInsertEvent){
                                                     System.out.println(" from the event inserting " + ((TextInsertEvent) event).getText() + " at offset " + event.getOffset());
                                                 }
                                             }

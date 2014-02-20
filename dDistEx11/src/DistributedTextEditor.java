@@ -88,6 +88,7 @@ public class DistributedTextEditor extends JFrame {
                                     vectorClockArray.add(0,new Double(0));
                                     vectorClockArray.add(1,new Double(0.1));
                                     setTitle(getTitle() + ". Connection established from " + socket);
+                                    area1.setText("");
                                     startTransmitting();
                                     startReceiving();
                                     connected = true;

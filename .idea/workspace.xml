@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" afterPath="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" />
+    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -68,26 +67,35 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="56" selection-start="623" selection-end="623" vertical-scroll-proportion="-6.5384617" vertical-offset="170" max-vertical-offset="8483">
+            <state line="87" column="53" selection-start="3889" selection-end="3889" vertical-scroll-proportion="0.4410959" vertical-offset="1318" max-vertical-offset="8551">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1500#1513#0" expanded="true" />
                 <element signature="e#1579#1587#0" expanded="true" />
-                <element signature="e#2347#2526#0" expanded="true" />
-                <element signature="e#2519#2520#0" expanded="true" />
-                <element signature="e#3511#4550#0" expanded="true" />
-                <element signature="e#4531#4532#0" expanded="true" />
-                <element signature="e#8276#9206#0" expanded="true" />
-                <element signature="e#9191#9192#0" expanded="true" />
-                <element signature="e#16836#16837#0" expanded="true" />
-                <element signature="e#16871#16872#0" expanded="true" />
-                <element signature="e#17814#17827#0" expanded="true" />
-                <element signature="e#18304#18305#0" expanded="true" />
-                <element signature="e#18336#18337#0" expanded="true" />
+                <element signature="e#2394#2573#0" expanded="true" />
+                <element signature="e#2566#2567#0" expanded="true" />
+                <element signature="e#3558#4720#0" expanded="true" />
+                <element signature="e#4701#4702#0" expanded="true" />
+                <element signature="e#8492#9422#0" expanded="true" />
+                <element signature="e#9407#9408#0" expanded="true" />
+                <element signature="e#17194#17195#0" expanded="true" />
+                <element signature="e#17229#17230#0" expanded="true" />
+                <element signature="e#18172#18185#0" expanded="true" />
+                <element signature="e#18662#18663#0" expanded="true" />
+                <element signature="e#18694#18695#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DistributedDocument.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedDocument.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="25" column="0" selection-start="564" selection-end="564" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="544">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -104,7 +112,7 @@
       <file leaf-file-name="EventTransmitter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="38" selection-start="1426" selection-end="1444" vertical-scroll-proportion="-5.018182" vertical-offset="302" max-vertical-offset="901">
+            <state line="14" column="120" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" vertical-offset="247" max-vertical-offset="901">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#633#646#0" expanded="true" />
@@ -113,16 +121,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="160" selection-start="4233" selection-end="4233" vertical-scroll-proportion="0.4428858" vertical-offset="1071" max-vertical-offset="3094">
+            <state line="77" column="139" selection-start="4345" selection-end="4345" vertical-scroll-proportion="-3.2363636" vertical-offset="1131" max-vertical-offset="3128">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2328#5657#0" expanded="true" />
-                <element signature="e#5634#5635#0" expanded="true" />
-                <element signature="e#6613#9171#0" expanded="true" />
-                <element signature="e#9148#9149#0" expanded="true" />
+                <element signature="e#2328#5848#0" expanded="true" />
+                <element signature="e#5825#5826#0" expanded="true" />
+                <element signature="e#6804#9362#0" expanded="true" />
+                <element signature="e#9339#9340#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -194,10 +202,10 @@
         <option value="$PROJECT_DIR$/dDistEx11/src/ComparatorTest.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/MyTextEvent.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/TextRemoveEvent.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
+        <option value="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
       </list>
     </option>
   </component>
@@ -508,7 +516,23 @@
       <created>1392894626877</created>
       <updated>1392894626877</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Now handling remove events more correctly">
+      <created>1392897312037</created>
+      <updated>1392897312037</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Now appends if InsertText is out of bounds">
+      <created>1392899371056</created>
+      <updated>1392899371056</updated>
+    </task>
+    <task id="LOCAL-00012" summary="You can no longer type after listen but before connecting">
+      <created>1392899543114</created>
+      <updated>1392899543114</updated>
+    </task>
+    <task id="LOCAL-00013" summary="You can no longer type after listen but before connecting&#10;Truly">
+      <created>1392900310783</created>
+      <updated>1392900310783</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -532,7 +556,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25183016" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32899022" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32899022" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -586,7 +610,11 @@
     <MESSAGE value="Tried to enforce causal communication.&#10;" />
     <MESSAGE value="Added WriteSentence" />
     <MESSAGE value="Removed Area2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed Area2" />
+    <MESSAGE value="Now handling remove events more correctly" />
+    <MESSAGE value="Now appends if InsertText is out of bounds" />
+    <MESSAGE value="You can no longer type after listen but before connecting" />
+    <MESSAGE value="You can no longer type after listen but before connecting&#10;Truly" />
+    <option name="LAST_COMMIT_MESSAGE" value="You can no longer type after listen but before connecting&#10;Truly" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -617,17 +645,17 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1500#1513#0" expanded="true" />
             <element signature="e#1579#1587#0" expanded="true" />
-            <element signature="e#2347#2526#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#3511#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#8276#9206#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#16836#16837#0" expanded="true" />
-            <element signature="e#16871#16872#0" expanded="true" />
-            <element signature="e#17814#17827#0" expanded="true" />
-            <element signature="e#18304#18305#0" expanded="true" />
-            <element signature="e#18336#18337#0" expanded="true" />
+            <element signature="e#2394#2573#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#3558#4720#0" expanded="true" />
+            <element signature="e#4701#4702#0" expanded="true" />
+            <element signature="e#8492#9422#0" expanded="true" />
+            <element signature="e#9407#9408#0" expanded="true" />
+            <element signature="e#17194#17195#0" expanded="true" />
+            <element signature="e#17229#17230#0" expanded="true" />
+            <element signature="e#18172#18185#0" expanded="true" />
+            <element signature="e#18662#18663#0" expanded="true" />
+            <element signature="e#18694#18695#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -637,10 +665,10 @@
         <state line="51" column="46" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0" vertical-offset="867" max-vertical-offset="2720">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2328#5657#0" expanded="true" />
-            <element signature="e#5634#5635#0" expanded="true" />
-            <element signature="e#6613#9171#0" expanded="true" />
-            <element signature="e#9148#9149#0" expanded="true" />
+            <element signature="e#2328#5848#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+            <element signature="e#6804#9362#0" expanded="true" />
+            <element signature="e#9339#9340#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -687,17 +715,17 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1500#1513#0" expanded="true" />
             <element signature="e#1579#1587#0" expanded="true" />
-            <element signature="e#2347#2526#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#3511#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#8276#9206#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#16836#16837#0" expanded="true" />
-            <element signature="e#16871#16872#0" expanded="true" />
-            <element signature="e#17814#17827#0" expanded="true" />
-            <element signature="e#18304#18305#0" expanded="true" />
-            <element signature="e#18336#18337#0" expanded="true" />
+            <element signature="e#2394#2573#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#3558#4720#0" expanded="true" />
+            <element signature="e#4701#4702#0" expanded="true" />
+            <element signature="e#8492#9422#0" expanded="true" />
+            <element signature="e#9407#9408#0" expanded="true" />
+            <element signature="e#17194#17195#0" expanded="true" />
+            <element signature="e#17229#17230#0" expanded="true" />
+            <element signature="e#18172#18185#0" expanded="true" />
+            <element signature="e#18662#18663#0" expanded="true" />
+            <element signature="e#18694#18695#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -707,10 +735,10 @@
         <state line="51" column="46" selection-start="2250" selection-end="2250" vertical-scroll-proportion="0.0" vertical-offset="867" max-vertical-offset="2720">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2328#5657#0" expanded="true" />
-            <element signature="e#5634#5635#0" expanded="true" />
-            <element signature="e#6613#9171#0" expanded="true" />
-            <element signature="e#9148#9149#0" expanded="true" />
+            <element signature="e#2328#5848#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+            <element signature="e#6804#9362#0" expanded="true" />
+            <element signature="e#9339#9340#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -757,17 +785,17 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1500#1513#0" expanded="true" />
             <element signature="e#1579#1587#0" expanded="true" />
-            <element signature="e#2347#2526#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#3511#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#8276#9206#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#16836#16837#0" expanded="true" />
-            <element signature="e#16871#16872#0" expanded="true" />
-            <element signature="e#17814#17827#0" expanded="true" />
-            <element signature="e#18304#18305#0" expanded="true" />
-            <element signature="e#18336#18337#0" expanded="true" />
+            <element signature="e#2394#2573#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#3558#4720#0" expanded="true" />
+            <element signature="e#4701#4702#0" expanded="true" />
+            <element signature="e#8492#9422#0" expanded="true" />
+            <element signature="e#9407#9408#0" expanded="true" />
+            <element signature="e#17194#17195#0" expanded="true" />
+            <element signature="e#17229#17230#0" expanded="true" />
+            <element signature="e#18172#18185#0" expanded="true" />
+            <element signature="e#18662#18663#0" expanded="true" />
+            <element signature="e#18694#18695#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -777,10 +805,10 @@
         <state line="45" column="72" selection-start="1742" selection-end="1742" vertical-scroll-proportion="0.0" vertical-offset="765" max-vertical-offset="2618">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2328#5657#0" expanded="true" />
-            <element signature="e#5634#5635#0" expanded="true" />
-            <element signature="e#6613#9171#0" expanded="true" />
-            <element signature="e#9148#9149#0" expanded="true" />
+            <element signature="e#2328#5848#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+            <element signature="e#6804#9362#0" expanded="true" />
+            <element signature="e#9339#9340#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -827,17 +855,17 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1500#1513#0" expanded="true" />
             <element signature="e#1579#1587#0" expanded="true" />
-            <element signature="e#2347#2526#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#3511#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#8276#9206#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#16836#16837#0" expanded="true" />
-            <element signature="e#16871#16872#0" expanded="true" />
-            <element signature="e#17814#17827#0" expanded="true" />
-            <element signature="e#18304#18305#0" expanded="true" />
-            <element signature="e#18336#18337#0" expanded="true" />
+            <element signature="e#2394#2573#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#3558#4720#0" expanded="true" />
+            <element signature="e#4701#4702#0" expanded="true" />
+            <element signature="e#8492#9422#0" expanded="true" />
+            <element signature="e#9407#9408#0" expanded="true" />
+            <element signature="e#17194#17195#0" expanded="true" />
+            <element signature="e#17229#17230#0" expanded="true" />
+            <element signature="e#18172#18185#0" expanded="true" />
+            <element signature="e#18662#18663#0" expanded="true" />
+            <element signature="e#18694#18695#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -847,10 +875,10 @@
         <state line="96" column="52" selection-start="4790" selection-end="4790" vertical-scroll-proportion="0.0" vertical-offset="1632" max-vertical-offset="2329">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2328#5657#0" expanded="true" />
-            <element signature="e#5634#5635#0" expanded="true" />
-            <element signature="e#6613#9171#0" expanded="true" />
-            <element signature="e#9148#9149#0" expanded="true" />
+            <element signature="e#2328#5848#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+            <element signature="e#6804#9362#0" expanded="true" />
+            <element signature="e#9339#9340#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -897,17 +925,17 @@
             <element signature="imports" expanded="true" />
             <element signature="e#1500#1513#0" expanded="true" />
             <element signature="e#1579#1587#0" expanded="true" />
-            <element signature="e#2347#2526#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#3511#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#8276#9206#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#16836#16837#0" expanded="true" />
-            <element signature="e#16871#16872#0" expanded="true" />
-            <element signature="e#17814#17827#0" expanded="true" />
-            <element signature="e#18304#18305#0" expanded="true" />
-            <element signature="e#18336#18337#0" expanded="true" />
+            <element signature="e#2394#2573#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#3558#4720#0" expanded="true" />
+            <element signature="e#4701#4702#0" expanded="true" />
+            <element signature="e#8492#9422#0" expanded="true" />
+            <element signature="e#9407#9408#0" expanded="true" />
+            <element signature="e#17194#17195#0" expanded="true" />
+            <element signature="e#17229#17230#0" expanded="true" />
+            <element signature="e#18172#18185#0" expanded="true" />
+            <element signature="e#18662#18663#0" expanded="true" />
+            <element signature="e#18694#18695#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -917,10 +945,10 @@
         <state line="60" column="118" selection-start="3075" selection-end="3075" vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="2329">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2328#5657#0" expanded="true" />
-            <element signature="e#5634#5635#0" expanded="true" />
-            <element signature="e#6613#9171#0" expanded="true" />
-            <element signature="e#9148#9149#0" expanded="true" />
+            <element signature="e#2328#5848#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+            <element signature="e#6804#9362#0" expanded="true" />
+            <element signature="e#9339#9340#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -975,11 +1003,6 @@
         <state line="14" column="5" selection-start="254" selection-end="254" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="300" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedDocument.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="29" selection-start="353" selection-end="353" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/dDistEx11.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="526" />
@@ -989,52 +1012,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="17" column="29" selection-start="359" selection-end="359" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="405">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/ConnectionEventTypes.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="75" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="34" selection-start="2393" selection-end="2393" vertical-scroll-proportion="0.0" vertical-offset="691" max-vertical-offset="1258">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="38" selection-start="1426" selection-end="1444" vertical-scroll-proportion="-5.018182" vertical-offset="302" max-vertical-offset="901">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#633#646#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="56" selection-start="623" selection-end="623" vertical-scroll-proportion="-6.5384617" vertical-offset="170" max-vertical-offset="8483">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1500#1513#0" expanded="true" />
-            <element signature="e#1579#1587#0" expanded="true" />
-            <element signature="e#2347#2526#0" expanded="true" />
-            <element signature="e#2519#2520#0" expanded="true" />
-            <element signature="e#3511#4550#0" expanded="true" />
-            <element signature="e#4531#4532#0" expanded="true" />
-            <element signature="e#8276#9206#0" expanded="true" />
-            <element signature="e#9191#9192#0" expanded="true" />
-            <element signature="e#16836#16837#0" expanded="true" />
-            <element signature="e#16871#16872#0" expanded="true" />
-            <element signature="e#17814#17827#0" expanded="true" />
-            <element signature="e#18304#18305#0" expanded="true" />
-            <element signature="e#18336#18337#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1059,15 +1036,68 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="160" selection-start="4233" selection-end="4233" vertical-scroll-proportion="0.4428858" vertical-offset="1071" max-vertical-offset="3094">
+        <state line="57" column="34" selection-start="2393" selection-end="2393" vertical-scroll-proportion="0.0" vertical-offset="691" max-vertical-offset="1258">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="120" selection-start="653" selection-end="653" vertical-scroll-proportion="0.0" vertical-offset="247" max-vertical-offset="901">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2328#5657#0" expanded="true" />
-            <element signature="e#5634#5635#0" expanded="true" />
-            <element signature="e#6613#9171#0" expanded="true" />
-            <element signature="e#9148#9149#0" expanded="true" />
+            <element signature="e#633#646#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="139" selection-start="4345" selection-end="4345" vertical-scroll-proportion="-3.2363636" vertical-offset="1131" max-vertical-offset="3128">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2328#5848#0" expanded="true" />
+            <element signature="e#5825#5826#0" expanded="true" />
+            <element signature="e#6804#9362#0" expanded="true" />
+            <element signature="e#9339#9340#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/ConnectionEventTypes.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="75" selection-start="193" selection-end="193" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="180">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedDocument.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="0" selection-start="564" selection-end="564" vertical-scroll-proportion="0.0" vertical-offset="111" max-vertical-offset="544">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="87" column="53" selection-start="3889" selection-end="3889" vertical-scroll-proportion="0.4410959" vertical-offset="1318" max-vertical-offset="8551">
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1500#1513#0" expanded="true" />
+            <element signature="e#1579#1587#0" expanded="true" />
+            <element signature="e#2394#2573#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#3558#4720#0" expanded="true" />
+            <element signature="e#4701#4702#0" expanded="true" />
+            <element signature="e#8492#9422#0" expanded="true" />
+            <element signature="e#9407#9408#0" expanded="true" />
+            <element signature="e#17194#17195#0" expanded="true" />
+            <element signature="e#17229#17230#0" expanded="true" />
+            <element signature="e#18172#18185#0" expanded="true" />
+            <element signature="e#18662#18663#0" expanded="true" />
+            <element signature="e#18694#18695#0" expanded="true" />
           </folding>
         </state>
       </provider>

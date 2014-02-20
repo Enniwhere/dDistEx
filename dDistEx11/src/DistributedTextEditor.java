@@ -85,6 +85,7 @@ public class DistributedTextEditor extends JFrame {
                             try {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
+                                    area1.setText("");
                                     area1Document.enableFilter();
                                     lamportIndex = 0;
                                     vectorClockArray.add(0, new Double(0));

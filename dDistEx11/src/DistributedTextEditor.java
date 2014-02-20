@@ -186,7 +186,7 @@ public class DistributedTextEditor extends JFrame {
 
     Action Debug = new AbstractAction ("Debug") {
         public void actionPerformed(ActionEvent e) {
-            if(debugIsOn){
+            if(!debugIsOn){
             setTitle("Debug mode activated");
             debugIsOn = true;
             }

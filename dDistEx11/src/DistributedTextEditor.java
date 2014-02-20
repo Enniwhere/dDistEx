@@ -38,7 +38,7 @@ public class DistributedTextEditor extends JFrame {
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
     public volatile ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
-    private volatile ArrayList<Double> vectorClockArray = new ArrayList<Double>();
+    private ArrayList<Double> vectorClockArray = new ArrayList<Double>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -398,7 +398,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public double getLamportTime(int index) {
-        System.out.println("Get lamport time called with index " + index);
+        //System.out.println("Get lamport time called with index " + index);
         return vectorClockArray.get(index);
     }
 
@@ -406,8 +406,8 @@ public class DistributedTextEditor extends JFrame {
         return lamportIndex;
     }
 
-    public void incrementLamportTime() {
-        System.out.println("Increment lamport time called");
+    public synchronized void incrementLamportTime() {
+        //System.out.println("Increment lamport time called");
         vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex)+1);
     }
 
@@ -419,8 +419,8 @@ public class DistributedTextEditor extends JFrame {
         return timestamp;
     }
 
-    public void adjustVectorClock(double[] timestamp) {
-        System.out.println("adjustVectorClock called with a timestamp with length " + timestamp.length);
+    public synchronized void adjustVectorClock(double[] timestamp) {
+        //System.out.println("adjustVectorClock called with a timestamp with length " + timestamp.length);
         for (int i = 0; i < timestamp.length; i++) {
             vectorClockArray.set(i,Math.max(vectorClockArray.get(i),timestamp[i]));
         }
@@ -430,7 +430,7 @@ public class DistributedTextEditor extends JFrame {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         for (MyTextEvent event : eventHistory){
             double time = event.getTimestamp()[lamportIndex];
-            if (time > start && time <= end){
+            if (time > start && time < end){
                 res.add(event);
             }
         }

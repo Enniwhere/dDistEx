@@ -39,16 +39,14 @@ public class EventReplayer implements Runnable {
 
                 } else if (obj instanceof TextInsertEvent) {
                     final TextInsertEvent textInsertEvent = (TextInsertEvent)obj;
-                    callback.eventHistory.add(textInsertEvent);
+
                     final double[] timestamp = textInsertEvent.getTimestamp();
                     int senderIndex = textInsertEvent.getSender();
 
-                    callback.incrementLamportTime();
-
                     System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
-                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1.0 ||
+                    while ( timestamp[senderIndex] != callback.getLamportTime(senderIndex) + 1 ||
                             timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                        System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
+                        //System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
                         Thread.sleep(1000);
                     }
                     EventQueue.invokeLater(new Runnable() {
@@ -61,13 +59,22 @@ public class EventReplayer implements Runnable {
                                         int receiverIndex = callback.getLamportIndex();
                                         ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
 
+                                        System.out.println("Got the event history between " + timestamp[receiverIndex] + " and " + callback.getLamportTime(receiverIndex));
+
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                                         Collections.sort(historyInterval,comparator);
+
                                         for (MyTextEvent event : historyInterval){
-                                            if (event.getOffset() <= textInsertEvent.getOffset()){
+                                            if (event.getOffset() < textInsertEvent.getOffset()){
+                                                System.out.print("Adjusted offset from " + textInsertEvent.getOffset() + " to ");
                                                 textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
+                                                System.out.print(textInsertEvent.getOffset());
+                                                if ( event instanceof TextInsertEvent){
+                                                    System.out.println(" from the event inserting " + ((TextInsertEvent) event).getText() + " at offset " + event.getOffset());
+                                                }
                                             }
                                         }
+                                        //callback.eventHistory.add(textInsertEvent);
                                         callback.adjustVectorClock(timestamp);
 
                                         areaDocument.disableFilter();
@@ -85,17 +92,15 @@ public class EventReplayer implements Runnable {
                     });
                 } else if (obj instanceof TextRemoveEvent) {
                     final TextRemoveEvent textRemoveEvent = (TextRemoveEvent)obj;
-                    callback.eventHistory.add(textRemoveEvent);
-                    callback.adjustVectorClock(textRemoveEvent.getTimestamp());
+
                     final double[] timestamp = textRemoveEvent.getTimestamp();
                     int senderIndex = textRemoveEvent.getSender();
 
-                    callback.incrementLamportTime();
 
                     System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
-                    while (timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1.0 ||
+                    while ( timestamp[senderIndex] != callback.getLamportTime(senderIndex)+1 ||
                             timestamp[callback.getLamportIndex()] > callback.getLamportTime(callback.getLamportIndex())){
-                        System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
+                        //System.out.println("Timestamp with value " + timestamp[senderIndex] + " is not equal to lamport time with value " + (callback.getLamportTime(senderIndex) + 1.0));
                         Thread.sleep(1000);
                     }
                     EventQueue.invokeLater(new Runnable() {
@@ -109,10 +114,11 @@ public class EventReplayer implements Runnable {
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                                         Collections.sort(historyInterval,comparator);
                                         for (MyTextEvent event : historyInterval){
-                                            if (event.getOffset() <= textRemoveEvent.getOffset()){
+                                            if (event.getOffset() < textRemoveEvent.getOffset()){
                                                 textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
                                             }
                                         }
+                                        //callback.eventHistory.add(textRemoveEvent);
                                         callback.adjustVectorClock(timestamp);
 
                                         areaDocument.disableFilter();

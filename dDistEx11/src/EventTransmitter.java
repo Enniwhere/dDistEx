@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 /*
 * This Runnable has a reference to a documentEventCapturer, it takes event from it and streams it through the
@@ -10,6 +12,7 @@ public class EventTransmitter implements Runnable {
     private DistributedTextEditor callback;
     private DocumentEventCapturer documentEventCapturer;
     private ObjectOutputStream outputStream;
+    private BlockingQueue<MyTextEvent> eventHolder = new ArrayBlockingQueue<MyTextEvent>(1000);
 
 
     public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor callback) {
@@ -20,14 +23,32 @@ public class EventTransmitter implements Runnable {
 
     public void run() {
         boolean wasInterrupted = false;
+        Runnable eventTaker = new Runnable() {
+            boolean wasInterrupted = false;
+            @Override
+            public void run() {
+                while (!wasInterrupted) {
+                    try {
+                        MyTextEvent textEvent = documentEventCapturer.take();
+                        callback.incrementLamportTime();
+                        textEvent.setTimestamp(callback.getTimestamp());
+                        textEvent.setSender(callback.getLamportIndex());
+                        callback.eventHistory.add(textEvent);
+                        eventHolder.add(textEvent);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+        }};
+        Thread takerThread = new Thread(eventTaker);
+        takerThread.start();
         while (!wasInterrupted) {
             try {
-                MyTextEvent textEvent = documentEventCapturer.take();
-                callback.incrementLamportTime();
-                textEvent.setTimestamp(callback.getTimestamp());
-                textEvent.setSender(callback.getLamportIndex());
-                callback.eventHistory.add(textEvent);
-                System.out.println("Sent message with timestamp " + callback.getTimestamp()[0] + "," + callback.getTimestamp()[1]);
+                MyTextEvent textEvent = eventHolder.take();
+                Thread.sleep(1000);      // Debugging purposes
+
+                System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
                 outputStream.writeObject(textEvent);
             } catch (IOException e){
                 callback.connectionClosed();

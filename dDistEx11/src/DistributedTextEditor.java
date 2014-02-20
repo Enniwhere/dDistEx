@@ -46,6 +46,7 @@ public class DistributedTextEditor extends JFrame {
     private Thread listenThread;
     private Pattern portPattern = Pattern.compile("^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])$");
     private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
+    private boolean debugIsOn = false;
     //end of added fields
 
     ActionMap m = area1.getActionMap();
@@ -183,6 +184,19 @@ public class DistributedTextEditor extends JFrame {
     };
 
 
+    Action Debug = new AbstractAction ("Debug") {
+        public void actionPerformed(ActionEvent e) {
+            if(debugIsOn){
+            setTitle("Debug mode activated");
+            debugIsOn = true;
+            }
+            else {
+             setTitle("Debug mode deactivated");
+                debugIsOn = false;
+            }
+        }
+    };
+
     public DistributedTextEditor() {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
@@ -221,6 +235,7 @@ public class DistributedTextEditor extends JFrame {
         file.add(Save);
         file.add(SaveAs);
         file.add(Quit);
+        file.add(Debug);
         edit.add(Copy);
         edit.add(Paste);
         edit.getItem(0).setText("Copy");

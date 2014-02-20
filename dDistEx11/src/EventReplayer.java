@@ -117,7 +117,7 @@ public class EventReplayer implements Runnable {
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                                         Collections.sort(historyInterval,comparator);
                                         for (MyTextEvent event : historyInterval){
-                                            if (event.getOffset() < textRemoveEvent.getOffset()){
+                                            if (event.getOffset() < textRemoveEvent.getOffset() ){
                                                 textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
                                             }
                                             else {

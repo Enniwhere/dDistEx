@@ -441,19 +441,23 @@ public class DistributedTextEditor extends JFrame {
         }
     }
 
-    public synchronized ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
+    public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
+        synchronized (eventHistory){
         for (MyTextEvent event : eventHistory){
             double time = event.getTimestamp()[lamportIndex];
-            if (time >= start && time <= end){
+            if (time > start && time <= end){
                 res.add(event);
             }
+        }
         }
         return res;
     }
 
-    public synchronized void addEventToHistory(MyTextEvent textEvent) {
-        eventHistory.add(textEvent);
+    public void addEventToHistory(MyTextEvent textEvent) {
+        synchronized (eventHistory){
+            eventHistory.add(textEvent);
+        }
     }
 
     public boolean isDebugging() {

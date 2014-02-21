@@ -32,7 +32,7 @@ public class EventReplayer implements Runnable {
         while (!wasInterrupted) {
 
             try {
-                if (callback.isDebugging()) Thread.sleep(500);      // Debugging purposes
+                if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
                 Object obj = inputStream.readObject();
                 System.out.println("Object received");
                 if (obj instanceof  MyConnectionEvent){
@@ -65,32 +65,42 @@ public class EventReplayer implements Runnable {
 
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                                         Collections.sort(historyInterval,comparator);
+                                        boolean ignore = false;
 
-                                        for (MyTextEvent event : historyInterval){
-                                            if (event.getOffset() <= textInsertEvent.getOffset() &&
-                                                (event.getOffset() != textInsertEvent.getOffset() || receiverIndex < senderIndex)){
-                                                //System.out.print("Adjusted offset from " + textInsertEvent.getOffset() + " to ");
-                                                //System.out.print(textInsertEvent.getOffset());
-                                                /*if (event instanceof TextInsertEvent){
-                                                    System.out.println(" from the event inserting " + ((TextInsertEvent) event).getText() + " at offset " + event.getOffset());
-                                                } */
-                                                if(event instanceof TextRemoveEvent && event.getOffset()+((TextRemoveEvent) event).getLength() > textInsertEvent.getOffset()){
-                                                    textInsertEvent.setOffset(event.getOffset());
+                                        for (MyTextEvent historyEvent : historyInterval){
+                                            int insertEventOffset = textInsertEvent.getOffset();
+
+                                            int historyEventOffset = historyEvent.getOffset();
+                                            int historyEventTextLengthChange = historyEvent.getTextLengthChange();
+
+                                            if (historyEventOffset <= insertEventOffset &&
+                                                (historyEventOffset != insertEventOffset || receiverIndex < senderIndex)){
+
+
+                                                if(historyEvent instanceof TextRemoveEvent && historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= insertEventOffset
+                                                        && (historyEventOffset +((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || receiverIndex < senderIndex)){
+
+                                                    ignore = true;
+
                                                 } else {
-                                                    textInsertEvent.setOffset(textInsertEvent.getOffset() + event.getTextLengthChange());
+
+                                                    textInsertEvent.setOffset(insertEventOffset + historyEventTextLengthChange);
                                                 }
+
                                             } else {
-                                                event.setOffset(event.getOffset() + textInsertEvent.getTextLengthChange());
+
+                                                historyEvent.setOffset(historyEventOffset + textInsertEvent.getTextLengthChange());
+
                                             }
                                         }
                                         //callback.eventHistory.add(textInsertEvent);
                                         callback.adjustVectorClock(timestamp);
 
-                                        areaDocument.disableFilter();
-                                        if(area.getText().length() > textInsertEvent.getOffset()) {
+                                        if (!ignore){
+                                            areaDocument.disableFilter();
                                             area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
-                                        } else area.append(textInsertEvent.getText());
-                                        areaDocument.enableFilter();
+                                            areaDocument.enableFilter();
+                                        }
                                     }
                                 }
                             } catch (Exception e) {
@@ -105,7 +115,7 @@ public class EventReplayer implements Runnable {
                     final TextRemoveEvent textRemoveEvent = (TextRemoveEvent)obj;
 
                     final double[] timestamp = textRemoveEvent.getTimestamp();
-                    int senderIndex = textRemoveEvent.getSender();
+                    final int senderIndex = textRemoveEvent.getSender();
 
 
                     System.out.println("Vector clock before while loop is " + callback.getLamportTime(0) + " and " + callback.getLamportTime(1));
@@ -121,26 +131,53 @@ public class EventReplayer implements Runnable {
 
                                     synchronized (areaDocument){
                                         int receiverIndex = callback.getLamportIndex();
+
                                         ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex],callback.getLamportTime(receiverIndex), receiverIndex);
                                         LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                                         Collections.sort(historyInterval,comparator);
+
                                         for (MyTextEvent event : historyInterval){
-                                            if (event.getOffset() < textRemoveEvent.getOffset()){
-                                                if(event instanceof TextRemoveEvent && event.getOffset()+((TextRemoveEvent) event).getLength() > textRemoveEvent.getOffset()){
+                                            int removeEventOffset = textRemoveEvent.getOffset();
+                                            int removeEventTextLengthChange = textRemoveEvent.getTextLengthChange();
+                                            int removeEventLength = textRemoveEvent.getLength();
+
+                                            int eventOffset = event.getOffset();
+                                            int eventTextLengthChange = event.getTextLengthChange();
+
+                                            if (eventOffset <= removeEventOffset &&
+                                                (eventOffset != removeEventOffset || receiverIndex < senderIndex)){
+
+                                                if(event instanceof TextRemoveEvent &&
+                                                        removeEventOffset <= eventOffset + ((TextRemoveEvent)event).getLength() &&
+                                                        (eventOffset + ((TextRemoveEvent) event).getLength() != removeEventOffset || receiverIndex < senderIndex)){
+                                                    textRemoveEvent.setLength(removeEventLength -
+                                                                              (eventOffset + ((TextRemoveEvent)event).getLength() -
+                                                                               removeEventOffset));
+
                                                     textRemoveEvent.setOffset(event.getOffset());
+
                                                 } else {
-                                                    textRemoveEvent.setOffset(textRemoveEvent.getOffset() + event.getTextLengthChange());
+                                                    textRemoveEvent.setOffset(removeEventOffset + eventTextLengthChange);
                                                 }
+
+                                            } else if (eventOffset <= removeEventOffset + removeEventLength &&
+                                                       (eventOffset != removeEventOffset + removeEventLength || receiverIndex < senderIndex)) {
+
+                                                textRemoveEvent.setLength(removeEventLength + Math.max(eventTextLengthChange,-(removeEventOffset + removeEventLength - eventOffset)));
+
+                                            } else {
+                                                event.setOffset(eventOffset + removeEventTextLengthChange);
                                             }
-                                            else {
-                                                event.setOffset(event.getOffset() + textRemoveEvent.getTextLengthChange());
-                                            }
+
                                         }
                                         //callback.eventHistory.add(textRemoveEvent);
                                         callback.adjustVectorClock(timestamp);
 
+                                        int removeEventOffset = textRemoveEvent.getOffset();
+                                        int removeEventLength = textRemoveEvent.getLength();
+
                                         areaDocument.disableFilter();
-                                        area.replaceRange(null, textRemoveEvent.getOffset(), textRemoveEvent.getOffset()+textRemoveEvent.getLength());
+                                        area.replaceRange(null, removeEventOffset, removeEventOffset + removeEventLength);
                                         areaDocument.enableFilter();
                                     }
                                 }

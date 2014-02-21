@@ -15,12 +15,11 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DistributedTextEditor extends JFrame {
-    private JTextArea area1 = new JTextArea(new DistributedDocument(),"",35, 120);
+    private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");
     private JFileChooser dialog =
@@ -76,7 +75,7 @@ public class DistributedTextEditor extends JFrame {
             Listen.setEnabled(false);
             Connect.setEnabled(false);
             Disconnect.setEnabled(true);
-            if(registerOnPort()) {
+            if (registerOnPort()) {
                 setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
                 Runnable listener = new Runnable() {
                     @Override
@@ -88,8 +87,8 @@ public class DistributedTextEditor extends JFrame {
                                     area1.setText("");
                                     area1Document.enableFilter();
                                     lamportIndex = 0;
-                                    vectorClockArray.add(0, new Double(0));
-                                    vectorClockArray.add(1, new Double(0.1));
+                                    vectorClockArray.add(0, 0.0);
+                                    vectorClockArray.add(1, 0.1);
                                     setTitle(getTitle() + ". Connection established from " + socket);
                                     startTransmitting();
                                     startReceiving();
@@ -126,8 +125,8 @@ public class DistributedTextEditor extends JFrame {
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 area1Document.enableFilter();
                 lamportIndex = 1;
-                vectorClockArray.add(0,new Double(0));
-                vectorClockArray.add(1,new Double(0.1));
+                vectorClockArray.add(0, 0.0);
+                vectorClockArray.add(1, 0.1);
                 System.out.println("Vector clock initialized with values " + vectorClockArray.get(0) + " and " + vectorClockArray.get(1));
                 startTransmitting();
                 System.out.println("Transmitting thread started");
@@ -187,31 +186,30 @@ public class DistributedTextEditor extends JFrame {
     };
 
 
-    Action Debug = new AbstractAction ("Debug") {
+    Action Debug = new AbstractAction("Debug") {
         public void actionPerformed(ActionEvent e) {
-            if(!debugIsOn){
-            setTitle("Debug mode activated");
-            debugIsOn = true;
-            }
-            else {
-             setTitle("Debug mode deactivated");
+            if (!debugIsOn) {
+                setTitle("Debug mode activated");
+                debugIsOn = true;
+            } else {
+                setTitle("Debug mode deactivated");
                 debugIsOn = false;
             }
         }
     };
 
-    Action WriteSentence = new AbstractAction ("Write Sentence") {
+    Action WriteSentence = new AbstractAction("Write Sentence") {
         @Override
         public void actionPerformed(ActionEvent e) {
-        Runnable sentenceWriter = new Runnable() {
+            Runnable sentenceWriter = new Runnable() {
                 @Override
                 public void run() {
                     String[] randomSentences = new String[]{"Lorem ipsum dolor sit amet, consectetur adipiscing elit.", "1234567890 0987654321 1234567890 0987654321",
                             "These String were made for testing, and thats just what they'll do", "Nullam luctus massa a augue dictum adipiscing. Nullam."};
-                    int index = (int)(Math.random()*4);
+                    int index = (int) (Math.random() * 4);
                     String randomString = randomSentences[index];
                     for (int i = 0; i < randomString.length(); i++) {
-                        area1.insert("" +randomString.charAt(i), i );
+                        area1.insert("" + randomString.charAt(i), i);
                         try {
                             Thread.sleep(200);
                         } catch (InterruptedException e) {
@@ -227,32 +225,23 @@ public class DistributedTextEditor extends JFrame {
     };
 
 
-
     public DistributedTextEditor() {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
         area1Document = (DistributedDocument) area1.getDocument();
-        JScrollPane scroll1 =
-                new JScrollPane(area1,
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                        JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-
-
-
+        JScrollPane scroll1 = new JScrollPane(area1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         Container content = getContentPane();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.add(scroll1, BorderLayout.CENTER);
         content.add(ipAddress, BorderLayout.CENTER);
         content.add(portNumber, BorderLayout.CENTER);
-
         JMenuBar JMB = new JMenuBar();
         setJMenuBar(JMB);
         JMenu file = new JMenu("File");
         JMenu edit = new JMenu("Edit");
         JMB.add(file);
         JMB.add(edit);
-
         file.add(Listen);
         file.add(Connect);
         file.add(Disconnect);
@@ -266,7 +255,6 @@ public class DistributedTextEditor extends JFrame {
         edit.add(Paste);
         edit.getItem(0).setText("Copy");
         edit.getItem(1).setText("Paste");
-
         Save.setEnabled(false);
         SaveAs.setEnabled(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -298,6 +286,7 @@ public class DistributedTextEditor extends JFrame {
             changed = false;
             Save.setEnabled(false);
         } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -311,11 +300,9 @@ public class DistributedTextEditor extends JFrame {
         } catch (UnknownHostException e) {
             System.err.println("Cannot resolve the Internet address of the local host.");
             System.err.println(e);
-            localhostAddress = "Cannot resolve the local host address";
         }
         return localhostAddress;
     }
-
 
     /*
     Will register this server on the port number portNumber.
@@ -350,11 +337,6 @@ public class DistributedTextEditor extends JFrame {
     private void startTransmitting() throws IOException {
         documentEventCapturer.clearEventHistory();
         outputStream = new ObjectOutputStream(socket.getOutputStream());
-       /* MyTextEvent initEvent = new TextInsertEvent(0, area1.getText());
-        incrementLamportTime();
-        initEvent.setTimestamp(getTimestamp());
-        initEvent.setSender(lamportIndex);
-        outputStream.writeObject(initEvent);*/
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();
@@ -386,7 +368,7 @@ public class DistributedTextEditor extends JFrame {
                 socket.close();
                 socket = null;
             } catch (IOException e1) {
-                // Ignore exceptions
+                e1.printStackTrace();
             }
             if (listenThread == null) setTitle("Disconnected");
             else setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
@@ -411,19 +393,19 @@ public class DistributedTextEditor extends JFrame {
     public int getPortNumber() {
         String portNumberString = portNumber.getText();
         Matcher matcher = portPattern.matcher(portNumberString);
-        if(matcher.matches()) return Integer.parseInt(portNumberString);
+        if (matcher.matches()) return Integer.parseInt(portNumberString);
         return 40101;
     }
 
     public String getIPAddress() {
         String ipAddressString = ipAddress.getText();
         Matcher matcher = ipPattern.matcher(ipAddressString);
-        if(matcher.matches()) return ipAddressString;
+        if (matcher.matches()) return ipAddressString;
         return "localhost";
     }
 
 
-    public void replyToDisconnect(){
+    public void replyToDisconnect() {
         eventTransmitterThread.interrupt();
         eventReplayerThread.interrupt();
         try {
@@ -436,9 +418,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
 
-
     public double getLamportTime(int index) {
-        //System.out.println("Get lamport time called with index " + index);
         return vectorClockArray.get(index);
     }
 
@@ -447,40 +427,38 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public synchronized void incrementLamportTime() {
-        //System.out.println("Increment lamport time called");
-        vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex)+1);
+        vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex) + 1);
     }
 
     public double[] getTimestamp() {
         double[] timestamp = new double[vectorClockArray.size()];
-        for (int i = 0; i < vectorClockArray.size(); i++){
+        for (int i = 0; i < vectorClockArray.size(); i++) {
             timestamp[i] = vectorClockArray.get(i);
         }
         return timestamp;
     }
 
     public synchronized void adjustVectorClock(double[] timestamp) {
-        //System.out.println("adjustVectorClock called with a timestamp with length " + timestamp.length);
         for (int i = 0; i < timestamp.length; i++) {
-            vectorClockArray.set(i,Math.max(vectorClockArray.get(i),timestamp[i]));
+            vectorClockArray.set(i, Math.max(vectorClockArray.get(i), timestamp[i]));
         }
     }
 
-    public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex){
+    public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
-        synchronized (eventHistory){
-        for (MyTextEvent event : eventHistory){
-            double time = event.getTimestamp()[lamportIndex];
-            if (time > start && time <= end){
-                res.add(event);
+        synchronized (eventHistory) {
+            for (MyTextEvent event : eventHistory) {
+                double time = event.getTimestamp()[lamportIndex];
+                if (time > start && time <= end) {
+                    res.add(event);
+                }
             }
-        }
         }
         return res;
     }
 
     public void addEventToHistory(MyTextEvent textEvent) {
-        synchronized (eventHistory){
+        synchronized (eventHistory) {
             eventHistory.add(textEvent);
         }
     }
@@ -492,5 +470,4 @@ public class DistributedTextEditor extends JFrame {
     public static void main(String[] args) {
         new DistributedTextEditor();
     }
-
 }

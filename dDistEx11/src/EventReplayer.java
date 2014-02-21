@@ -147,19 +147,23 @@ public class EventReplayer implements Runnable {
                                             if (eventOffset <= removeEventOffset &&
                                                 (eventOffset != removeEventOffset || receiverIndex < senderIndex)){
 
-                                                textRemoveEvent.setOffset(removeEventOffset + eventTextLengthChange);
+                                                if(event instanceof TextRemoveEvent &&
+                                                        removeEventOffset <= eventOffset + ((TextRemoveEvent)event).getLength() &&
+                                                        (eventOffset + ((TextRemoveEvent) event).getLength() != removeEventOffset || receiverIndex < senderIndex)){
+                                                    textRemoveEvent.setLength(removeEventLength -
+                                                                              (eventOffset + ((TextRemoveEvent)event).getLength() -
+                                                                               removeEventOffset));
 
-                                            } else if(event instanceof TextRemoveEvent &&
-                                                      removeEventOffset <= eventOffset + ((TextRemoveEvent)event).getLength() &&
-                                                      (eventOffset + ((TextRemoveEvent) event).getLength() != removeEventOffset || receiverIndex < senderIndex)){
+                                                    textRemoveEvent.setOffset(event.getOffset());
 
-                                                ((TextRemoveEvent)event).setLength(Math.max(((TextRemoveEvent)event).getLength() + removeEventTextLengthChange,
-                                                        eventOffset - removeEventOffset));
+                                                } else {
+                                                    textRemoveEvent.setOffset(removeEventOffset + eventTextLengthChange);
+                                                }
 
                                             } else if (eventOffset <= removeEventOffset + removeEventLength &&
                                                        (eventOffset != removeEventOffset + removeEventLength || receiverIndex < senderIndex)) {
 
-                                                textRemoveEvent.setLength(removeEventLength + eventTextLengthChange);
+                                                textRemoveEvent.setLength(removeEventLength + Math.max(eventTextLengthChange,-(removeEventOffset + removeEventLength - eventOffset)));
 
                                             } else {
                                                 event.setOffset(eventOffset + removeEventTextLengthChange);

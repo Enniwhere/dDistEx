@@ -76,9 +76,7 @@ public class EventReplayer implements Runnable {
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
 
                                 if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset, historyEventOffset, senderIndex)) {
-                                    if (historyEvent instanceof TextRemoveEvent &&
-                                            historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= removeEventOffset + removeEventLength &&
-                                            (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || receiverIndex < senderIndex)){
+                                    if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
                                         ignore = true;
                                     } else if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
                                         textRemoveEvent.setLength(removeEventLength - (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() - removeEventOffset));
@@ -107,6 +105,12 @@ public class EventReplayer implements Runnable {
                 }
             }
         });
+    }
+
+    private boolean isRemoveContainedInHistoryEvent(int receiverIndex, MyTextEvent historyEvent, int removeEventOffset, int removeEventLength, int historyEventOffset, int senderIndex) {
+        return historyEvent instanceof TextRemoveEvent &&
+                historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= removeEventOffset + removeEventLength &&
+                (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || receiverIndex < senderIndex);
     }
 
 

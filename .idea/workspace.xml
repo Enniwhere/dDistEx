@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$1.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$2$1.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$2$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$2.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$3.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$3.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$4.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$4.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$5.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$5.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$6.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$6.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$7.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor$7.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.class" afterPath="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer$1.class" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer$2.class" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer$2.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.class" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -100,13 +88,13 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="43" selection-start="4671" selection-end="4671" vertical-scroll-proportion="0.6118143" vertical-offset="840" max-vertical-offset="2925">
+            <state line="78" column="40" selection-start="3766" selection-end="3766" vertical-scroll-proportion="0.46413502" vertical-offset="840" max-vertical-offset="2985">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2389#6097#0" expanded="true" />
-                <element signature="e#6086#6087#0" expanded="true" />
-                <element signature="e#6505#8812#0" expanded="true" />
-                <element signature="e#8801#8802#0" expanded="true" />
+                <element signature="e#2389#5848#0" expanded="true" />
+                <element signature="e#5837#5838#0" expanded="true" />
+                <element signature="e#6790#9097#0" expanded="true" />
+                <element signature="e#9086#9087#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -323,6 +311,7 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="591" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="extract.method.default.visibility" value="private" />
   </component>
   <component name="RunManager" selected="Application.DistributedTextEditor">
     <configuration default="false" name="DistributedTextEditor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -588,7 +577,11 @@
       <created>1392978234971</created>
       <updated>1392978234971</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Fixed the final problems with synchronous events. Everything should be in order for the functionality.&#10;">
+      <created>1392990160129</created>
+      <updated>1392990160129</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -686,10 +679,10 @@
         <state line="132" column="54" selection-start="7843" selection-end="7843" vertical-scroll-proportion="0.0" vertical-offset="1980" max-vertical-offset="2520">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2389#6097#0" expanded="true" />
-            <element signature="e#6086#6087#0" expanded="true" />
-            <element signature="e#6505#8812#0" expanded="true" />
-            <element signature="e#8801#8802#0" expanded="true" />
+            <element signature="e#2389#5848#0" expanded="true" />
+            <element signature="e#5837#5838#0" expanded="true" />
+            <element signature="e#6790#9097#0" expanded="true" />
+            <element signature="e#9086#9087#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -762,10 +755,10 @@
         <state line="84" column="75" selection-start="4738" selection-end="4738" vertical-scroll-proportion="0.0" vertical-offset="1260" max-vertical-offset="2580">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2389#6097#0" expanded="true" />
-            <element signature="e#6086#6087#0" expanded="true" />
-            <element signature="e#6505#8812#0" expanded="true" />
-            <element signature="e#8801#8802#0" expanded="true" />
+            <element signature="e#2389#5848#0" expanded="true" />
+            <element signature="e#5837#5838#0" expanded="true" />
+            <element signature="e#6790#9097#0" expanded="true" />
+            <element signature="e#9086#9087#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -831,10 +824,10 @@
         <state line="58" column="75" selection-start="2850" selection-end="2850" vertical-scroll-proportion="0.0" vertical-offset="870" max-vertical-offset="2145">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2389#6097#0" expanded="true" />
-            <element signature="e#6086#6087#0" expanded="true" />
-            <element signature="e#6505#8812#0" expanded="true" />
-            <element signature="e#8801#8802#0" expanded="true" />
+            <element signature="e#2389#5848#0" expanded="true" />
+            <element signature="e#5837#5838#0" expanded="true" />
+            <element signature="e#6790#9097#0" expanded="true" />
+            <element signature="e#9086#9087#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1009,13 +1002,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="43" selection-start="4671" selection-end="4671" vertical-scroll-proportion="0.6118143" vertical-offset="840" max-vertical-offset="2925">
+        <state line="78" column="40" selection-start="3766" selection-end="3766" vertical-scroll-proportion="0.46413502" vertical-offset="840" max-vertical-offset="2985">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2389#6097#0" expanded="true" />
-            <element signature="e#6086#6087#0" expanded="true" />
-            <element signature="e#6505#8812#0" expanded="true" />
-            <element signature="e#8801#8802#0" expanded="true" />
+            <element signature="e#2389#5848#0" expanded="true" />
+            <element signature="e#5837#5838#0" expanded="true" />
+            <element signature="e#6790#9097#0" expanded="true" />
+            <element signature="e#9086#9087#0" expanded="true" />
           </folding>
         </state>
       </provider>

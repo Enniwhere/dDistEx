@@ -67,6 +67,7 @@ public class EventReplayer implements Runnable {
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             Collections.sort(historyInterval, comparator);
+                            boolean ignore = false;
                             for (MyTextEvent historyEvent : historyInterval) {
                                 int removeEventOffset = textRemoveEvent.getOffset();
                                 int removeEventTextLengthChange = textRemoveEvent.getTextLengthChange();
@@ -75,7 +76,11 @@ public class EventReplayer implements Runnable {
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
 
                                 if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset, historyEventOffset, senderIndex)) {
-                                    if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
+                                    if (historyEvent instanceof TextRemoveEvent &&
+                                            historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= removeEventOffset + removeEventLength &&
+                                            (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || receiverIndex < senderIndex)){
+                                        ignore = true;
+                                    } else if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
                                         textRemoveEvent.setLength(removeEventLength - (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() - removeEventOffset));
                                         textRemoveEvent.setOffset(historyEvent.getOffset());
                                     } else {
@@ -90,9 +95,11 @@ public class EventReplayer implements Runnable {
                             callback.adjustVectorClock(timestamp);
                             int removeEventOffset = textRemoveEvent.getOffset();
                             int removeEventLength = textRemoveEvent.getLength();
-                            areaDocument.disableFilter();
-                            area.replaceRange(null, removeEventOffset, removeEventOffset + removeEventLength);
-                            areaDocument.enableFilter();
+                            if (!ignore){
+                                areaDocument.disableFilter();
+                                area.replaceRange(null, removeEventOffset, removeEventOffset + removeEventLength);
+                                areaDocument.enableFilter();
+                            }
                         }
                     }
                 } catch (Exception e) {

@@ -120,10 +120,10 @@ public class DistributedTextEditor extends JFrame {
     Action Connect = new AbstractAction("Connect") {
         public void actionPerformed(ActionEvent e) {
             area1.setText("");
-            setTitle("Connecting to " + getIPAddress() + ":" + portNumber.getText() + "...");
+            setTitle("Connecting to " + getIPAddress() + ":" + getPortNumber() + "...");
             try {
                 socket = new Socket(getIPAddress(), getPortNumber());
-                setTitle("Connected to " + getIPAddress() + ":" + portNumber.getText());
+                setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 area1Document.enableFilter();
                 lamportIndex = 1;
                 vectorClockArray.add(0,new Double(0));
@@ -201,7 +201,6 @@ public class DistributedTextEditor extends JFrame {
     };
 
     Action WriteSentence = new AbstractAction ("Write Sentence") {
-
         @Override
         public void actionPerformed(ActionEvent e) {
         Runnable sentenceWriter = new Runnable() {

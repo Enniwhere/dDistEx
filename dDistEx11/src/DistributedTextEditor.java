@@ -85,10 +85,10 @@ public class DistributedTextEditor extends JFrame {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
                                     area1.setText("");
-                                    area1Document.enableFilter();
                                     lamportIndex = 0;
                                     vectorClockArray.add(0, 0.0);
                                     vectorClockArray.add(1, 0.1);
+                                    area1Document.enableFilter();
                                     setTitle(getTitle() + ". Connection established from " + socket);
                                     startTransmitting();
                                     startReceiving();
@@ -123,10 +123,10 @@ public class DistributedTextEditor extends JFrame {
             try {
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
-                area1Document.enableFilter();
                 lamportIndex = 1;
                 vectorClockArray.add(0, 0.0);
                 vectorClockArray.add(1, 0.1);
+                area1Document.enableFilter();
                 System.out.println("Vector clock initialized with values " + vectorClockArray.get(0) + " and " + vectorClockArray.get(1));
                 startTransmitting();
                 System.out.println("Transmitting thread started");
@@ -236,7 +236,6 @@ public class DistributedTextEditor extends JFrame {
         setVisible(true);
         area1Document.disableFilter();
         area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
-        area1Document.enableFilter();
     }
 
     private void saveFileAs() {

@@ -88,7 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="123" selection-start="4997" selection-end="4997" vertical-scroll-proportion="0.5555556" vertical-offset="1005" max-vertical-offset="3045">
+            <state line="92" column="125" selection-start="5003" selection-end="5003" vertical-scroll-proportion="0.5555556" vertical-offset="1005" max-vertical-offset="3045">
               <folding />
             </state>
           </provider>
@@ -598,7 +598,11 @@
       <created>1393082830013</created>
       <updated>1393082830013</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Tried to fix errors with illegal remove events&#10;">
+      <created>1393083250256</created>
+      <updated>1393083250256</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1003,7 +1007,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="123" selection-start="4997" selection-end="4997" vertical-scroll-proportion="0.5555556" vertical-offset="1005" max-vertical-offset="3045">
+        <state line="92" column="125" selection-start="5003" selection-end="5003" vertical-scroll-proportion="0.5555556" vertical-offset="1005" max-vertical-offset="3045">
           <folding />
         </state>
       </provider>

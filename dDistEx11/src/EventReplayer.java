@@ -80,7 +80,7 @@ public class EventReplayer implements Runnable {
                                 int historyEventOffset = historyEvent.getOffset();
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
 
-                                if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset, historyEventOffset, senderIndex)) {
+                                if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset - 1, historyEventOffset, senderIndex)) {
                                     if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
 
                                         ignore = true;
@@ -90,7 +90,7 @@ public class EventReplayer implements Runnable {
                                     } else {
                                         textRemoveEvent.setOffset(removeEventOffset + historyEventTextLengthChange);
                                     }
-                                } else if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength-1, historyEventOffset, senderIndex)) {
+                                } else if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength - 1, historyEventOffset, senderIndex)) {
                                     textRemoveEvent.setLength(removeEventLength + Math.max(historyEventTextLengthChange, -(removeEventOffset + removeEventLength - historyEventOffset)));
                                 } else {
                                     historyEvent.setOffset(historyEventOffset + removeEventTextLengthChange);

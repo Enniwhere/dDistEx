@@ -90,7 +90,7 @@ public class EventReplayer implements Runnable {
                                     } else {
                                         textRemoveEvent.setOffset(removeEventOffset + historyEventTextLengthChange);
                                     }
-                                } else if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength, historyEventOffset, senderIndex)) {
+                                } else if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength-1, historyEventOffset, senderIndex)) {
                                     textRemoveEvent.setLength(removeEventLength + Math.max(historyEventTextLengthChange, -(removeEventOffset + removeEventLength - historyEventOffset)));
                                 } else {
                                     historyEvent.setOffset(historyEventOffset + removeEventTextLengthChange);
@@ -184,8 +184,7 @@ public class EventReplayer implements Runnable {
     }
 
     private boolean isHistoryEventOffsetLower(int receiverIndex, int textEventOffset, int historyEventOffset, int senderIndex) {
-        return historyEventOffset < textEventOffset;
-                //&& (historyEventOffset != textEventOffset || receiverIndex < senderIndex);
+        return historyEventOffset <= textEventOffset && (historyEventOffset != textEventOffset || receiverIndex < senderIndex);
     }
 
     private double getCallbackLamportTime(int senderIndex) {

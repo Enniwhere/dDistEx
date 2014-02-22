@@ -80,7 +80,7 @@ public class EventReplayer implements Runnable {
                                 int historyEventOffset = historyEvent.getOffset();
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
 
-                                if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset - 1, historyEventOffset, senderIndex)) {
+                                if (isHistoryEventOffsetLower(senderIndex, removeEventOffset, historyEventOffset, receiverIndex)) {
                                     if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
 
                                         ignore = true;
@@ -90,7 +90,7 @@ public class EventReplayer implements Runnable {
                                     } else {
                                         textRemoveEvent.setOffset(removeEventOffset + historyEventTextLengthChange);
                                     }
-                                } else if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength - 1, historyEventOffset, senderIndex)) {
+                                } else if (isHistoryEventOffsetLower(senderIndex, removeEventOffset + removeEventLength, historyEventOffset, receiverIndex)) {
                                     textRemoveEvent.setLength(removeEventLength + Math.max(historyEventTextLengthChange, -(removeEventOffset + removeEventLength - historyEventOffset)));
                                 } else {
                                     historyEvent.setOffset(historyEventOffset + removeEventTextLengthChange);
@@ -183,8 +183,8 @@ public class EventReplayer implements Runnable {
         return timestamp[senderIndex] != getCallbackLamportTime(senderIndex) + 1 || timestamp[callback.getLamportIndex()] > getCallbackLamportTime(callback.getLamportIndex());
     }
 
-    private boolean isHistoryEventOffsetLower(int receiverIndex, int textEventOffset, int historyEventOffset, int senderIndex) {
-        return historyEventOffset <= textEventOffset && (historyEventOffset != textEventOffset || receiverIndex < senderIndex);
+    private boolean isHistoryEventOffsetLower(int priorityIndex, int textEventOffset, int historyEventOffset, int yieldingIndex) {
+        return historyEventOffset <= textEventOffset && (historyEventOffset != textEventOffset || priorityIndex < yieldingIndex);
     }
 
     private double getCallbackLamportTime(int senderIndex) {

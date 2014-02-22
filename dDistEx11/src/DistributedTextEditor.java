@@ -404,6 +404,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public double[] getTimestamp() {
+        System.out.println("Called getTimestamp when clock has size " + vectorClockArray.size());
         double[] timestamp = new double[vectorClockArray.size()];
         for (int i = 0; i < vectorClockArray.size(); i++) {
             System.out.println("Set index " + i + " to " + vectorClockArray.get(i) + " in the timestamp");

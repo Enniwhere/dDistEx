@@ -77,11 +77,24 @@ public class DocumentEventCapturer extends DocumentFilter {
             throws BadLocationException {
 	
 	/* Queue a copy of the event and then modify the text */
-        if (length > 0) {
-            eventHistory.add(new TextRemoveEvent(offset, length));
+
+        synchronized (filterBypass.getDocument()){
+            if (length > 0) {
+                TextRemoveEvent removeEvent = new TextRemoveEvent(offset, length);
+                callback.incrementLamportTime();
+                removeEvent.setTimestamp(callback.getTimestamp());
+                removeEvent.setSender(callback.getLamportIndex());
+                callback.addEventToHistory(removeEvent);
+                eventHistory.add(removeEvent);
+            }
+            TextInsertEvent insertEvent = new TextInsertEvent(offset, str);
+            callback.incrementLamportTime();
+            insertEvent.setTimestamp(callback.getTimestamp());
+            insertEvent.setSender(callback.getLamportIndex());
+            callback.addEventToHistory(insertEvent);
+            eventHistory.add(insertEvent);
+            super.replace(filterBypass, offset, length, str, attributeSet);
         }
-        eventHistory.add(new TextInsertEvent(offset, str));
-        super.replace(filterBypass, offset, length, str, attributeSet);
     }
 
     public void clearEventHistory() {

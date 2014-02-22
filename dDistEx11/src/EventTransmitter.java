@@ -26,6 +26,7 @@ public class EventTransmitter implements Runnable {
         while (!wasInterrupted) {
             try {
                 MyTextEvent textEvent = documentEventCapturer.take();
+                System.out.println("Took the textEvent " + textEvent + " from the queue");
                 System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
                 outputStream.writeObject(textEvent);
             } catch (IOException e){

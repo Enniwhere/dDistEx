@@ -234,8 +234,9 @@ public class DistributedTextEditor extends JFrame {
         pack();
         setTitle("Disconnected");
         setVisible(true);
-        area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
         area1Document.disableFilter();
+        area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
+        area1Document.enableFilter();
     }
 
     private void saveFileAs() {

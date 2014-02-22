@@ -31,8 +31,10 @@ public class EventTransmitter implements Runnable {
             } catch (IOException e){
                 callback.connectionClosed();
                 wasInterrupted = true;
+                e.printStackTrace();
             } catch (Exception _) {
                 wasInterrupted = true;
+                _.printStackTrace();
             }
         }
         System.out.println("I'm the thread running the EventTransmitter, now I die!");

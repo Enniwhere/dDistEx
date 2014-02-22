@@ -70,7 +70,7 @@
       <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="235" column="59" selection-start="9673" selection-end="9673" vertical-scroll-proportion="0.0" vertical-offset="2790" max-vertical-offset="6375">
+            <state line="201" column="59" selection-start="8286" selection-end="8286" vertical-scroll-proportion="0.0" vertical-offset="2280" max-vertical-offset="6375">
               <folding />
             </state>
           </provider>
@@ -79,7 +79,7 @@
       <file leaf-file-name="EventTransmitter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="0" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="675">
+            <state line="4" column="0" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
               <folding />
             </state>
           </provider>
@@ -88,7 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="164" selection-start="2730" selection-end="2730" vertical-scroll-proportion="0.29239765" vertical-offset="735" max-vertical-offset="3045">
+            <state line="186" column="35" selection-start="10387" selection-end="10387" vertical-scroll-proportion="0.29239765" vertical-offset="2505" max-vertical-offset="3060">
               <folding />
             </state>
           </provider>
@@ -106,7 +106,7 @@
       <file leaf-file-name="DocumentEventCapturer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="66" selection-start="3821" selection-end="3821" vertical-scroll-proportion="0.0" vertical-offset="929" max-vertical-offset="1590">
+            <state line="103" column="66" selection-start="4380" selection-end="4380" vertical-scroll-proportion="0.0" vertical-offset="1004" max-vertical-offset="1590">
               <folding />
             </state>
           </provider>
@@ -590,7 +590,11 @@
       <created>1393081558856</created>
       <updated>1393081558856</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Tried to fix errors with illegal remove events&#10;">
+      <created>1393082128861</created>
+      <updated>1393082128861</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -646,7 +650,8 @@
     <MESSAGE value="Tried to lock the callback in the replayer and transmitter in order to correct concurrency errors." />
     <MESSAGE value="Redelegated the locking of the document to the documentEventCapturer in order to correct concurrency errors.&#10;" />
     <MESSAGE value="Tried to fix errors with illegal remove events" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix errors with illegal remove events" />
+    <MESSAGE value="Tried to fix errors with illegal remove events&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix errors with illegal remove events&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -964,20 +969,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="66" selection-start="3821" selection-end="3821" vertical-scroll-proportion="0.0" vertical-offset="929" max-vertical-offset="1590">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="0" selection-start="1501" selection-end="1501" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/java/awt/EventQueue.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1203" column="58" selection-start="43443" selection-end="43443" vertical-scroll-proportion="0.0" vertical-offset="17055" max-vertical-offset="18840">
@@ -987,14 +978,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="235" column="59" selection-start="9673" selection-end="9673" vertical-scroll-proportion="0.0" vertical-offset="2790" max-vertical-offset="6375">
+        <state line="201" column="59" selection-start="8286" selection-end="8286" vertical-scroll-proportion="0.0" vertical-offset="2280" max-vertical-offset="6375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="0" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="66" selection-start="4380" selection-end="4380" vertical-scroll-proportion="0.0" vertical-offset="1004" max-vertical-offset="1590">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="164" selection-start="2730" selection-end="2730" vertical-scroll-proportion="0.29239765" vertical-offset="735" max-vertical-offset="3045">
+        <state line="186" column="35" selection-start="10387" selection-end="10387" vertical-scroll-proportion="0.29239765" vertical-offset="2505" max-vertical-offset="3060">
           <folding />
         </state>
       </provider>

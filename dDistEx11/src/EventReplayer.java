@@ -184,7 +184,8 @@ public class EventReplayer implements Runnable {
     }
 
     private boolean isHistoryEventOffsetLower(int receiverIndex, int textEventOffset, int historyEventOffset, int senderIndex) {
-        return historyEventOffset <= textEventOffset && (historyEventOffset != textEventOffset || receiverIndex < senderIndex);
+        return historyEventOffset < textEventOffset;
+                //&& (historyEventOffset != textEventOffset || receiverIndex < senderIndex);
     }
 
     private double getCallbackLamportTime(int senderIndex) {

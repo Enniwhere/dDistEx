@@ -27,7 +27,7 @@ public class DistributedTextEditor extends JFrame {
     private String currentFile = "Untitled";
     private boolean changed = false;
     private boolean connected = false;
-    private DocumentEventCapturer documentEventCapturer = new DocumentEventCapturer();
+    private DocumentEventCapturer documentEventCapturer = new DocumentEventCapturer(this);
 
     protected ServerSocket serverSocket;
     protected Socket socket;

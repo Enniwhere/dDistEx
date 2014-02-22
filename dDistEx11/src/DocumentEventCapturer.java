@@ -15,16 +15,21 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class DocumentEventCapturer extends DocumentFilter {
 
+    private final DistributedTextEditor callback;
     /*
-     * We are using a blocking queue for two reasons: 
-     * 1) They are thread safe, i.e., we can have two threads add and take elements 
-     *    at the same time without any race conditions, so we do not have to do  
-     *    explicit synchronization.
-     * 2) It gives us a member take() which is blocking, i.e., if the queue is
-     *    empty, then take() will wait until new elements arrive, which is what
-     *    we want, as we then don't need to keep asking until there are new elements.
-     */
+         * We are using a blocking queue for two reasons:
+         * 1) They are thread safe, i.e., we can have two threads add and take elements
+         *    at the same time without any race conditions, so we do not have to do
+         *    explicit synchronization.
+         * 2) It gives us a member take() which is blocking, i.e., if the queue is
+         *    empty, then take() will wait until new elements arrive, which is what
+         *    we want, as we then don't need to keep asking until there are new elements.
+         */
     protected LinkedBlockingQueue<MyTextEvent> eventHistory = new LinkedBlockingQueue<MyTextEvent>();
+
+    public DocumentEventCapturer(DistributedTextEditor distributedTextEditor) {
+         this.callback = distributedTextEditor;
+    }
 
     /**
      * If the queue is empty, then the call will block until an element arrives.
@@ -41,15 +46,29 @@ public class DocumentEventCapturer extends DocumentFilter {
             throws BadLocationException {
 	
 	/* Queue a copy of the event and then modify the textarea */
-        eventHistory.add(new TextInsertEvent(offset, string));
-        super.insertString(filterBypass, offset, string, attributeSet);
+        synchronized (filterBypass.getDocument()){
+            TextInsertEvent insertEvent = new TextInsertEvent(offset, string);
+            callback.incrementLamportTime();
+            insertEvent.setTimestamp(callback.getTimestamp());
+            insertEvent.setSender(callback.getLamportIndex());
+            callback.addEventToHistory(insertEvent);
+            eventHistory.add(insertEvent);
+            super.insertString(filterBypass, offset, string, attributeSet);
+        }
     }
 
     public void remove(FilterBypass filterBypass, int offset, int length)
             throws BadLocationException {
 	/* Queue a copy of the event and then modify the textarea */
-        eventHistory.add(new TextRemoveEvent(offset, length));
-        super.remove(filterBypass, offset, length);
+        synchronized (filterBypass.getDocument()){
+            TextRemoveEvent removeEvent = new TextRemoveEvent(offset, length);
+            callback.incrementLamportTime();
+            removeEvent.setTimestamp(callback.getTimestamp());
+            removeEvent.setSender(callback.getLamportIndex());
+            callback.addEventToHistory(removeEvent);
+            eventHistory.add(removeEvent);
+            super.remove(filterBypass, offset, length);
+        }
     }
 
     public void replace(FilterBypass filterBypass, int offset,

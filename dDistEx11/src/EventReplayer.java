@@ -32,15 +32,15 @@ public class EventReplayer implements Runnable {
                 if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
                 Object obj = inputStream.readObject();
                 System.out.println("Object received");
-                synchronized (callback){
-                    if (obj instanceof MyConnectionEvent) {
-                        handleConnectionEvent((MyConnectionEvent) obj);
-                    } else if (obj instanceof TextInsertEvent) {
-                        handleInsertEvent((TextInsertEvent) obj);
-                    } else if (obj instanceof TextRemoveEvent) {
-                        handleRemoveEvent((TextRemoveEvent) obj);
-                    }
+
+                if (obj instanceof MyConnectionEvent) {
+                    handleConnectionEvent((MyConnectionEvent) obj);
+                } else if (obj instanceof TextInsertEvent) {
+                    handleInsertEvent((TextInsertEvent) obj);
+                } else if (obj instanceof TextRemoveEvent) {
+                    handleRemoveEvent((TextRemoveEvent) obj);
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
                 callback.connectionClosed();

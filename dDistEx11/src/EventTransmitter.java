@@ -12,7 +12,6 @@ public class EventTransmitter implements Runnable {
     private DistributedTextEditor callback;
     private DocumentEventCapturer documentEventCapturer;
     private ObjectOutputStream outputStream;
-    private BlockingQueue<MyTextEvent> eventHolder = new ArrayBlockingQueue<MyTextEvent>(1000);
 
 
     public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor callback) {
@@ -27,14 +26,8 @@ public class EventTransmitter implements Runnable {
         while (!wasInterrupted) {
             try {
                 MyTextEvent textEvent = documentEventCapturer.take();
-                synchronized (callback){
-                    callback.incrementLamportTime();
-                    textEvent.setTimestamp(callback.getTimestamp());
-                    textEvent.setSender(callback.getLamportIndex());
-                    callback.addEventToHistory(textEvent);
-                    System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
-                    outputStream.writeObject(textEvent);
-                }
+                System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
+                outputStream.writeObject(textEvent);
             } catch (IOException e){
                 callback.connectionClosed();
                 wasInterrupted = true;

@@ -27,10 +27,10 @@ public class EventTransmitter implements Runnable {
         while (!wasInterrupted) {
             try {
                 MyTextEvent textEvent = documentEventCapturer.take();
-                callback.incrementLamportTime();
-                textEvent.setTimestamp(callback.getTimestamp());
-                textEvent.setSender(callback.getLamportIndex());
-                synchronized (textEvent){
+                synchronized (callback){
+                    callback.incrementLamportTime();
+                    textEvent.setTimestamp(callback.getTimestamp());
+                    textEvent.setSender(callback.getLamportIndex());
                     callback.addEventToHistory(textEvent);
                     System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
                     outputStream.writeObject(textEvent);

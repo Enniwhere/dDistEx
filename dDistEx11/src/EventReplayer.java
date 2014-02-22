@@ -54,6 +54,7 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
+        System.out.println("Received a text remove event with offset " + obj.getOffset() + " and length " + obj.getLength());
         final TextRemoveEvent textRemoveEvent = obj;
         final double[] timestamp = textRemoveEvent.getTimestamp();
         final int senderIndex = textRemoveEvent.getSender();
@@ -79,6 +80,7 @@ public class EventReplayer implements Runnable {
 
                                 if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset, historyEventOffset, senderIndex)) {
                                     if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
+
                                         ignore = true;
                                     } else if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
                                         textRemoveEvent.setLength(removeEventLength - (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() - removeEventOffset));

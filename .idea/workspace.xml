@@ -88,7 +88,16 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="165" column="246" selection-start="9643" selection-end="9643" vertical-scroll-proportion="0.76608187" vertical-offset="1962" max-vertical-offset="3165">
+            <state line="163" column="55" selection-start="9412" selection-end="9412" vertical-scroll-proportion="0.32163742" vertical-offset="2160" max-vertical-offset="3255">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/dDistEx3/src/EventReplayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="41" selection-start="1035" selection-end="1035" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="1080">
               <folding />
             </state>
           </provider>
@@ -243,6 +252,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="dDistEx11" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dDistEx3" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -621,7 +662,11 @@
       <created>1393152462760</created>
       <updated>1393152462760</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Tried to make the debugging output more friendly on the receiving side.&#10;">
+      <created>1393152651287</created>
+      <updated>1393152651287</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -692,13 +737,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="464" column="0" selection-start="17548" selection-end="17548" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7080">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="0" selection-start="1740" selection-end="1740" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="795">
@@ -1026,9 +1064,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx3/src/EventReplayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="41" selection-start="1035" selection-end="1035" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="1080">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="246" selection-start="9643" selection-end="9643" vertical-scroll-proportion="0.76608187" vertical-offset="1962" max-vertical-offset="3165">
+        <state line="163" column="55" selection-start="9412" selection-end="9412" vertical-scroll-proportion="0.32163742" vertical-offset="2160" max-vertical-offset="3255">
           <folding />
         </state>
       </provider>

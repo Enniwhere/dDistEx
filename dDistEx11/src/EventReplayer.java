@@ -137,6 +137,7 @@ public class EventReplayer implements Runnable {
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             Collections.sort(historyInterval, comparator);
+                            boolean shouldYieldCaretPosition = false;
                             boolean ignore = false;
                             for (MyTextEvent historyEvent : historyInterval) {
                                 int insertEventOffset = textInsertEvent.getOffset();
@@ -151,13 +152,18 @@ public class EventReplayer implements Runnable {
                                         textInsertEvent.setOffset(insertEventOffset + historyEventTextLengthChange);
                                     }
                                 } else {
+
                                     historyEvent.setOffset(historyEventOffset + textInsertEvent.getTextLengthChange());
                                 }
                             }
                             callback.adjustVectorClock(timestamp);
                             if (!ignore) {
                                 areaDocument.disableFilter();
+                                int dotPosBeforeInsert = area.getCaret().getDot();
                                 area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
+                                if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex < receiverIndex){
+                                    area.getCaret().setDot(dotPosBeforeInsert);
+                                }
                                 areaDocument.enableFilter();
                             }
                         }

@@ -79,7 +79,7 @@
       <file leaf-file-name="EventTransmitter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="720">
+            <state line="26" column="63" selection-start="959" selection-end="959" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
               <folding />
             </state>
           </provider>
@@ -88,16 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="123" column="119" selection-start="6669" selection-end="6669" vertical-scroll-proportion="0.73099416" vertical-offset="1365" max-vertical-offset="3120">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EventQueue.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar:///usr/java/jdk1.7.0_45/src.zip!/java/awt/EventQueue.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="1203" column="58" selection-start="43443" selection-end="43443" vertical-scroll-proportion="0.0" vertical-offset="18045" max-vertical-offset="19710">
+            <state line="117" column="107" selection-start="6557" selection-end="6557" vertical-scroll-proportion="0.5555556" vertical-offset="1365" max-vertical-offset="3120">
               <folding />
             </state>
           </provider>
@@ -622,7 +613,11 @@
       <created>1393150929470</created>
       <updated>1393150929470</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="Tried to make the debugging output more friendly on the receiving side.">
+      <created>1393152225082</created>
+      <updated>1393152225082</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -681,7 +676,8 @@
     <MESSAGE value="Tried to fix errors with illegal remove events&#10;" />
     <MESSAGE value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now." />
     <MESSAGE value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;" />
+    <MESSAGE value="Tried to make the debugging output more friendly on the receiving side." />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to make the debugging output more friendly on the receiving side." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1011,13 +1007,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="154" selection-end="154" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="103" column="66" selection-start="4380" selection-end="4380" vertical-scroll-proportion="0.0" vertical-offset="1004" max-vertical-offset="1590">
@@ -1025,9 +1014,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="63" selection-start="959" selection-end="959" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="123" column="119" selection-start="6669" selection-end="6669" vertical-scroll-proportion="0.73099416" vertical-offset="1365" max-vertical-offset="3120">
+        <state line="117" column="107" selection-start="6557" selection-end="6557" vertical-scroll-proportion="0.5555556" vertical-offset="1365" max-vertical-offset="3120">
           <folding />
         </state>
       </provider>

@@ -108,7 +108,7 @@ public class EventReplayer implements Runnable {
                         }
                     }
                 } catch (IllegalArgumentException ae){
-                    System.err.println("Made an illegal remove at offset " + textRemoveEvent.getOffset() + " with length " + textRemoveEvent.getLength() + " in a document with size " + areaDocument.getLength());
+                    System.err.println("Made an illegal remove at offset " + textRemoveEvent.getOffset() + " with length " + textRemoveEvent.getLength() + " and timestamp " + textRemoveEvent.getTimestamp()[0] + "," + textRemoveEvent.getTimestamp()[1] + " in a document with size " + areaDocument.getLength());
                     ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();

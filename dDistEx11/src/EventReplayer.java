@@ -31,7 +31,7 @@ public class EventReplayer implements Runnable {
             try {
                 if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
                 Object obj = inputStream.readObject();
-                System.out.println("Object received");
+
 
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);
@@ -54,7 +54,7 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
-        System.out.println("Received a text remove event with offset " + obj.getOffset() + " and length " + obj.getLength());
+        System.out.println("Received a text remove event with offset " + obj.getOffset() + " and length " + obj.getLength() + " and timestamp " + obj.getTimestamp()[0] + "," + obj.getTimestamp()[1]);
         final TextRemoveEvent textRemoveEvent = obj;
         final double[] timestamp = textRemoveEvent.getTimestamp();
         final int senderIndex = textRemoveEvent.getSender();
@@ -121,6 +121,7 @@ public class EventReplayer implements Runnable {
 
 
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
+        System.out.println("Received a text insert event with offset " + obj.getOffset() + " and text " + obj.getText() + " and timestamp " + obj.getTimestamp()[0] + "," + obj.getTimestamp()[1]);
         final TextInsertEvent textInsertEvent = obj;
         final double[] timestamp = textInsertEvent.getTimestamp();
         final int senderIndex = textInsertEvent.getSender();
@@ -141,7 +142,9 @@ public class EventReplayer implements Runnable {
                                 int insertEventOffset = textInsertEvent.getOffset();
                                 int historyEventOffset = historyEvent.getOffset();
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
+
                                 if (isHistoryEventOffsetLower(receiverIndex, insertEventOffset, historyEventOffset, senderIndex)) {
+
                                     if (isInsertedInsideRemove(receiverIndex, historyEvent, insertEventOffset, historyEventOffset, senderIndex)) {
                                         ignore = true;
                                     } else {

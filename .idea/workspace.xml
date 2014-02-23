@@ -88,7 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="85" selection-start="4959" selection-end="4959" vertical-scroll-proportion="0.9356725" vertical-offset="810" max-vertical-offset="3045">
+            <state line="99" column="101" selection-start="5479" selection-end="5479" vertical-scroll-proportion="0.76023394" vertical-offset="1005" max-vertical-offset="3075">
               <folding />
             </state>
           </provider>
@@ -614,7 +614,11 @@
       <created>1393148937496</created>
       <updated>1393148937496</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;">
+      <created>1393149404909</created>
+      <updated>1393149404909</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1019,7 +1023,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="85" selection-start="4959" selection-end="4959" vertical-scroll-proportion="0.9356725" vertical-offset="810" max-vertical-offset="3045">
+        <state line="99" column="101" selection-start="5479" selection-end="5479" vertical-scroll-proportion="0.76023394" vertical-offset="1005" max-vertical-offset="3075">
           <folding />
         </state>
       </provider>

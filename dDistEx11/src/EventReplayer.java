@@ -80,17 +80,18 @@ public class EventReplayer implements Runnable {
                                 int historyEventOffset = historyEvent.getOffset();
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
 
-                                if (isHistoryEventOffsetLower(senderIndex, removeEventOffset, historyEventOffset, receiverIndex)) {
-                                    if (isRemoveContainedInHistoryEvent(senderIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, receiverIndex)){
+                                if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset, historyEventOffset, senderIndex)) {
+
+                                    if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
 
                                         ignore = true;
-                                    } else if (isEventOffsetOverlapped(senderIndex, historyEvent, removeEventOffset, historyEventOffset, receiverIndex)) {
+                                    } else if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
                                         textRemoveEvent.setLength(removeEventLength - (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() - removeEventOffset));
                                         textRemoveEvent.setOffset(historyEvent.getOffset());
                                     } else {
                                         textRemoveEvent.setOffset(removeEventOffset + historyEventTextLengthChange);
                                     }
-                                } else if (isHistoryEventOffsetLower(senderIndex, removeEventOffset + removeEventLength, historyEventOffset, senderIndex)) {
+                                } else if (isHistoryEventOffsetLower(0, removeEventOffset + removeEventLength, historyEventOffset, 0)) {
                                     textRemoveEvent.setLength(removeEventLength + Math.max(historyEventTextLengthChange, -(removeEventOffset + removeEventLength - historyEventOffset)));
                                 } else {
                                     historyEvent.setOffset(historyEventOffset + removeEventTextLengthChange);
@@ -167,8 +168,9 @@ public class EventReplayer implements Runnable {
 
     private boolean isInsertedInsideRemove(int receiverIndex, MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset, int senderIndex) {
         return historyEvent instanceof TextRemoveEvent &&
-               historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= insertEventOffset &&
-               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || receiverIndex < senderIndex);
+               historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() > insertEventOffset;
+                //&&
+               //(historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || receiverIndex < senderIndex);
     }
 
     private void handleConnectionEvent(MyConnectionEvent obj) {

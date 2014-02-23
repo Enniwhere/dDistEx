@@ -81,10 +81,10 @@ public class EventReplayer implements Runnable {
                                 int historyEventTextLengthChange = historyEvent.getTextLengthChange();
 
                                 if (isHistoryEventOffsetLower(senderIndex, removeEventOffset, historyEventOffset, receiverIndex)) {
-                                    if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
+                                    if (isRemoveContainedInHistoryEvent(senderIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, receiverIndex)){
 
                                         ignore = true;
-                                    } else if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
+                                    } else if (isEventOffsetOverlapped(senderIndex, historyEvent, removeEventOffset, historyEventOffset, receiverIndex)) {
                                         textRemoveEvent.setLength(removeEventLength - (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() - removeEventOffset));
                                         textRemoveEvent.setOffset(historyEvent.getOffset());
                                     } else {
@@ -191,16 +191,16 @@ public class EventReplayer implements Runnable {
         return callback.getLamportTime(senderIndex);
     }
 
-    private boolean isEventOffsetOverlapped(int receiverIndex, MyTextEvent historyEvent, int removeEventOffset, int historyEventOffset, int senderIndex) {
+    private boolean isEventOffsetOverlapped(int priorityIndex, MyTextEvent historyEvent, int removeEventOffset, int historyEventOffset, int yieldingIndex) {
         return historyEvent instanceof TextRemoveEvent &&
                removeEventOffset <= historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() &&
-               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset || receiverIndex < senderIndex);
+               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset || priorityIndex < yieldingIndex);
     }
 
-    private boolean isRemoveContainedInHistoryEvent(int receiverIndex, MyTextEvent historyEvent, int removeEventOffset, int removeEventLength, int historyEventOffset, int senderIndex) {
+    private boolean isRemoveContainedInHistoryEvent(int priorityIndex, MyTextEvent historyEvent, int removeEventOffset, int removeEventLength, int historyEventOffset, int yieldingIndex) {
         return historyEvent instanceof TextRemoveEvent &&
                 historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= removeEventOffset + removeEventLength &&
-                (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || receiverIndex < senderIndex);
+                (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || priorityIndex < yieldingIndex);
     }
 
 }

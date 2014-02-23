@@ -66,7 +66,7 @@ public class EventReplayer implements Runnable {
                 System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
                 try {
                     if (areaDocument != null) {
-                        synchronized (areaDocument) {
+                        synchronized (area) {
 
                             int receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
@@ -132,7 +132,7 @@ public class EventReplayer implements Runnable {
             public void run() {
                 try {
                     if (areaDocument != null) {
-                        synchronized (areaDocument) {
+                        synchronized (area) {
                             int receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);

@@ -148,7 +148,7 @@ public class EventReplayer implements Runnable {
 
                                 if (isHistoryEventOffsetLower(receiverIndex, insertEventOffset, historyEventOffset, senderIndex)) {
 
-                                    if (isInsertedInsideRemove(receiverIndex, historyEvent, insertEventOffset, historyEventOffset, senderIndex)) {
+                                    if (isInsertedInsideRemove(senderIndex, historyEvent, insertEventOffset, historyEventOffset, receiverIndex)) {
                                         ignore = true;
                                     } else {
                                         textInsertEvent.setOffset(insertEventOffset + historyEventTextLengthChange);
@@ -180,10 +180,11 @@ public class EventReplayer implements Runnable {
         });
     }
 
-    private boolean isInsertedInsideRemove(int receiverIndex, MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset, int senderIndex) {
+    private boolean isInsertedInsideRemove(int priorityIndex, MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset, int yieldingIndex) {
+
         return historyEvent instanceof TextRemoveEvent &&
                historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= insertEventOffset &&
-               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || receiverIndex < senderIndex);
+               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || priorityIndex < yieldingIndex);
     }
 
     private void handleConnectionEvent(MyConnectionEvent obj) {

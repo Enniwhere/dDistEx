@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;">
+    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -70,7 +70,7 @@
       <file leaf-file-name="DistributedTextEditor.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="198" column="0" selection-start="8241" selection-end="8241" vertical-scroll-proportion="0.0" vertical-offset="2610" max-vertical-offset="6375">
+            <state line="120" column="71" selection-start="5437" selection-end="5437" vertical-scroll-proportion="0.0" vertical-offset="1280" max-vertical-offset="6375">
               <folding />
             </state>
           </provider>
@@ -88,7 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="96" column="154" selection-start="5052" selection-end="5052" vertical-scroll-proportion="0.36448598" vertical-offset="1155" max-vertical-offset="3270">
+            <state line="182" column="147" selection-start="10309" selection-end="10309" vertical-scroll-proportion="0.25233644" vertical-offset="2460" max-vertical-offset="3285">
               <folding />
             </state>
           </provider>
@@ -597,7 +597,11 @@
       <created>1393156343871</created>
       <updated>1393156343871</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;">
+      <created>1393157722639</created>
+      <updated>1393157722639</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -983,13 +987,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="198" column="0" selection-start="8241" selection-end="8241" vertical-scroll-proportion="0.0" vertical-offset="2610" max-vertical-offset="6375">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="28" column="70" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
@@ -1004,9 +1001,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="120" column="71" selection-start="5437" selection-end="5437" vertical-scroll-proportion="0.0" vertical-offset="1280" max-vertical-offset="6375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="154" selection-start="5052" selection-end="5052" vertical-scroll-proportion="0.36448598" vertical-offset="1155" max-vertical-offset="3270">
+        <state line="182" column="147" selection-start="10309" selection-end="10309" vertical-scroll-proportion="0.25233644" vertical-offset="2460" max-vertical-offset="3285">
           <folding />
         </state>
       </provider>

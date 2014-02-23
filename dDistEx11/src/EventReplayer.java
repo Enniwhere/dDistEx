@@ -90,7 +90,7 @@ public class EventReplayer implements Runnable {
                                     } else {
                                         textRemoveEvent.setOffset(removeEventOffset + historyEventTextLengthChange);
                                     }
-                                } else if (isHistoryEventOffsetLower(senderIndex, removeEventOffset + removeEventLength, historyEventOffset, receiverIndex)) {
+                                } else if (isHistoryEventOffsetLower(senderIndex, removeEventOffset + removeEventLength, historyEventOffset, senderIndex)) {
                                     textRemoveEvent.setLength(removeEventLength + Math.max(historyEventTextLengthChange, -(removeEventOffset + removeEventLength - historyEventOffset)));
                                 } else {
                                     historyEvent.setOffset(historyEventOffset + removeEventTextLengthChange);

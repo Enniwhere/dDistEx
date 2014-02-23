@@ -88,7 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="199" column="179" selection-start="11256" selection-end="11256" vertical-scroll-proportion="0.64327484" vertical-offset="2520" max-vertical-offset="3045">
+            <state line="92" column="85" selection-start="4959" selection-end="4959" vertical-scroll-proportion="0.9356725" vertical-offset="810" max-vertical-offset="3045">
               <folding />
             </state>
           </provider>
@@ -610,7 +610,11 @@
       <created>1393107477131</created>
       <updated>1393107477131</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;">
+      <created>1393148937496</created>
+      <updated>1393148937496</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -668,7 +672,8 @@
     <MESSAGE value="Tried to fix errors with illegal remove events" />
     <MESSAGE value="Tried to fix errors with illegal remove events&#10;" />
     <MESSAGE value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now." />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now." />
+    <MESSAGE value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1014,7 +1019,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="199" column="179" selection-start="11256" selection-end="11256" vertical-scroll-proportion="0.64327484" vertical-offset="2520" max-vertical-offset="3045">
+        <state line="92" column="85" selection-start="4959" selection-end="4959" vertical-scroll-proportion="0.9356725" vertical-offset="810" max-vertical-offset="3045">
           <folding />
         </state>
       </provider>

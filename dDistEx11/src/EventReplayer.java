@@ -162,6 +162,9 @@ public class EventReplayer implements Runnable {
                             }
                         }
                     }
+                } catch (IllegalArgumentException ae){
+                    System.err.println("Made an illegal insert at offset " + textInsertEvent.getOffset() + " with text " + textInsertEvent.getText() + " and timestamp " + textInsertEvent.getTimestamp()[0] + "," + textInsertEvent.getTimestamp()[1]);
+                    ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

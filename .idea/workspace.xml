@@ -88,7 +88,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="117" column="107" selection-start="6557" selection-end="6557" vertical-scroll-proportion="0.5555556" vertical-offset="1365" max-vertical-offset="3120">
+            <state line="165" column="246" selection-start="9643" selection-end="9643" vertical-scroll-proportion="0.76608187" vertical-offset="1962" max-vertical-offset="3165">
               <folding />
             </state>
           </provider>
@@ -617,7 +617,11 @@
       <created>1393152225082</created>
       <updated>1393152225082</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Tried to make the debugging output more friendly on the receiving side.&#10;">
+      <created>1393152462760</created>
+      <updated>1393152462760</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -677,7 +681,8 @@
     <MESSAGE value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now." />
     <MESSAGE value="Tried to fix illegal removes appearing by changing which index should correspond to yielding the offset when using remove events. It seems that the index used for yielding offsets to remove events should be opposite the index for yielding offsets to insert events. Anyway, the bug seems to be not reproducable now.&#10;" />
     <MESSAGE value="Tried to make the debugging output more friendly on the receiving side." />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to make the debugging output more friendly on the receiving side." />
+    <MESSAGE value="Tried to make the debugging output more friendly on the receiving side.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to make the debugging output more friendly on the receiving side.&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1023,7 +1028,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="117" column="107" selection-start="6557" selection-end="6557" vertical-scroll-proportion="0.5555556" vertical-offset="1365" max-vertical-offset="3120">
+        <state line="165" column="246" selection-start="9643" selection-end="9643" vertical-scroll-proportion="0.76608187" vertical-offset="1962" max-vertical-offset="3165">
           <folding />
         </state>
       </provider>

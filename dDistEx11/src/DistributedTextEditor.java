@@ -10,10 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -137,6 +134,9 @@ public class DistributedTextEditor extends JFrame {
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
                 System.out.println("Connection established");
+            } catch (ConnectException ce) {
+                ce.printStackTrace();
+                setTitle("Disconnected: Failed to connect");
             } catch (IOException ex) {
                 ex.printStackTrace();
                 connectionClosed();

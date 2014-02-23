@@ -168,7 +168,7 @@ public class EventReplayer implements Runnable {
                                 if (isLocalEventOffsetLower(receiverIndex, insertEventOffset, localEventOffset, senderIndex)) {
 
                                     // Checks to see if the event we just received is contained in a local remove event.
-                                    if (isInsertedInsideRemove(0, localEvent, insertEventOffset, localEventOffset, 0)) {
+                                    if (isInsertedInsideRemove(localEvent, insertEventOffset, localEventOffset)) {
                                         // Ignore insert events contained in a local remove event, because the other client will delete the text
                                         // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
                                         ignore = true;
@@ -188,6 +188,9 @@ public class EventReplayer implements Runnable {
                                 areaDocument.disableFilter();
                                 int dotPosBeforeInsert = area.getCaret().getDot();
                                 area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
+                                // If both clients are writing to the same offset they push each others' carets in front of the text creating interlaced text.
+                                // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,
+                                // thereby avoiding scrambled text.
                                 if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex < receiverIndex){
                                     area.getCaret().setDot(dotPosBeforeInsert);
                                 }
@@ -205,10 +208,9 @@ public class EventReplayer implements Runnable {
         });
     }
 
-    private boolean isInsertedInsideRemove(int priorityIndex, MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset, int yieldingIndex) {
+    private boolean isInsertedInsideRemove(MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset) {
         return historyEvent instanceof TextRemoveEvent &&
-               historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= insertEventOffset &&
-               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || priorityIndex < yieldingIndex);
+               historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() > insertEventOffset;
     }
 
     private void handleConnectionEvent(MyConnectionEvent obj) {

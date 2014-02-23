@@ -45,7 +45,10 @@ public class DocumentEventCapturer extends DocumentFilter {
                              String string, AttributeSet attributeSet)
             throws BadLocationException {
 	
-	/* Queue a copy of the event and then modify the textarea */
+	    // We lock the document from other changes while we generate the event, increment the clock,
+        // set the timestamp and sender of the event, adds it to the correct histories and insert
+        // the string into the textarea. This is to avoid concurrency errors between creating the event
+        // and modifying the area accordingly.
         synchronized (filterBypass.getDocument()){
             TextInsertEvent insertEvent = new TextInsertEvent(offset, string);
             callback.incrementLamportTime();
@@ -59,7 +62,11 @@ public class DocumentEventCapturer extends DocumentFilter {
 
     public void remove(FilterBypass filterBypass, int offset, int length)
             throws BadLocationException {
-	/* Queue a copy of the event and then modify the textarea */
+
+        // We lock the document from other changes while we generate the event, increment the clock,
+        // set the timestamp and sender of the event, add it to the correct histories and remove
+        // the text from the textarea. This is to avoid concurrency errors between creating the event
+        // and modifying the area accordingly.
         synchronized (filterBypass.getDocument()){
             TextRemoveEvent removeEvent = new TextRemoveEvent(offset, length);
             callback.incrementLamportTime();
@@ -75,9 +82,11 @@ public class DocumentEventCapturer extends DocumentFilter {
                         int length,
                         String str, AttributeSet attributeSet)
             throws BadLocationException {
-	
-	/* Queue a copy of the event and then modify the text */
 
+        // We lock the document from other changes while we generate the event, increment the clock,
+        // set the timestamp and sender of the event, add it to the correct histories and remove/insert
+        // the text from/into the textarea. This is to avoid concurrency errors between creating the events
+        // and modifying the area accordingly.
         synchronized (filterBypass.getDocument()){
             if (length > 0) {
                 TextRemoveEvent removeEvent = new TextRemoveEvent(offset, length);

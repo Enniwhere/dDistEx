@@ -104,7 +104,7 @@ public class EventReplayer implements Runnable {
                                         // the length of the event from the length of the received event.
                                         textRemoveEvent.setOffset(removeEventOffset + localEventTextLengthChange);
                                     }
-                                } else if (isLocalEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength, localEventOffset, senderIndex)) {
+                                } else if (isLocalEventOffsetLower(0, removeEventOffset + removeEventLength, localEventOffset, 0)) {
                                     // If the offset of the local event isn't lower than the offset of the received event, we check to see if the offset of the local event is
                                     // contained in the received event.
                                     // In this case we either increase the length of the received event by the length of the local event (if it is an insert event)
@@ -168,9 +168,9 @@ public class EventReplayer implements Runnable {
                                 if (isLocalEventOffsetLower(receiverIndex, insertEventOffset, localEventOffset, senderIndex)) {
 
                                     // Checks to see if the event we just received is contained in a local remove event.
-                                    if (isInsertedInsideRemove(senderIndex, localEvent, insertEventOffset, localEventOffset, receiverIndex)) {
+                                    if (isInsertedInsideRemove(0, localEvent, insertEventOffset, localEventOffset, 0)) {
                                         // Ignore insert events contained in a local remove event, because the other client will delete the text
-                                        // when our remove arrives.
+                                        // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
                                         ignore = true;
                                     } else {
                                         // Else the local event has a lower offset than the received event.

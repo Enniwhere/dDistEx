@@ -88,13 +88,13 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="45" selection-start="4882" selection-end="4882" vertical-scroll-proportion="0.12" vertical-offset="1320" max-vertical-offset="3780">
+            <state line="106" column="68" selection-start="6218" selection-end="6218" vertical-scroll-proportion="0.54136693" vertical-offset="1289" max-vertical-offset="3780">
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2540#8569#0" expanded="true" />
-                <element signature="e#8558#8559#0" expanded="true" />
-                <element signature="e#9178#13346#0" expanded="true" />
-                <element signature="e#13335#13336#0" expanded="true" />
+                <element signature="e#2540#8547#0" expanded="true" />
+                <element signature="e#8536#8537#0" expanded="true" />
+                <element signature="e#9156#13369#0" expanded="true" />
+                <element signature="e#13358#13359#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -611,7 +611,11 @@
       <created>1393158480270</created>
       <updated>1393158480270</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Added comments to the code inside the EventReplayer.">
+      <created>1393165286887</created>
+      <updated>1393165286887</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -675,7 +679,8 @@
     <MESSAGE value="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved." />
     <MESSAGE value="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;" />
     <MESSAGE value="Tried to fix errors with inserting and removing on the same time." />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix errors with inserting and removing on the same time." />
+    <MESSAGE value="Added comments to the code inside the EventReplayer." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added comments to the code inside the EventReplayer." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -697,10 +702,10 @@
         <state line="132" column="54" selection-start="7843" selection-end="7843" vertical-scroll-proportion="0.0" vertical-offset="1980" max-vertical-offset="2520">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2540#8569#0" expanded="true" />
-            <element signature="e#8558#8559#0" expanded="true" />
-            <element signature="e#9178#13346#0" expanded="true" />
-            <element signature="e#13335#13336#0" expanded="true" />
+            <element signature="e#2540#8547#0" expanded="true" />
+            <element signature="e#8536#8537#0" expanded="true" />
+            <element signature="e#9156#13369#0" expanded="true" />
+            <element signature="e#13358#13359#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -773,10 +778,10 @@
         <state line="84" column="75" selection-start="4738" selection-end="4738" vertical-scroll-proportion="0.0" vertical-offset="1260" max-vertical-offset="2580">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2540#8569#0" expanded="true" />
-            <element signature="e#8558#8559#0" expanded="true" />
-            <element signature="e#9178#13346#0" expanded="true" />
-            <element signature="e#13335#13336#0" expanded="true" />
+            <element signature="e#2540#8547#0" expanded="true" />
+            <element signature="e#8536#8537#0" expanded="true" />
+            <element signature="e#9156#13369#0" expanded="true" />
+            <element signature="e#13358#13359#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -842,10 +847,10 @@
         <state line="58" column="75" selection-start="2850" selection-end="2850" vertical-scroll-proportion="0.0" vertical-offset="870" max-vertical-offset="2145">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2540#8569#0" expanded="true" />
-            <element signature="e#8558#8559#0" expanded="true" />
-            <element signature="e#9178#13346#0" expanded="true" />
-            <element signature="e#13335#13336#0" expanded="true" />
+            <element signature="e#2540#8547#0" expanded="true" />
+            <element signature="e#8536#8537#0" expanded="true" />
+            <element signature="e#9156#13369#0" expanded="true" />
+            <element signature="e#13358#13359#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1039,13 +1044,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="45" selection-start="4882" selection-end="4882" vertical-scroll-proportion="0.12" vertical-offset="1320" max-vertical-offset="3780">
+        <state line="106" column="68" selection-start="6218" selection-end="6218" vertical-scroll-proportion="0.54136693" vertical-offset="1289" max-vertical-offset="3780">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2540#8569#0" expanded="true" />
-            <element signature="e#8558#8559#0" expanded="true" />
-            <element signature="e#9178#13346#0" expanded="true" />
-            <element signature="e#13335#13336#0" expanded="true" />
+            <element signature="e#2540#8547#0" expanded="true" />
+            <element signature="e#8536#8537#0" expanded="true" />
+            <element signature="e#9156#13369#0" expanded="true" />
+            <element signature="e#13358#13359#0" expanded="true" />
           </folding>
         </state>
       </provider>

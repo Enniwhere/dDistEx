@@ -66,7 +66,7 @@ public class EventReplayer implements Runnable {
                 System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
                 try {
                     if (areaDocument != null) {
-                        synchronized (area) {
+                        synchronized (areaDocument) {
 
                             int receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
@@ -85,13 +85,16 @@ public class EventReplayer implements Runnable {
                                     if (isRemoveContainedInHistoryEvent(receiverIndex, historyEvent, removeEventOffset, removeEventLength, historyEventOffset, senderIndex)){
 
                                         ignore = true;
+
                                     } else if (isEventOffsetOverlapped(receiverIndex, historyEvent, removeEventOffset, historyEventOffset, senderIndex)) {
+
                                         textRemoveEvent.setLength(removeEventLength - (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() - removeEventOffset));
                                         textRemoveEvent.setOffset(historyEvent.getOffset());
+
                                     } else {
                                         textRemoveEvent.setOffset(removeEventOffset + historyEventTextLengthChange);
                                     }
-                                } else if (isHistoryEventOffsetLower(0, removeEventOffset + removeEventLength, historyEventOffset, 0)) {
+                                } else if (isHistoryEventOffsetLower(receiverIndex, removeEventOffset + removeEventLength, historyEventOffset, senderIndex)) {
                                     textRemoveEvent.setLength(removeEventLength + Math.max(historyEventTextLengthChange, -(removeEventOffset + removeEventLength - historyEventOffset)));
                                 } else {
                                     historyEvent.setOffset(historyEventOffset + removeEventTextLengthChange);
@@ -132,12 +135,11 @@ public class EventReplayer implements Runnable {
             public void run() {
                 try {
                     if (areaDocument != null) {
-                        synchronized (area) {
+                        synchronized (areaDocument) {
                             int receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             Collections.sort(historyInterval, comparator);
-                            boolean shouldYieldCaretPosition = false;
                             boolean ignore = false;
                             for (MyTextEvent historyEvent : historyInterval) {
                                 int insertEventOffset = textInsertEvent.getOffset();
@@ -180,9 +182,8 @@ public class EventReplayer implements Runnable {
 
     private boolean isInsertedInsideRemove(int receiverIndex, MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset, int senderIndex) {
         return historyEvent instanceof TextRemoveEvent &&
-               historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() > insertEventOffset;
-                //&&
-               //(historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || receiverIndex < senderIndex);
+               historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= insertEventOffset &&
+               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != insertEventOffset || receiverIndex < senderIndex);
     }
 
     private void handleConnectionEvent(MyConnectionEvent obj) {

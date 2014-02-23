@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
+    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -79,25 +79,25 @@
       <file leaf-file-name="EventTransmitter.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="70" selection-start="976" selection-end="1029" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
+            <state line="28" column="70" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="211" column="42" selection-start="12107" selection-end="12107" vertical-scroll-proportion="0.0" vertical-offset="2625" max-vertical-offset="3255">
+            <state line="96" column="154" selection-start="5052" selection-end="5052" vertical-scroll-proportion="0.36448598" vertical-offset="1155" max-vertical-offset="3270">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DocumentEventCapturer.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DocumentEventCapturer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="64" selection-start="2083" selection-end="2083" vertical-scroll-proportion="0.6021898" vertical-offset="360" max-vertical-offset="1590">
+            <state line="60" column="106" selection-start="2573" selection-end="2573" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1590">
               <folding />
             </state>
           </provider>
@@ -127,8 +127,8 @@
         <option value="$PROJECT_DIR$/dDistEx11/src/TextInsertEvent.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/DistributedTextEditor.java" />
-        <option value="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
         <option value="$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java" />
+        <option value="$PROJECT_DIR$/dDistEx11/src/EventReplayer.java" />
       </list>
     </option>
   </component>
@@ -593,7 +593,11 @@
       <created>1393155349631</created>
       <updated>1393155349631</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;">
+      <created>1393156343871</created>
+      <updated>1393156343871</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -655,7 +659,8 @@
     <MESSAGE value="Tried to make the debugging output more friendly on the receiving side." />
     <MESSAGE value="Tried to make the debugging output more friendly on the receiving side.&#10;" />
     <MESSAGE value="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved." />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved." />
+    <MESSAGE value="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix the caret being pushed by the other editors insert events, causing a lot of text being interleaved.&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -987,21 +992,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventTransmitter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="70" selection-start="976" selection-end="1029" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="211" column="42" selection-start="12107" selection-end="12107" vertical-scroll-proportion="0.0" vertical-offset="2625" max-vertical-offset="3255">
+        <state line="28" column="70" selection-start="1100" selection-end="1100" vertical-scroll-proportion="0.0" vertical-offset="60" max-vertical-offset="675">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx11/src/DocumentEventCapturer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="64" selection-start="2083" selection-end="2083" vertical-scroll-proportion="0.6021898" vertical-offset="360" max-vertical-offset="1590">
+        <state line="60" column="106" selection-start="2573" selection-end="2573" vertical-scroll-proportion="0.0" vertical-offset="460" max-vertical-offset="1590">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx11/src/EventReplayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="96" column="154" selection-start="5052" selection-end="5052" vertical-scroll-proportion="0.36448598" vertical-offset="1155" max-vertical-offset="3270">
           <folding />
         </state>
       </provider>

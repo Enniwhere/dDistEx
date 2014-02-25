@@ -89,9 +89,9 @@ public class EventReplayer implements Runnable {
 
                                     // Check to see if our received event is contained inside a local remove event
                                     if (isRemoveContainedInHistoryEvent(receiverIndex, localEvent, removeEventOffset, removeEventLength, localEventOffset, senderIndex)){
-                                        // If the received event is contained inside a local remove event, we simply ignore it
+                                        // If the received event is contained inside a local remove event, we simply ignore it and adjust the length of the local remove event.
                                         ignore = true;
-
+                                        ((TextRemoveEvent)localEvent).setLength(((TextRemoveEvent) localEvent).getLength() + textRemoveEvent.getTextLengthChange());
                                     } else if (isEventOffsetOverlapped(receiverIndex, localEvent, removeEventOffset, localEventOffset, senderIndex)) {
                                         // Else, check if the offset of the received remove event is overlapped by a local remove event.
                                         // In this case we subtract the length of the overlapping region from the length of the received event and
@@ -171,7 +171,10 @@ public class EventReplayer implements Runnable {
                                     if (isInsertedInsideRemove(localEvent, insertEventOffset, localEventOffset)) {
                                         // Ignore insert events contained in a local remove event, because the other client will delete the text
                                         // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
+                                        // Also adjust the length of the remove event in order to ensure consistency with the other
+                                        // client's event history.
                                         ignore = true;
+                                        ((TextRemoveEvent)localEvent).setLength(((TextRemoveEvent) localEvent).getLength() + textInsertEvent.getTextLengthChange());
                                     } else {
                                         // Else the local event has a lower offset than the received event.
                                         // Just add or subtract the length of the local event from the received event.

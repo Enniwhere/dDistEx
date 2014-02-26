@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DistributedTextEditorImpl extends JFrame {
+public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");
@@ -77,7 +77,7 @@ public class DistributedTextEditorImpl extends JFrame {
             if (registerOnPort()) {
                 setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
                 Runnable listener = new Runnable() {
-                    @Override
+                     
                     public void run() {
                         area1.setText("");
                         lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
@@ -328,6 +328,7 @@ public class DistributedTextEditorImpl extends JFrame {
     the Editor was currently a client or server. A client should disconnect if the server stops responding, but
     the server should keep running when a client disconnect. The transmitter and replayer are intterupted aswell.
     */
+     
     public synchronized void connectionClosed() {
         boolean checkListening = listenThread != null;
         Listen.setEnabled(!checkListening);
@@ -361,6 +362,7 @@ public class DistributedTextEditorImpl extends JFrame {
         area1Document.disableFilter();
     }
 
+     
     public int getPortNumber() {
         String portNumberString = portNumber.getText();
         Matcher matcher = portPattern.matcher(portNumberString);
@@ -368,6 +370,7 @@ public class DistributedTextEditorImpl extends JFrame {
         return 40101;
     }
 
+     
     public String getIPAddress() {
         String ipAddressString = ipAddress.getText();
         Matcher matcher = ipPattern.matcher(ipAddressString);
@@ -376,6 +379,7 @@ public class DistributedTextEditorImpl extends JFrame {
     }
 
 
+     
     public void replyToDisconnect() {
         eventTransmitterThread.interrupt();
         eventReplayerThread.interrupt();
@@ -389,28 +393,34 @@ public class DistributedTextEditorImpl extends JFrame {
     }
 
 
+     
     public int getLamportTime(String index) {
         return vectorClockHashMap.get(index);
     }
 
+     
     public String getLamportIndex() {
         return lamportIndex;
     }
 
+     
     public synchronized void incrementLamportTime() {
         vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
     }
 
-    public HashMap<String, Integer> getTimestamp() {
+     
+    public Map<String, Integer> getTimestamp() {
         return new HashMap<String, Integer>(vectorClockHashMap);
     }
 
+     
     public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
         for (String s : hashMap.keySet()) {
             vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
         }
     }
 
+     
     public ArrayList<MyTextEvent> getEventHistoryInterval(int start, int end, String lamportIndex) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         synchronized (eventHistory) {
@@ -424,12 +434,14 @@ public class DistributedTextEditorImpl extends JFrame {
         return res;
     }
 
+     
     public void addEventToHistory(MyTextEvent textEvent) {
         synchronized (eventHistory) {
             eventHistory.add(textEvent);
         }
     }
 
+     
     public boolean isDebugging() {
         return debugIsOn;
     }
@@ -438,12 +450,14 @@ public class DistributedTextEditorImpl extends JFrame {
         new DistributedTextEditorImpl();
     }
 
+     
     public void addToClock(Map<String, Integer> map) {
         for (String s : map.keySet()) {
             if(!vectorClockHashMap.containsKey(s)) vectorClockHashMap.put(s,map.get(s));
         }
     }
 
+     
     public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
         addToClock(initConnectionEvent.getMap());
         MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap);
@@ -454,6 +468,7 @@ public class DistributedTextEditorImpl extends JFrame {
         }
     }
 
+     
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
         area1Document.disableFilter();
         area1.setText(setupConnectionEvent.getText());

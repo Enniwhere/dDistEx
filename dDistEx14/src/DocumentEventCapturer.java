@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class DocumentEventCapturer extends DocumentFilter {
 
-    private final DistributedTextEditorImpl callback;
+    private final DistributedTextEditor callback;
     /*
          * We are using a blocking queue for two reasons:
          * 1) They are thread safe, i.e., we can have two threads add and take elements
@@ -27,7 +27,7 @@ public class DocumentEventCapturer extends DocumentFilter {
          */
     protected LinkedBlockingQueue<MyTextEvent> eventHistory = new LinkedBlockingQueue<MyTextEvent>();
 
-    public DocumentEventCapturer(DistributedTextEditorImpl distributedTextEditor) {
+    public DocumentEventCapturer(DistributedTextEditor distributedTextEditor) {
          this.callback = distributedTextEditor;
     }
 

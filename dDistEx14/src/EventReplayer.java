@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -220,6 +219,10 @@ public class EventReplayer implements Runnable {
             callback.replyToDisconnect();
         } else if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REPLY_OK)) {
             callback.connectionClosed();
+        } else if (obj.getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
+            callback.replyToInitConnection((InitConnectionEvent) obj);
+        } else if (obj.getType().equals(ConnectionEventTypes.SETUP_CONNECTION)) {
+            callback.handleSetupConnection((SetupConnectionEvent) obj);
         }
     }
 

@@ -61,7 +61,6 @@ public class EventReplayer implements Runnable {
         final String senderIndex = textRemoveEvent.getSender();
         while (isNotInCausalOrder(timestamp, senderIndex)) {
             Thread.sleep(100);
-            System.out.println("HELP IM STUCK!");
 
         }
         EventQueue.invokeLater(new Runnable() {
@@ -146,7 +145,6 @@ public class EventReplayer implements Runnable {
         final String senderIndex = textInsertEvent.getSender();
         while (isNotInCausalOrder(timestamp, senderIndex)) {
             Thread.sleep(100);
-            System.out.println("HELP IM STUCK!");
         }
         EventQueue.invokeLater(new Runnable() {
             public void run() {

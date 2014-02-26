@@ -32,11 +32,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected Socket socket;
 
     // Added Fields
-    protected String lamportIndex;
+    private String lamportIndex;
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
-    protected Map<String, Integer> vectorClockMap = new HashMap<String, Integer>();
+    private HashMap<String, Integer> vectorClockHashMap = new HashMap<String, Integer>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -66,7 +66,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     The registerOnPort checks if the port could be registered
     When a connection has been established it will start two new threads; "EventTransmitter" and "EventReplayer"
     They are initialised and started in helper-methods at the bottom. Each thread gets a reference to this
-    DistributedTextEditor as well as either an input- or outputStream. For the sake of the EventTransmitter
+    DistributedTextEditorImpl as well as either an input- or outputStream. For the sake of the EventTransmitter
     it will also have a reference to the DocumentEventCapturer to be able to fetch events from it.
      */
     Action Listen = new AbstractAction("Listen") {
@@ -85,7 +85,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                 if (socket != null) {
                                     area1.setText("");
                                     lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
-                                    vectorClockMap.put(lamportIndex, 0);
+                                    vectorClockHashMap.put(lamportIndex, 0);
                                     area1Document.enableFilter();
                                     setTitle(getTitle() + ". Connection established from " + socket);
                                     startTransmitting();
@@ -110,7 +110,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     /*
     When this action is fired the client will attempt to connect to a given IP and portnumber.
-    When the connection is established this DistributedTextEditor will also start two new threads, just as
+    When the connection is established this DistributedTextEditorImpl will also start two new threads, just as
     the "Listen" action above. If for some reason an exception is thrown there is a small cleanup in the method
     "connectionClosed".
      */
@@ -122,10 +122,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
-                vectorClockMap.put(lamportIndex, 0);
+                vectorClockHashMap.put(lamportIndex, 0);
                 //TODO: When connecting you should first receive the VectorClockHashMap
                 area1Document.enableFilter();
-                System.out.println("Vector clock initialized with values " + vectorClockMap.get(0) + " and " + vectorClockMap.get(1));
+                System.out.println("Vector clock initialized with values " + vectorClockHashMap.get(0) + " and " + vectorClockHashMap.get(1));
                 startTransmitting();
                 System.out.println("Transmitting thread started");
                 startReceiving();
@@ -236,7 +236,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         setTitle("Disconnected");
         setVisible(true);
         area1Document.disableFilter();
-        area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
+        area1.insert("Start listening or connect to a server to use this DistributedTextEditorImpl", 0);
     }
 
     private void saveFileAs() {
@@ -331,7 +331,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     the Editor was currently a client or server. A client should disconnect if the server stops responding, but
     the server should keep running when a client disconnect. The transmitter and replayer are intterupted aswell.
     */
-    @Override
     public synchronized void connectionClosed() {
         boolean checkListening = listenThread != null;
         Listen.setEnabled(!checkListening);
@@ -360,12 +359,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             outputStream = null;
             inputStream = null;
         }
-        vectorClockMap.clear();
+        vectorClockHashMap.clear();
         eventHistory.clear();
         area1Document.disableFilter();
     }
 
-    @Override
     public int getPortNumber() {
         String portNumberString = portNumber.getText();
         Matcher matcher = portPattern.matcher(portNumberString);
@@ -373,7 +371,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return 40101;
     }
 
-    @Override
     public String getIPAddress() {
         String ipAddressString = ipAddress.getText();
         Matcher matcher = ipPattern.matcher(ipAddressString);
@@ -382,7 +379,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
 
-    @Override
     public void replyToDisconnect() {
         eventTransmitterThread.interrupt();
         eventReplayerThread.interrupt();
@@ -396,34 +392,28 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
 
-    @Override
     public int getLamportTime(String index) {
-        return vectorClockMap.get(index);
+        return vectorClockHashMap.get(index);
     }
 
-    @Override
     public String getLamportIndex() {
         return lamportIndex;
     }
 
-    @Override
     public synchronized void incrementLamportTime() {
-        vectorClockMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
+        vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
     }
 
-    @Override
-    public Map<String, Integer> getTimestamp() {
-        return vectorClockMap;
+    public HashMap<String, Integer> getTimestamp() {
+        return vectorClockHashMap;
     }
 
-    @Override
     public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
         for (String s : hashMap.keySet()) {
-            vectorClockMap.put(s, Math.max(vectorClockMap.get(s), hashMap.get(s)));
+            vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
         }
     }
 
-    @Override
     public ArrayList<MyTextEvent> getEventHistoryInterval(int start, int end, String lamportIndex) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         synchronized (eventHistory) {
@@ -437,14 +427,12 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return res;
     }
 
-    @Override
     public void addEventToHistory(MyTextEvent textEvent) {
         synchronized (eventHistory) {
             eventHistory.add(textEvent);
         }
     }
 
-    @Override
     public boolean isDebugging() {
         return debugIsOn;
     }

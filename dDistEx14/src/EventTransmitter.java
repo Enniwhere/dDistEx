@@ -7,12 +7,12 @@ import java.io.ObjectOutputStream;
 */
 public class EventTransmitter implements Runnable {
 
-    private DistributedTextEditorImpl callback;
+    private DistributedTextEditor callback;
     private DocumentEventCapturer documentEventCapturer;
     private ObjectOutputStream outputStream;
 
 
-    public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditorImpl callback) {
+    public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor callback) {
         this.documentEventCapturer = documentEventCapturer;
         this.outputStream = outputStream;
         this.callback = callback;

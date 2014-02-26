@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -29,4 +30,10 @@ public interface DistributedTextEditor {
     public void addEventToHistory(MyTextEvent textEvent);
 
     public boolean isDebugging();
+
+    public void addToClock(Map<String, Integer> map);
+
+    public void replyToInitConnection(InitConnectionEvent initConnectionEvent);
+
+    public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent);
 }

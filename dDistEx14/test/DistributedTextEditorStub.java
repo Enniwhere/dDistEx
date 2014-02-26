@@ -87,10 +87,27 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
             eventHistory.add(textEvent);
         }
     }
+    //TODO: IMPLEMENTS THIS
 
     @Override
     public boolean isDebugging() {
         return debugIsOn;
+    }
+    //TODO: IMPLEMENT THIS
+
+    @Override
+    public void addToClock(Map<String, Integer> map) {
+        //TODO: IMPLEMENT THIS
+    }
+
+    @Override
+    public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
+
+    }
+
+    @Override
+    public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
+
     }
 
 }

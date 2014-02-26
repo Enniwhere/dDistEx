@@ -13,10 +13,10 @@ public class EventReplayer implements Runnable {
 
     private ObjectInput inputStream;
     private final JTextArea area;
-    private DistributedTextEditorImpl callback;
+    private DistributedTextEditor callback;
     private DistributedDocument areaDocument;
 
-    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditorImpl callback) {
+    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditor callback) {
         this.inputStream = inputStream;
         this.area = area;
         this.callback = callback;

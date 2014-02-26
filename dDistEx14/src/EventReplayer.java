@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.ObjectInput;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,12 +10,12 @@ import java.util.Collections;
  */
 public class EventReplayer implements Runnable {
 
-    private ObjectInputStream inputStream;
+    private ObjectInput inputStream;
     private final JTextArea area;
     private DistributedTextEditor callback;
     private DistributedDocument areaDocument;
 
-    public EventReplayer(ObjectInputStream inputStream, final JTextArea area, DistributedTextEditor callback) {
+    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditor callback) {
         this.inputStream = inputStream;
         this.area = area;
         this.callback = callback;
@@ -29,9 +29,10 @@ public class EventReplayer implements Runnable {
         boolean wasInterrupted = false;
         while (!wasInterrupted) {
             try {
-                if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
+
                 Object obj = inputStream.readObject();
 
+                if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
 
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);

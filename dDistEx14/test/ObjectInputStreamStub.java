@@ -15,7 +15,7 @@ public class ObjectInputStreamStub implements ObjectInput {
     @Override
     public Object readObject() throws ClassNotFoundException, IOException {
         try {
-            return queue.take();  //This method was auto-implemented
+            return queue.take();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
+public class DistributedTextEditorImpl extends JFrame {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");
@@ -66,7 +66,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     The registerOnPort checks if the port could be registered
     When a connection has been established it will start two new threads; "EventTransmitter" and "EventReplayer"
     They are initialised and started in helper-methods at the bottom. Each thread gets a reference to this
-    DistributedTextEditorImpl as well as either an input- or outputStream. For the sake of the EventTransmitter
+    DistributedTextEditor as well as either an input- or outputStream. For the sake of the EventTransmitter
     it will also have a reference to the DocumentEventCapturer to be able to fetch events from it.
      */
     Action Listen = new AbstractAction("Listen") {
@@ -79,15 +79,15 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 Runnable listener = new Runnable() {
                     @Override
                     public void run() {
+                        area1.setText("");
+                        lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                        vectorClockHashMap.put(lamportIndex, 0);
                         while (true) {
                             try {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
-                                    area1.setText("");
-                                    lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
-                                    vectorClockHashMap.put(lamportIndex, 0);
                                     area1Document.enableFilter();
-                                    setTitle(getTitle() + ". Connection established from " + socket);
+                                    setTitle("SHIT'S LIVE, BITCHES!");
                                     startTransmitting();
                                     startReceiving();
                                     connected = true;
@@ -110,7 +110,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     /*
     When this action is fired the client will attempt to connect to a given IP and portnumber.
-    When the connection is established this DistributedTextEditorImpl will also start two new threads, just as
+    When the connection is established this DistributedTextEditor will also start two new threads, just as
     the "Listen" action above. If for some reason an exception is thrown there is a small cleanup in the method
     "connectionClosed".
      */
@@ -123,18 +123,15 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
                 vectorClockHashMap.put(lamportIndex, 0);
-                //TODO: When connecting you should first receive the VectorClockHashMap
+                MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
-                System.out.println("Vector clock initialized with values " + vectorClockHashMap.get(0) + " and " + vectorClockHashMap.get(1));
                 startTransmitting();
-                System.out.println("Transmitting thread started");
+                outputStream.writeObject(initConnectionEvent);
                 startReceiving();
-                System.out.println("Receiving thread started");
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
-                System.out.println("Connection established");
             } catch (ConnectException ce) {
                 ce.printStackTrace();
                 setTitle("Disconnected: Failed to connect");
@@ -236,7 +233,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         setTitle("Disconnected");
         setVisible(true);
         area1Document.disableFilter();
-        area1.insert("Start listening or connect to a server to use this DistributedTextEditorImpl", 0);
+        area1.insert("Start listening or connect to a server to use this DistributedTextEditor", 0);
     }
 
     private void saveFileAs() {
@@ -405,7 +402,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     public HashMap<String, Integer> getTimestamp() {
-        return vectorClockHashMap;
+        return new HashMap<String, Integer>(vectorClockHashMap);
     }
 
     public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
@@ -439,5 +436,28 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public static void main(String[] args) {
         new DistributedTextEditorImpl();
+    }
+
+    public void addToClock(Map<String, Integer> map) {
+        for (String s : map.keySet()) {
+            if(!vectorClockHashMap.containsKey(s)) vectorClockHashMap.put(s,map.get(s));
+        }
+    }
+
+    public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
+        addToClock(initConnectionEvent.getMap());
+        MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap);
+        try{
+            outputStream.writeObject(setupConnectionEvent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
+        area1Document.disableFilter();
+        area1.setText(setupConnectionEvent.getText());
+        area1Document.enableFilter();
+        addToClock(setupConnectionEvent.getMap());
     }
 }

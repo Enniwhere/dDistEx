@@ -13,10 +13,10 @@ public class EventReplayer implements Runnable {
 
     private ObjectInput inputStream;
     private final JTextArea area;
-    private DistributedTextEditor callback;
+    private DistributedTextEditorImpl callback;
     private DistributedDocument areaDocument;
 
-    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditor callback) {
+    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditorImpl callback) {
         this.inputStream = inputStream;
         this.area = area;
         this.callback = callback;
@@ -222,6 +222,10 @@ public class EventReplayer implements Runnable {
             callback.replyToDisconnect();
         } else if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REPLY_OK)) {
             callback.connectionClosed();
+        } else if (obj.getType().equals(ConnectionEventTypes.SETUP_CONNECTION)) {
+            callback.handleSetupConnection((SetupConnectionEvent) obj);
+        } else if (obj.getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
+            callback.replyToInitConnection((InitConnectionEvent) obj);
         }
     }
 

@@ -407,7 +407,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public HashMap<String, Integer> getTimestamp() {
-        return vectorClockHashMap;
+        return new HashMap<String, Integer>(vectorClockHashMap);
     }
 
     public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {

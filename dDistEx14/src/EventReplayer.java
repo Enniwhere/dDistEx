@@ -230,8 +230,8 @@ public class EventReplayer implements Runnable {
     }
 
     private boolean isNotInCausalOrder(Map<String, Integer> timestamp, String senderIndex) {
-
-        return timestamp.get(senderIndex) != getCallbackLamportTime(senderIndex) + 1 || timestamp.get(callback.getLamportIndex()) >= getCallbackLamportTime(callback.getLamportIndex());
+        System.out.println(timestamp.get(senderIndex) + "\n" + (getCallbackLamportTime(senderIndex) + 1));
+        return timestamp.get(senderIndex) != getCallbackLamportTime(senderIndex) + 1 || timestamp.get(callback.getLamportIndex()) > getCallbackLamportTime(callback.getLamportIndex());
     }
 
     private boolean isLocalEventOffsetLower(String priorityIndex, int textEventOffset, int historyEventOffset, String yieldingIndex) {

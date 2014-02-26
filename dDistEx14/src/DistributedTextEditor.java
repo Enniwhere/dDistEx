@@ -461,5 +461,6 @@ public class DistributedTextEditor extends JFrame {
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
         addToClock(setupConnectionEvent.getMap());
+        System.out.println(vectorClockHashMap);
     }
 }

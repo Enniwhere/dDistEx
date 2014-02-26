@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * This eventReplayer uses events from its inputStream and replays them in the textfield in the editor
@@ -55,10 +57,9 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
-        System.out.println("Received a text remove event with offset " + obj.getOffset() + " and length " + obj.getLength() + " and timestamp " + obj.getTimestamp()[0] + "," + obj.getTimestamp()[1]);
         final TextRemoveEvent textRemoveEvent = obj;
-        final double[] timestamp = textRemoveEvent.getTimestamp();
-        final int senderIndex = textRemoveEvent.getSender();
+        final Map<String, Integer> timestamp = textRemoveEvent.getTimestamp();
+        final String senderIndex = textRemoveEvent.getSender();
         while (isNotInCausalOrder(timestamp, senderIndex)) {
             Thread.sleep(100);
         }
@@ -69,8 +70,8 @@ public class EventReplayer implements Runnable {
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
 
-                            int receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
+                            String receiverIndex = callback.getLamportIndex();
+                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp.get(receiverIndex), getCallbackLamportTime(receiverIndex), receiverIndex);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             // Sort the events the other client hasn't seen
                             Collections.sort(historyInterval, comparator);
@@ -105,7 +106,7 @@ public class EventReplayer implements Runnable {
                                         // the length of the event from the length of the received event.
                                         textRemoveEvent.setOffset(removeEventOffset + localEventTextLengthChange);
                                     }
-                                } else if (isLocalEventOffsetLower(0, removeEventOffset + removeEventLength, localEventOffset, 0)) {
+                                } else if (isLocalEventOffsetLower("", removeEventOffset + removeEventLength, localEventOffset, "")) {
                                     // If the offset of the local event isn't lower than the offset of the received event, we check to see if the offset of the local event is
                                     // contained in the received event.
                                     // In this case we either increase the length of the received event by the length of the local event (if it is an insert event)
@@ -127,7 +128,6 @@ public class EventReplayer implements Runnable {
                         }
                     }
                 } catch (IllegalArgumentException ae){
-                    System.err.println("Made an illegal remove at offset " + textRemoveEvent.getOffset() + " with length " + textRemoveEvent.getLength() + " and timestamp " + textRemoveEvent.getTimestamp()[0] + "," + textRemoveEvent.getTimestamp()[1] + " in a document with size " + areaDocument.getLength());
                     ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -140,10 +140,9 @@ public class EventReplayer implements Runnable {
 
 
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
-        System.out.println("Received a text insert event with offset " + obj.getOffset() + " and text " + obj.getText() + " and timestamp " + obj.getTimestamp()[0] + "," + obj.getTimestamp()[1]);
         final TextInsertEvent textInsertEvent = obj;
-        final double[] timestamp = textInsertEvent.getTimestamp();
-        final int senderIndex = textInsertEvent.getSender();
+        final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();
+        final String senderIndex = textInsertEvent.getSender();
         while (isNotInCausalOrder(timestamp, senderIndex)) {
             Thread.sleep(100);
         }
@@ -152,8 +151,8 @@ public class EventReplayer implements Runnable {
                 try {
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
-                            int receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp[receiverIndex], getCallbackLamportTime(receiverIndex), receiverIndex);
+                            String receiverIndex = callback.getLamportIndex();
+                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp.get(receiverIndex), getCallbackLamportTime(receiverIndex), receiverIndex);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             // Sort the events the other client hasn't seen
                             Collections.sort(historyInterval, comparator);
@@ -195,7 +194,7 @@ public class EventReplayer implements Runnable {
                                 // If both clients are writing to the same offset they push each others' carets in front of the text creating interlaced text.
                                 // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,
                                 // thereby avoiding scrambled text.
-                                if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex < receiverIndex){
+                                if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex.compareTo(receiverIndex) < 0){
                                     area.getCaret().setDot(dotPosBeforeInsert);
                                 }
                                 areaDocument.enableFilter();
@@ -203,7 +202,6 @@ public class EventReplayer implements Runnable {
                         }
                     }
                 } catch (IllegalArgumentException ae){
-                    System.err.println("Made an illegal insert at offset " + textInsertEvent.getOffset() + " with text " + textInsertEvent.getText() + " and timestamp " + textInsertEvent.getTimestamp()[0] + "," + textInsertEvent.getTimestamp()[1]);
                     ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -225,28 +223,28 @@ public class EventReplayer implements Runnable {
         }
     }
 
-    private boolean isNotInCausalOrder(double[] timestamp, int senderIndex) {
-        return timestamp[senderIndex] != getCallbackLamportTime(senderIndex) + 1 || timestamp[callback.getLamportIndex()] > getCallbackLamportTime(callback.getLamportIndex());
+    private boolean isNotInCausalOrder(Map<String, Integer> timestamp, String senderIndex) {
+        return timestamp.get(senderIndex) != getCallbackLamportTime(senderIndex) + 1 || timestamp.get(callback.getLamportIndex()) > getCallbackLamportTime(callback.getLamportIndex());
     }
 
-    private boolean isLocalEventOffsetLower(int priorityIndex, int textEventOffset, int historyEventOffset, int yieldingIndex) {
-        return historyEventOffset <= textEventOffset && (historyEventOffset != textEventOffset || priorityIndex < yieldingIndex);
+    private boolean isLocalEventOffsetLower(String priorityIndex, int textEventOffset, int historyEventOffset, String yieldingIndex) {
+        return historyEventOffset <= textEventOffset && (historyEventOffset != textEventOffset || priorityIndex.compareTo(yieldingIndex) < 0);
     }
 
-    private double getCallbackLamportTime(int senderIndex) {
+    private int getCallbackLamportTime(String senderIndex) {
         return callback.getLamportTime(senderIndex);
     }
 
-    private boolean isEventOffsetOverlapped(int priorityIndex, MyTextEvent historyEvent, int removeEventOffset, int historyEventOffset, int yieldingIndex) {
+    private boolean isEventOffsetOverlapped(String priorityIndex, MyTextEvent historyEvent, int removeEventOffset, int historyEventOffset, String yieldingIndex) {
         return historyEvent instanceof TextRemoveEvent &&
                removeEventOffset <= historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() &&
-               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset || priorityIndex < yieldingIndex);
+               (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset || priorityIndex.compareTo(yieldingIndex) < 0);
     }
 
-    private boolean isRemoveContainedInHistoryEvent(int priorityIndex, MyTextEvent historyEvent, int removeEventOffset, int removeEventLength, int historyEventOffset, int yieldingIndex) {
+    private boolean isRemoveContainedInHistoryEvent(String priorityIndex, MyTextEvent historyEvent, int removeEventOffset, int removeEventLength, int historyEventOffset, String yieldingIndex) {
         return historyEvent instanceof TextRemoveEvent &&
                 historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() >= removeEventOffset + removeEventLength &&
-                (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || priorityIndex < yieldingIndex);
+                (historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() != removeEventOffset + removeEventLength || priorityIndex.compareTo(yieldingIndex) < 0);
     }
 
 }

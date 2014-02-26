@@ -1,20 +1,21 @@
 import java.util.Comparator;
+import java.util.Map;
 
 /**
  */
 public class LamportTimeComparator implements Comparator<MyTextEvent> {
 
-    private int index;
+    private String index;
 
-    public LamportTimeComparator(int index){
+    public LamportTimeComparator(String index){
         this.index = index;
     }
     @Override
     public int compare(MyTextEvent e1, MyTextEvent e2) {
-        double[] e1Timestamp = e1.getTimestamp();
-        double[] e2Timestamp = e2.getTimestamp();
-        Double e1LamportTime = e1Timestamp[index];
-        Double e2LamportTime = e2Timestamp[index];
+        Map<String, Integer> e1Timestamp = e1.getTimestamp();
+        Map<String, Integer> e2Timestamp = e2.getTimestamp();
+        Integer e1LamportTime = e1Timestamp.get(index);
+        Integer e2LamportTime = e2Timestamp.get(index);
         return e1LamportTime.compareTo(e2LamportTime);
     }
 }

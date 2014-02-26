@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,11 +32,11 @@ public class DistributedTextEditor extends JFrame {
     protected Socket socket;
 
     // Added Fields
-    private int lamportIndex = 0;
+    private String lamportIndex;
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
-    private ArrayList<Double> vectorClockArray = new ArrayList<Double>();
+    private HashMap<String, Integer> vectorClockHashMap = new HashMap<String, Integer>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -82,9 +84,8 @@ public class DistributedTextEditor extends JFrame {
                                 socket = serverSocket.accept();
                                 if (socket != null) {
                                     area1.setText("");
-                                    lamportIndex = 0;
-                                    vectorClockArray.add(0, 0.0);
-                                    vectorClockArray.add(1, 0.1);
+                                    lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                                    vectorClockHashMap.put(lamportIndex, 0);
                                     area1Document.enableFilter();
                                     setTitle(getTitle() + ". Connection established from " + socket);
                                     startTransmitting();
@@ -120,11 +121,11 @@ public class DistributedTextEditor extends JFrame {
             try {
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
-                lamportIndex = 1;
-                vectorClockArray.add(0, 0.0);
-                vectorClockArray.add(1, 0.1);
+                lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                vectorClockHashMap.put(lamportIndex, 0);
+                //TODO: When connecting you should first receive the VectorClockHashMap
                 area1Document.enableFilter();
-                System.out.println("Vector clock initialized with values " + vectorClockArray.get(0) + " and " + vectorClockArray.get(1));
+                System.out.println("Vector clock initialized with values " + vectorClockHashMap.get(0) + " and " + vectorClockHashMap.get(1));
                 startTransmitting();
                 System.out.println("Transmitting thread started");
                 startReceiving();
@@ -358,7 +359,7 @@ public class DistributedTextEditor extends JFrame {
             outputStream = null;
             inputStream = null;
         }
-        vectorClockArray.clear();
+        vectorClockHashMap.clear();
         eventHistory.clear();
         area1Document.disableFilter();
     }
@@ -391,37 +392,33 @@ public class DistributedTextEditor extends JFrame {
     }
 
 
-    public double getLamportTime(int index) {
-        return vectorClockArray.get(index);
+    public int getLamportTime(String index) {
+        return vectorClockHashMap.get(index);
     }
 
-    public int getLamportIndex() {
+    public String getLamportIndex() {
         return lamportIndex;
     }
 
     public synchronized void incrementLamportTime() {
-        vectorClockArray.set(lamportIndex, getLamportTime(lamportIndex) + 1);
+        vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
     }
 
-    public double[] getTimestamp() {
-        double[] timestamp = new double[vectorClockArray.size()];
-        for (int i = 0; i < vectorClockArray.size(); i++) {
-            timestamp[i] = vectorClockArray.get(i);
-        }
-        return timestamp;
+    public HashMap<String, Integer> getTimestamp() {
+        return vectorClockHashMap;
     }
 
-    public synchronized void adjustVectorClock(double[] timestamp) {
-        for (int i = 0; i < timestamp.length; i++) {
-            vectorClockArray.set(i, Math.max(vectorClockArray.get(i), timestamp[i]));
+    public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
+        for (String s : hashMap.keySet()) {
+            vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
         }
     }
 
-    public ArrayList<MyTextEvent> getEventHistoryInterval(double start, double end, int lamportIndex) {
+    public ArrayList<MyTextEvent> getEventHistoryInterval(int start, int end, String lamportIndex) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         synchronized (eventHistory) {
             for (MyTextEvent event : eventHistory) {
-                double time = event.getTimestamp()[lamportIndex];
+                int time = event.getTimestamp().get(lamportIndex);
                 if (time > start && time <= end) {
                     res.add(event);
                 }

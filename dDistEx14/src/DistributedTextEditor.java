@@ -80,8 +80,9 @@ public class DistributedTextEditor extends JFrame {
                     @Override
                     public void run() {
                         area1.setText("");
-                        vectorClockHashMap.put(lamportIndex, 0);
                         lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                        vectorClockHashMap.put(lamportIndex, 0);
+                        System.out.println(vectorClockHashMap.toString() +"\n" +  lamportIndex);
                         while (true) {
                             try {
                                 socket = serverSocket.accept();
@@ -123,6 +124,7 @@ public class DistributedTextEditor extends JFrame {
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
                 vectorClockHashMap.put(lamportIndex, 0);
+                System.out.println(vectorClockHashMap.toString() +"\n" +  lamportIndex);
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
                 startTransmitting();

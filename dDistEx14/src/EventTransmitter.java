@@ -24,7 +24,6 @@ public class EventTransmitter implements Runnable {
         while (!wasInterrupted) {
             try {
                 MyTextEvent textEvent = documentEventCapturer.take();
-                System.out.println("Imma transmit stuff" + textEvent);
                 outputStream.writeObject(textEvent);
             } catch (IOException e){
                 callback.connectionClosed();

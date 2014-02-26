@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DistributedTextEditor extends JFrame {
+public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
     private JTextField portNumber = new JTextField("Port number here");
@@ -32,11 +32,11 @@ public class DistributedTextEditor extends JFrame {
     protected Socket socket;
 
     // Added Fields
-    private String lamportIndex;
+    protected String lamportIndex;
     private volatile ObjectOutputStream outputStream;
     private volatile ObjectInputStream inputStream;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
-    private HashMap<String, Integer> vectorClockHashMap = new HashMap<String, Integer>();
+    protected Map<String, Integer> vectorClockMap = new HashMap<String, Integer>();
     private EventTransmitter eventTransmitter;
     private Thread eventTransmitterThread;
     private EventReplayer eventReplayer;
@@ -85,7 +85,7 @@ public class DistributedTextEditor extends JFrame {
                                 if (socket != null) {
                                     area1.setText("");
                                     lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
-                                    vectorClockHashMap.put(lamportIndex, 0);
+                                    vectorClockMap.put(lamportIndex, 0);
                                     area1Document.enableFilter();
                                     setTitle(getTitle() + ". Connection established from " + socket);
                                     startTransmitting();
@@ -122,10 +122,10 @@ public class DistributedTextEditor extends JFrame {
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
-                vectorClockHashMap.put(lamportIndex, 0);
+                vectorClockMap.put(lamportIndex, 0);
                 //TODO: When connecting you should first receive the VectorClockHashMap
                 area1Document.enableFilter();
-                System.out.println("Vector clock initialized with values " + vectorClockHashMap.get(0) + " and " + vectorClockHashMap.get(1));
+                System.out.println("Vector clock initialized with values " + vectorClockMap.get(0) + " and " + vectorClockMap.get(1));
                 startTransmitting();
                 System.out.println("Transmitting thread started");
                 startReceiving();
@@ -200,7 +200,7 @@ public class DistributedTextEditor extends JFrame {
     };
 
 
-    public DistributedTextEditor() {
+    public DistributedTextEditorImpl() {
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
@@ -331,6 +331,7 @@ public class DistributedTextEditor extends JFrame {
     the Editor was currently a client or server. A client should disconnect if the server stops responding, but
     the server should keep running when a client disconnect. The transmitter and replayer are intterupted aswell.
     */
+    @Override
     public synchronized void connectionClosed() {
         boolean checkListening = listenThread != null;
         Listen.setEnabled(!checkListening);
@@ -359,11 +360,12 @@ public class DistributedTextEditor extends JFrame {
             outputStream = null;
             inputStream = null;
         }
-        vectorClockHashMap.clear();
+        vectorClockMap.clear();
         eventHistory.clear();
         area1Document.disableFilter();
     }
 
+    @Override
     public int getPortNumber() {
         String portNumberString = portNumber.getText();
         Matcher matcher = portPattern.matcher(portNumberString);
@@ -371,6 +373,7 @@ public class DistributedTextEditor extends JFrame {
         return 40101;
     }
 
+    @Override
     public String getIPAddress() {
         String ipAddressString = ipAddress.getText();
         Matcher matcher = ipPattern.matcher(ipAddressString);
@@ -379,6 +382,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
 
+    @Override
     public void replyToDisconnect() {
         eventTransmitterThread.interrupt();
         eventReplayerThread.interrupt();
@@ -392,28 +396,34 @@ public class DistributedTextEditor extends JFrame {
     }
 
 
+    @Override
     public int getLamportTime(String index) {
-        return vectorClockHashMap.get(index);
+        return vectorClockMap.get(index);
     }
 
+    @Override
     public String getLamportIndex() {
         return lamportIndex;
     }
 
+    @Override
     public synchronized void incrementLamportTime() {
-        vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
+        vectorClockMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
     }
 
-    public HashMap<String, Integer> getTimestamp() {
-        return vectorClockHashMap;
+    @Override
+    public Map<String, Integer> getTimestamp() {
+        return vectorClockMap;
     }
 
+    @Override
     public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
         for (String s : hashMap.keySet()) {
-            vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
+            vectorClockMap.put(s, Math.max(vectorClockMap.get(s), hashMap.get(s)));
         }
     }
 
+    @Override
     public ArrayList<MyTextEvent> getEventHistoryInterval(int start, int end, String lamportIndex) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         synchronized (eventHistory) {
@@ -427,17 +437,19 @@ public class DistributedTextEditor extends JFrame {
         return res;
     }
 
+    @Override
     public void addEventToHistory(MyTextEvent textEvent) {
         synchronized (eventHistory) {
             eventHistory.add(textEvent);
         }
     }
 
+    @Override
     public boolean isDebugging() {
         return debugIsOn;
     }
 
     public static void main(String[] args) {
-        new DistributedTextEditor();
+        new DistributedTextEditorImpl();
     }
 }

@@ -60,13 +60,14 @@ public class EventReplayer implements Runnable {
         final TextRemoveEvent textRemoveEvent = obj;
         final double[] timestamp = textRemoveEvent.getTimestamp();
         final int senderIndex = textRemoveEvent.getSender();
-        while (isNotInCausalOrder(timestamp, senderIndex)) {
-            Thread.sleep(100);
-        }
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
                 try {
+                    while (isNotInCausalOrder(timestamp, senderIndex)) {
+                        Thread.sleep(100);
+                    }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
 
@@ -145,12 +146,13 @@ public class EventReplayer implements Runnable {
         final TextInsertEvent textInsertEvent = obj;
         final double[] timestamp = textInsertEvent.getTimestamp();
         final int senderIndex = textInsertEvent.getSender();
-        while (isNotInCausalOrder(timestamp, senderIndex)) {
-            Thread.sleep(100);
-        }
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    while (isNotInCausalOrder(timestamp, senderIndex)) {
+                        Thread.sleep(100);
+                    }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
                             int receiverIndex = callback.getLamportIndex();

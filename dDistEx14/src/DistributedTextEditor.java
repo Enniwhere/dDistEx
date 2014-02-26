@@ -82,7 +82,6 @@ public class DistributedTextEditor extends JFrame {
                         area1.setText("");
                         lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
                         vectorClockHashMap.put(lamportIndex, 0);
-                        System.out.println(vectorClockHashMap.toString());
                         while (true) {
                             try {
                                 socket = serverSocket.accept();
@@ -124,7 +123,6 @@ public class DistributedTextEditor extends JFrame {
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
                 vectorClockHashMap.put(lamportIndex, 0);
-                System.out.println(vectorClockHashMap.toString() +"\n" +  lamportIndex);
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
                 startTransmitting();
@@ -400,10 +398,7 @@ public class DistributedTextEditor extends JFrame {
     }
 
     public synchronized void incrementLamportTime() {
-        System.out.println("Trying to increment: \n"+ vectorClockHashMap);
         vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
-        System.out.println("Finished incrementing: \n" + vectorClockHashMap);
-
     }
 
     public HashMap<String, Integer> getTimestamp() {
@@ -447,7 +442,6 @@ public class DistributedTextEditor extends JFrame {
         for (String s : map.keySet()) {
             if(!vectorClockHashMap.containsKey(s)) vectorClockHashMap.put(s,map.get(s));
         }
-        System.out.println("current hashmap: " + vectorClockHashMap);
     }
 
     public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
@@ -465,6 +459,5 @@ public class DistributedTextEditor extends JFrame {
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
         addToClock(setupConnectionEvent.getMap());
-        System.out.println(vectorClockHashMap);
     }
 }

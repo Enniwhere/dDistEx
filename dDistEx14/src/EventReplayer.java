@@ -65,7 +65,6 @@ public class EventReplayer implements Runnable {
         }
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
                 try {
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
@@ -228,7 +227,6 @@ public class EventReplayer implements Runnable {
     }
 
     private boolean isNotInCausalOrder(Map<String, Integer> timestamp, String senderIndex) {
-        System.out.println(timestamp.get(senderIndex) + "\n" + (getCallbackLamportTime(senderIndex) + 1));
         return timestamp.get(senderIndex) != getCallbackLamportTime(senderIndex) + 1 || timestamp.get(callback.getLamportIndex()) > getCallbackLamportTime(callback.getLamportIndex());
     }
 

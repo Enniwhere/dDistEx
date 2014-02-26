@@ -52,7 +52,6 @@ public class DocumentEventCapturer extends DocumentFilter {
         synchronized (filterBypass.getDocument()){
             TextInsertEvent insertEvent = new TextInsertEvent(offset, string);
             callback.incrementLamportTime();
-            System.out.println(callback.getLamportTime(callback.getLamportIndex()));
             insertEvent.setTimestamp(callback.getTimestamp());
             insertEvent.setSender(callback.getLamportIndex());
             callback.addEventToHistory(insertEvent);

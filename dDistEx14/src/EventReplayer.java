@@ -33,7 +33,6 @@ public class EventReplayer implements Runnable {
             try {
 
                 Object obj = inputStream.readObject();
-
                 if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
 
                 if (obj instanceof MyConnectionEvent) {
@@ -60,13 +59,14 @@ public class EventReplayer implements Runnable {
         final TextRemoveEvent textRemoveEvent = obj;
         final Map<String, Integer> timestamp = textRemoveEvent.getTimestamp();
         final String senderIndex = textRemoveEvent.getSender();
-        while (isNotInCausalOrder(timestamp, senderIndex)) {
-            Thread.sleep(100);
-        }
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
+                //System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
                 try {
+                    while (isNotInCausalOrder(timestamp, senderIndex)) {
+                        Thread.sleep(100);
+                    }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
 
@@ -128,6 +128,7 @@ public class EventReplayer implements Runnable {
                         }
                     }
                 } catch (IllegalArgumentException ae){
+                    System.err.println("Received an invalid remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength() + " in an area with length " + areaDocument.getLength());
                     ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -143,12 +144,13 @@ public class EventReplayer implements Runnable {
         final TextInsertEvent textInsertEvent = obj;
         final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();
         final String senderIndex = textInsertEvent.getSender();
-        while (isNotInCausalOrder(timestamp, senderIndex)) {
-            Thread.sleep(100);
-        }
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    while (isNotInCausalOrder(timestamp, senderIndex)) {
+                        Thread.sleep(100);
+                    }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
                             String receiverIndex = callback.getLamportIndex();

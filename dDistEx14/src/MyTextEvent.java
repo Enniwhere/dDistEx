@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -8,7 +9,7 @@ import java.util.HashMap;
  */
 public class MyTextEvent implements Serializable {
 
-    private HashMap<String, Integer> timestamp;
+    private Map<String, Integer> timestamp;
     private String sender;
     private int offset;
 
@@ -22,11 +23,11 @@ public class MyTextEvent implements Serializable {
         this.offset = offset;
     }
 
-    public HashMap<String, Integer> getTimestamp() {
+    public Map<String, Integer> getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(HashMap<String, Integer> timestamp)  {
+    public void setTimestamp(Map<String, Integer> timestamp)  {
         this.timestamp = timestamp;
     }
 

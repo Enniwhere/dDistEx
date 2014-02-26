@@ -15,9 +15,12 @@ public class ObjectInputStreamStub implements ObjectInput {
     @Override
     public Object readObject() throws ClassNotFoundException, IOException {
         try {
-            return queue.take();
+            if (queue.isEmpty()){
+                throw new IOException();
+            }
+            return this.queue.take();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+
         }
         return null;
     }

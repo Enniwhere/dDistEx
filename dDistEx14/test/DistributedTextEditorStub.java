@@ -103,7 +103,6 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     @Override
     public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
         //TODO: IMPLEMENTS THIS
-
     }
 
     @Override

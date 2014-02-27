@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /*
@@ -230,7 +231,13 @@ public class EventReplayer implements Runnable {
     }
 
     private boolean isNotInCausalOrder(Map<String, Integer> timestamp, String senderIndex) {
-        return timestamp.get(senderIndex) != getCallbackLamportTime(senderIndex) + 1 || timestamp.get(callback.getLamportIndex()) > getCallbackLamportTime(callback.getLamportIndex());
+        boolean result = timestamp.get(senderIndex) != getCallbackLamportTime(senderIndex) + 1;
+        HashMap<String, Integer> tempTimestamp = new HashMap<String, Integer>(timestamp);
+        tempTimestamp.remove(senderIndex);
+        for (String id : tempTimestamp.keySet()){
+            result = result || timestamp.get(id) > getCallbackLamportTime(id);
+        }
+        return result;
     }
 
     private boolean isLocalEventOffsetLower(String priorityIndex, int textEventOffset, int historyEventOffset, String yieldingIndex) {

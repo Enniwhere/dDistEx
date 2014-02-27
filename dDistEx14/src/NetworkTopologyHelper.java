@@ -31,10 +31,7 @@ public class NetworkTopologyHelper {
     }
 
     private boolean connectTo(String s){
-        if (connections.contains(s)){
-            return false;
-        }
-        return true;
+        return !connections.contains(s);
     }
 
     private Map<String, Integer> getVectorClockMap(){

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="NetworkTopologyHelper added, first draft of scramble connection method.">
+    <list default="true" id="69e0f4b7-91f7-4008-9fc8-5a1f6597c1c3" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/NetworkTopologyHelper.java" afterPath="$PROJECT_DIR$/dDistEx14/src/NetworkTopologyHelper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -88,12 +88,12 @@
       <file leaf-file-name="NetworkTopologyHelper.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/NetworkTopologyHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="36" selection-start="138" selection-end="138" vertical-scroll-proportion="0.21683674" vertical-offset="0" max-vertical-offset="1003">
+            <state line="36" column="42" selection-start="1026" selection-end="1026" vertical-scroll-proportion="0.46173468" vertical-offset="431" max-vertical-offset="952">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#234#242#0" expanded="true" />
                 <element signature="e#489#497#0" expanded="true" />
-                <element signature="e#1150#1167#0" expanded="true" />
+                <element signature="e#1096#1113#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -723,7 +723,11 @@
       <created>1393493766774</created>
       <updated>1393493766774</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="NetworkTopologyHelper added, first draft of scramble connection method.">
+      <created>1393494050532</created>
+      <updated>1393494050532</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1076,12 +1080,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/src/NetworkTopologyHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="36" selection-start="138" selection-end="138" vertical-scroll-proportion="0.21683674" vertical-offset="0" max-vertical-offset="1003">
+        <state line="36" column="42" selection-start="1026" selection-end="1026" vertical-scroll-proportion="0.46173468" vertical-offset="431" max-vertical-offset="952">
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#234#242#0" expanded="true" />
             <element signature="e#489#497#0" expanded="true" />
-            <element signature="e#1150#1167#0" expanded="true" />
+            <element signature="e#1096#1113#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -87,7 +87,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                 socket = serverSocket.accept();
                                 if (socket != null) {
                                     area1Document.enableFilter();
-                                    setTitle("SHIT'S LIVE, BITCHES!");
+                                    setTitle("New Connection");
                                     startTransmitting();
                                     startReceiving();
                                     connected = true;
@@ -450,11 +450,16 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         new DistributedTextEditorImpl();
     }
 
-     
-    public void addToClock(Map<String, Integer> map) {
+    //@return true if something where added to this clock.
+    public boolean addToClock(Map<String, Integer> map) {
+        boolean res = false;
         for (String s : map.keySet()) {
-            if(!vectorClockHashMap.containsKey(s)) vectorClockHashMap.put(s,map.get(s));
+            if(!vectorClockHashMap.containsKey(s)) {
+                vectorClockHashMap.put(s,map.get(s));
+                res = true;
+            }
         }
+        return res;
     }
 
      
@@ -475,4 +480,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         area1Document.enableFilter();
         addToClock(setupConnectionEvent.getMap());
     }
+
+
 }

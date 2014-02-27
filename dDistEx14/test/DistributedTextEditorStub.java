@@ -95,8 +95,9 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
         //TODO: IMPLEMENT THIS
 
     @Override
-    public void addToClock(Map<String, Integer> map) {
+    public boolean addToClock(Map<String, Integer> map) {
         //TODO: IMPLEMENT THIS
+        return false;
     }
 
     @Override

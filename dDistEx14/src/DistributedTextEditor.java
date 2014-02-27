@@ -31,7 +31,7 @@ public interface DistributedTextEditor {
 
     public boolean isDebugging();
 
-    public void addToClock(Map<String, Integer> map);
+    public boolean addToClock(Map<String, Integer> map);
 
     public void replyToInitConnection(InitConnectionEvent initConnectionEvent);
 

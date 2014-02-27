@@ -24,7 +24,10 @@ public class TestOffsetAdjusting {
     public void setUp(){
         areaDocument = new DistributedDocument();
         area1 = new JTextArea(areaDocument, "", 35, 120);
-        DistributedTextEditorStub callback = new DistributedTextEditorStub();
+        Map<String, Integer> clock = new HashMap<String, Integer>();
+        clock.put("server",0);
+        clock.put("client",0);
+        DistributedTextEditorStub callback = new DistributedTextEditorStub(clock,"server");
         inputQueue = new LinkedBlockingQueue<Object>();
         objectInput = new ObjectInputStreamStub(inputQueue);
         eventReplayer = new EventReplayer(objectInput,area1, callback);

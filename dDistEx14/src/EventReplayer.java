@@ -35,7 +35,7 @@ public class EventReplayer implements Runnable {
                 Object obj = inputStream.readObject();
 
                 if (callback.isDebugging()) Thread.sleep(1000);      // Debugging purposes
-
+                System.out.println("Received an event");
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);
                 } else if (obj instanceof TextInsertEvent) {
@@ -145,13 +145,15 @@ public class EventReplayer implements Runnable {
         final TextInsertEvent textInsertEvent = obj;
         final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();
         final String senderIndex = textInsertEvent.getSender();
-
+        System.out.println("Called handleInsertEvent");
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
+                    System.out.println("Tried to handle an insert event with timestamp " + timestamp.toString() + " and text " + textInsertEvent.getText() + " at offset " + textInsertEvent.getOffset());
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
                         Thread.sleep(100);
                     }
+                    System.out.println("Insert event with text " + textInsertEvent.getText() + " at offset " + textInsertEvent.getOffset() + " is now in causal order!");
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
                             String receiverIndex = callback.getLamportIndex();

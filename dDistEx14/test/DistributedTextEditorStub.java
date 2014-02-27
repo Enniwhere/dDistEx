@@ -13,11 +13,9 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
     private boolean debugIsOn = false;
 
-    public DistributedTextEditorStub(){
-        vectorClockMap = new HashMap<String, Integer>();
-        vectorClockMap.put("server",0);
-        vectorClockMap.put("client",0);
-        lamportIndex = "server";
+    public DistributedTextEditorStub(Map<String, Integer> clock, String index){
+        vectorClockMap = clock;
+        lamportIndex = index;
     }
 
     @Override

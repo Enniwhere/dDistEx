@@ -11,15 +11,18 @@ import java.util.Map;
  */
 public class EventReplayer implements Runnable {
 
+
+    private final String address;
     private ObjectInput inputStream;
     private final JTextArea area;
     private DistributedTextEditor callback;
     private DistributedDocument areaDocument;
 
-    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditor callback) {
+    public EventReplayer(ObjectInput inputStream, final JTextArea area, DistributedTextEditor callback, String address) {
         this.inputStream = inputStream;
         this.area = area;
         this.callback = callback;
+        this.address = address;
         if (area.getDocument() instanceof DistributedDocument)
             this.areaDocument = ((DistributedDocument) area.getDocument());
         else
@@ -216,13 +219,9 @@ public class EventReplayer implements Runnable {
 
     private void handleConnectionEvent(MyConnectionEvent obj) {
         if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REQUEST)) {
-            callback.replyToDisconnect();
+            callback.replyToDisconnect(address);
         } else if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REPLY_OK)) {
             callback.connectionClosed();
-        } else if (obj.getType().equals(ConnectionEventTypes.SETUP_CONNECTION)) {
-            callback.handleSetupConnection((SetupConnectionEvent) obj);
-        } else if (obj.getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
-            callback.replyToInitConnection((InitConnectionEvent) obj);
         }
     }
 

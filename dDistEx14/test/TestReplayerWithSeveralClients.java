@@ -34,7 +34,7 @@ public class TestReplayerWithSeveralClients {
         DistributedTextEditorStub callback = new DistributedTextEditorStub(clock,"client1");
         inputQueue = new LinkedBlockingQueue<Object>();
         objectInput = new ObjectInputStreamStub(inputQueue);
-        eventReplayer = new EventReplayer(objectInput,area1, callback);
+        eventReplayer = new EventReplayer(objectInput,area1, callback, "client1");
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(new DocumentEventCapturer(callback));
         area1.insert("a",0);
         area1.insert("b",1);

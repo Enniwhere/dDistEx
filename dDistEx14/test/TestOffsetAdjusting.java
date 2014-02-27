@@ -3,9 +3,7 @@ import org.junit.Test;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
-import java.io.IOException;
 import java.io.ObjectInput;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -30,7 +28,7 @@ public class TestOffsetAdjusting {
         DistributedTextEditorStub callback = new DistributedTextEditorStub(clock,"server");
         inputQueue = new LinkedBlockingQueue<Object>();
         objectInput = new ObjectInputStreamStub(inputQueue);
-        eventReplayer = new EventReplayer(objectInput,area1, callback);
+        eventReplayer = new EventReplayer(objectInput,area1, callback, "server");
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(new DocumentEventCapturer(callback));
         area1.insert("a",0);
         area1.insert("b",1);

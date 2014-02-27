@@ -13,7 +13,7 @@ public interface DistributedTextEditor {
 
     public String getIPAddress();
 
-    public void replyToDisconnect();
+    public void replyToDisconnect(String eventReplayerAddress);
 
     public int getLamportTime(String index);
 
@@ -33,7 +33,8 @@ public interface DistributedTextEditor {
 
     public boolean addToClock(Map<String, Integer> map);
 
-    public void replyToInitConnection(InitConnectionEvent initConnectionEvent);
-
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent);
+
+    public void scrambleNetwork();
+
 }

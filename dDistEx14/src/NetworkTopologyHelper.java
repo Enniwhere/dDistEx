@@ -4,47 +4,30 @@ import java.util.Map;
 import java.util.Random;
 
 public class NetworkTopologyHelper {
-    private String myAddress = "uno";
-    private ArrayList<String> connections = new ArrayList<String>();
 
     public NetworkTopologyHelper(){
 
     }
 
-    private void selectThreePeers() {
-        Map<String, Integer> vectorClockMap = getVectorClockMap();
-        vectorClockMap.remove(myAddress);
-        ArrayList<String> addresses = new ArrayList<String>(vectorClockMap.size());
-        Random rand = new Random();
-        if(addresses.size() < 3){
-            for(String s : addresses){
-                connectTo(s);
+    private ArrayList<String> selectThreePeers(String Address, Map<String, Integer> vectorClockMap) {
+        Map<String, Integer> clockMap = new HashMap<String, Integer>(vectorClockMap);
+        ArrayList<String> res = new ArrayList<String>();
+        clockMap.remove(Address);
+        if(clockMap.size() <= 3) {
+            for(String s : clockMap.keySet()) {
+                res.add(s);
+            }
+        } else {
+            Random rand = new Random();
+            ArrayList<String> listOfIP = new ArrayList<String>();
+            for (String s : clockMap.keySet()) listOfIP.add(s);
+            for (int i = 0; i < 3;) {
+                String s = listOfIP.get(rand.nextInt(listOfIP.size()));
+                res.add(s);
+                listOfIP.remove(s);
             }
         }
-        else{
-            for (int i = 0; i < 3; ) {
-                if(connectTo(addresses.get(rand.nextInt(vectorClockMap.size())))){
-                    i++;
-                }
-            }
-        }
-    }
-
-    private boolean connectTo(String s){
-        return !connections.contains(s);
-    }
-
-    private Map<String, Integer> getVectorClockMap(){
-        Map <String, Integer> vectorClockMap = new HashMap<String, Integer>();
-        vectorClockMap.put("uno", 1);
-        vectorClockMap.put("dos", 2);
-        vectorClockMap.put("tres", 3);
-        vectorClockMap.put("cuatro", 4);
-        vectorClockMap.put("cinco", 5);
-        vectorClockMap.put("seis", 6);
-        vectorClockMap.put("siete", 7);
-        vectorClockMap.put("ocho",8);
-        return vectorClockMap;
+        return res;
     }
 
 }

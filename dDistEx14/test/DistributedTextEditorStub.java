@@ -34,7 +34,7 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public void replyToDisconnect() {
+    public void replyToDisconnect(String eventReplayer) {
         //This method was auto-implemented
     }
 
@@ -99,13 +99,13 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
+    public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
         //TODO: IMPLEMENTS THIS
     }
 
     @Override
-    public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
-        //TODO: IMPLEMENTS THIS
+    public void scrambleNetwork() {
+
     }
 
 }

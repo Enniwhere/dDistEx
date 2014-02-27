@@ -33,14 +33,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     // Added Fields
     private String lamportIndex;
-    private volatile ObjectOutputStream outputStream;
-    private volatile ObjectInputStream inputStream;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
+    private Map<String, Thread> eventReplayerThreadMap = new HashMap<String, Thread>();
     private HashMap<String, Integer> vectorClockHashMap = new HashMap<String, Integer>();
     private EventTransmitter eventTransmitter;
+
+
     private Thread eventTransmitterThread;
-    private EventReplayer eventReplayer;
-    private Thread eventReplayerThread;
     private Thread listenThread;
     private Pattern portPattern = Pattern.compile("^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])$");
     private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
@@ -76,37 +75,19 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             Disconnect.setEnabled(true);
             if (registerOnPort()) {
                 setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
-                Runnable listener = new Runnable() {
-                     
-                    public void run() {
-                        area1.setText("");
-                        lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
-                        vectorClockHashMap.put(lamportIndex, 0);
-                        while (true) {
-                            try {
-                                socket = serverSocket.accept();
-                                if (socket != null) {
-                                    area1Document.enableFilter();
-                                    setTitle("New Connection");
-                                    startTransmitting();
-                                    startReceiving();
-                                    connected = true;
-                                }
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                connectionClosed();
-                            }
-                        }
-                    }
-                };
                 area1.setText("");
-                listenThread = new Thread(listener);
+                lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                vectorClockHashMap.put(lamportIndex, 0);
+                area1Document.enableFilter();
+                listenThread = new Thread(createListenRunnable());
                 listenThread.start();
             } else {
                 setTitle("Could not register on port, maybe its already registered?");
             }
         }
     };
+
+
 
     /*
     When this action is fired the client will attempt to connect to a given IP and portnumber.
@@ -116,6 +97,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
      */
     Action Connect = new AbstractAction("Connect") {
         public void actionPerformed(ActionEvent e) {
+            saveOld();
             area1.setText("");
             setTitle("Connecting to " + getIPAddress() + ":" + getPortNumber() + "...");
             try {
@@ -125,19 +107,27 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 vectorClockHashMap.put(lamportIndex, 0);
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
-                startTransmitting();
+                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                 outputStream.writeObject(initConnectionEvent);
-                startReceiving();
+                Object setupEvent = inputStream.readObject();
+                if(setupEvent instanceof SetupConnectionEvent) {
+                    handleSetupConnection((SetupConnectionEvent) setupEvent);
+                } else {
+                    disconnectAll();
+                    return; //We wanna stop this!
+                }
+                outputStream.close();
+                inputStream.close();
+                listenThread = new Thread(createListenRunnable());
+                listenThread.start();
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
-            } catch (ConnectException ce) {
+            } catch (Exception ce) {
                 ce.printStackTrace();
                 setTitle("Disconnected: Failed to connect");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                connectionClosed();
             }
             changed = false;
         }
@@ -150,16 +140,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
      */
     Action Disconnect = new AbstractAction("Disconnect") {
         public void actionPerformed(ActionEvent e) {
-            deregisterOnPort();
-            if (listenThread != null) {
-                listenThread.interrupt();
-                listenThread = null;
-            }
-            connectionClosed();
-            setTitle("Disconnected");
-            changed = false;
+            disconnectAll();
         }
     };
+
 
     Action Save = new AbstractAction("Save") {
         public void actionPerformed(ActionEvent e) {
@@ -307,17 +291,17 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     //This method is responsible for starting the eventTransmitterThread.
     private void startTransmitting() throws IOException {
         documentEventCapturer.clearEventHistory();
-        outputStream = new ObjectOutputStream(socket.getOutputStream());
+        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
         eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterThread.start();
     }
 
     //This method is responsible for starting the eventReplayerThread
-    private void startReceiving() throws IOException {
-        inputStream = new ObjectInputStream(socket.getInputStream());
-        eventReplayer = new EventReplayer(inputStream, area1, this);
-        eventReplayerThread = new Thread(eventReplayer);
+    private void startReceiving(ObjectInputStream inputStream, String address) throws IOException {
+        EventReplayer eventReplayer = new EventReplayer(inputStream, area1, this, address);
+        Thread eventReplayerThread = new Thread(eventReplayer);
+        eventReplayerThreadMap.put(address, eventReplayerThread);
         eventReplayerThread.start();
     }
 
@@ -330,37 +314,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     */
      
     public synchronized void connectionClosed() {
-        boolean checkListening = listenThread != null;
-        Listen.setEnabled(!checkListening);
-        Connect.setEnabled(!checkListening);
-        Disconnect.setEnabled(checkListening);
-        if (connected) {
-            connected = false;
-            try {
-                socket.close();
-                socket = null;
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            if (listenThread == null) setTitle("Disconnected");
-            else setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
-            if (eventReplayerThread != null) {
-                eventReplayerThread.interrupt();
-                eventReplayerThread = null;
-                eventReplayer = null;
-            }
-            if (eventTransmitterThread != null) {
-                eventTransmitterThread.interrupt();
-                eventTransmitterThread = null;
-                eventTransmitter = null;
-            }
-            outputStream = null;
-            inputStream = null;
-        }
-        vectorClockHashMap.clear();
-        eventHistory.clear();
-        area1Document.disableFilter();
+        //TODO: This should handle single connection closed
     }
+
+
 
      
     public int getPortNumber() {
@@ -380,15 +337,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
      
-    public void replyToDisconnect() {
-        eventTransmitterThread.interrupt();
-        eventReplayerThread.interrupt();
-        try {
-            outputStream.writeObject(new MyConnectionEvent(ConnectionEventTypes.DISCONNECT_REPLY_OK));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            connectionClosed();
+    public void replyToDisconnect(String eventReplayerAddress) {
+        for(String s : eventReplayerThreadMap.keySet()) {
+            if(s.equals(eventReplayerAddress)) {
+                Thread t = eventReplayerThreadMap.get(s);
+                t.interrupt();
+                eventReplayerThreadMap.remove(s);
+            }
         }
     }
 
@@ -462,23 +417,86 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return res;
     }
 
-     
-    public void replyToInitConnection(InitConnectionEvent initConnectionEvent) {
-        addToClock(initConnectionEvent.getMap());
-        MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap);
-        try{
-            outputStream.writeObject(setupConnectionEvent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
      
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
         area1Document.disableFilter();
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
-        addToClock(setupConnectionEvent.getMap());
+        vectorClockHashMap = new HashMap<String, Integer>(setupConnectionEvent.getMap());
+    }
+
+    private Runnable createListenRunnable() {
+        return new Runnable() {
+            public void run() {
+                while (true) {
+                    try {
+                        socket = serverSocket.accept();
+                        if (socket != null) {
+                            ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                            Object connectionEvent = inputStream.readObject();
+                            if(connectionEvent instanceof MyConnectionEvent) {
+                                if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.SCRAMBLE_CONNECTED)) {
+                                    String address = socket.getInetAddress() + ":" + socket.getPort();
+                                    startReceiving(inputStream, address);
+                                } else if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
+                                    ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+                                    addToClock(((InitConnectionEvent) connectionEvent).getMap());
+                                    MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap);
+                                    outputStream.writeObject(setupConnectionEvent);
+                                    outputStream.close();
+                                    inputStream.close();
+                                }
+                            }
+                            setTitle("New Connection");
+                            connected = true;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        //connectionClosed();
+                    }
+                }
+            };
+        };
+    }
+
+    private void disconnectAll() {
+        Listen.setEnabled(true);
+        Connect.setEnabled(true);
+        Disconnect.setEnabled(false);
+        if (connected) {
+            connected = false;
+            try {
+                socket.close();
+                socket = null;
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            if (listenThread != null) {
+                listenThread.interrupt();
+                listenThread = null;
+            }
+            for(String s : eventReplayerThreadMap.keySet()) {
+                eventReplayerThreadMap.get(s).interrupt();
+            }
+            if (eventTransmitterThread != null) {
+                eventTransmitterThread.interrupt();
+                eventTransmitterThread = null;
+                eventTransmitter = null;
+            }
+        }
+        vectorClockHashMap.clear();
+        eventHistory.clear();
+        area1Document.disableFilter();
+        deregisterOnPort();
+        setTitle("Disconnected");
+        changed = false;
+    }
+
+
+    public void scrambleNetwork() {
+
     }
 
 

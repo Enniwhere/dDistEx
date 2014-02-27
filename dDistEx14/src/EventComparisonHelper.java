@@ -1,6 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ *  Helper class comparing events, to avoid bloating the EventReplayer.
+ */
 public class EventComparisonHelper {
     private final DistributedTextEditor callback;
 

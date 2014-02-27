@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class EventReplayer implements Runnable {
         final Map<String, Integer> timestamp = textRemoveEvent.getTimestamp();
         final String senderIndex = textRemoveEvent.getSender();
 
-        EventQueue.invokeLater(new Runnable() {
+        new Thread(new Runnable() {
             public void run() {
 
                 System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
@@ -135,18 +134,15 @@ public class EventReplayer implements Runnable {
                     e.printStackTrace();
                 }
             }
-        });
+        }).start();
     }
-
-
-
 
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
         final TextInsertEvent textInsertEvent = obj;
         final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();
         final String senderIndex = textInsertEvent.getSender();
 
-        EventQueue.invokeLater(new Runnable() {
+        new Thread(new Runnable() {
             public void run() {
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
@@ -210,7 +206,7 @@ public class EventReplayer implements Runnable {
                     e.printStackTrace();
                 }
             }
-        });
+        }).start();
     }
 
     private boolean isInsertedInsideRemove(MyTextEvent historyEvent, int insertEventOffset, int historyEventOffset) {

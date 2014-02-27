@@ -64,9 +64,9 @@ public class TestReplayerWithSeveralClients {
         insert4.setSender("client4");
         timestamp.put("client4", 1);
         insert4.setTimestamp(new HashMap<String, Integer>(timestamp));
-        inputQueue.add(insert4);
-        inputQueue.add(insert3);
         inputQueue.add(insert2);
+        inputQueue.add(insert3);
+        inputQueue.add(insert4);
         eventReplayer.run();
         try {
             Thread.sleep(1000);

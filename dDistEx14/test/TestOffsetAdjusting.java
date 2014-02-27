@@ -94,5 +94,106 @@ public class TestOffsetAdjusting {
         assertEquals("Text after inserting 1 at position 1 and e at position 4 should be a21bcd", "a21bcd", area1.getText());
     }
 
+    @Test
+    public void removeAtSameOffsetAsLocalInsert(){
+        area1.insert("1",2);
+        MyTextEvent event = new TextRemoveEvent(1,1);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after inserting 1 at position 2 and removing at position 1 should be a1cd", "a1cd", area1.getText());
+    }
+
+    @Test
+    public void insertAtSameOffsetAsLocalRemove(){
+        area1.replaceRange("", 1, 2);
+        MyTextEvent event = new TextInsertEvent(2,"1");
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after remove from position 1 and inserting 1 at position 2 should be a1cd", "a1cd", area1.getText());
+    }
+
+    @Test
+    public void removeAtSameOffsetAsLocalRemove(){
+        area1.replaceRange("", 1, 2);
+        MyTextEvent event = new TextRemoveEvent(2,1);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after removing at position 2 and removing at position 1 should be ad", "ad", area1.getText());
+    }
+
+    @Test
+    public void removeInsideLocalRemoveShouldBeIgnored(){
+        area1.replaceRange("", 1, 3);
+        MyTextEvent event = new TextRemoveEvent(2,1);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after removing at position 1-3 and removing at position 2 should be ad", "ad", area1.getText());
+    }
+
+    @Test
+    public void insertInsideLocalRemoveShouldBeIgnored(){
+        area1.replaceRange("", 1, 3);
+        MyTextEvent event = new TextInsertEvent(2,"2");
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after removing at position 1-3 and inserting 2 at position 2 should be ad", "ad", area1.getText());
+    }
+
+    @Test
+    public void removeContainingLocalRemoveShouldGiveIntuitiveResults(){
+        area1.replaceRange("",2,3);
+        MyTextEvent event = new TextRemoveEvent(1,2);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after removing at position 2 and removing at position 1-3 should be ad", "ad", area1.getText());
+    }
+
+    @Test
+    public void removeContainingLocalInsertShouldGiveIntuitiveResults(){
+        area1.insert("2",2);
+        MyTextEvent event = new TextRemoveEvent(1,2);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after inserting 2 at position 2 and removing at position 1-3 should be ad", "ad", area1.getText());
+    }
+
+    @Test
+    public void removeOverlappingLocalRemoveInFrontShouldGiveIntuitiveResults(){
+        area1.replaceRange("", 2, 4);
+        MyTextEvent event = new TextRemoveEvent(1,2);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after removing at position 2-4 and removing at position 1-3 should be a", "a", area1.getText());
+    }
+
+    @Test
+    public void removeOverlappingLocalRemoveInEndShouldGiveIntuitiveResults(){
+        area1.replaceRange("", 1, 3);
+        MyTextEvent event = new TextRemoveEvent(2,2);
+        event.setSender("client");
+        event.setTimestamp(timestamp);
+        inputQueue.add(event);
+        eventReplayer.run();
+        assertEquals("Text after removing at position 1-3 and removing at position 2-4 should be a", "a", area1.getText());
+    }
+
+
+
 }
 

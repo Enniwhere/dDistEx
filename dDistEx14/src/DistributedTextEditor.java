@@ -31,10 +31,13 @@ public interface DistributedTextEditor {
 
     public boolean isDebugging();
 
-    public boolean addToClock(Map<String, Integer> map);
+    public void addToClock(Map<String, Integer> map);
 
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent);
 
-    public void scrambleNetwork();
+    public void scrambleNetwork(ScrambleEvent scrambleEvent);
 
+    public int getScrambleLamportClock();
+
+    public Map<String, Integer> getAddedClocks();
 }

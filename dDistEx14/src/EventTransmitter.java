@@ -34,6 +34,11 @@ public class EventTransmitter implements Runnable {
                 _.printStackTrace();
             }
         }
+        try {
+            outputStream.writeObject(new ScrambleEvent(callback.getScrambleLamportClock(), callback.getAddedClocks()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("I'm the thread running the EventTransmitter, now I die!");
     }
 }

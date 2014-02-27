@@ -222,6 +222,9 @@ public class EventReplayer implements Runnable {
             callback.replyToDisconnect(address);
         } else if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REPLY_OK)) {
             callback.connectionClosed();
+        } else if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
+            callback.addToClock(((ScrambleEvent) obj).getAddedClocks());
+            callback.scrambleNetwork(((ScrambleEvent)obj));
         }
     }
 

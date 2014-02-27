@@ -9,7 +9,7 @@ public class NetworkTopologyHelper {
 
     }
 
-    private ArrayList<String> selectThreePeers(String Address, Map<String, Integer> vectorClockMap) {
+    public ArrayList<String> selectThreePeers(String Address, Map<String, Integer> vectorClockMap) {
         Map<String, Integer> clockMap = new HashMap<String, Integer>(vectorClockMap);
         ArrayList<String> res = new ArrayList<String>();
         clockMap.remove(Address);

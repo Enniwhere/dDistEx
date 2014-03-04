@@ -120,6 +120,7 @@ public class EventReplayer implements Runnable {
                             if (!ignore){
                                 areaDocument.disableFilter();
                                 area.replaceRange(null, removeEventOffset, removeEventOffset + removeEventLength);
+                                callback.addEventToHistory(textRemoveEvent);
                                 areaDocument.enableFilter();
                             }
                         }
@@ -196,6 +197,7 @@ public class EventReplayer implements Runnable {
                                 if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex < receiverIndex){
                                     area.getCaret().setDot(dotPosBeforeInsert);
                                 }
+                                callback.addEventToHistory(textInsertEvent);
                                 areaDocument.enableFilter();
                             }
                         }

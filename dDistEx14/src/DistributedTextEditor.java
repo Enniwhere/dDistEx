@@ -25,7 +25,7 @@ public interface DistributedTextEditor {
 
     public void adjustVectorClock(Map<String, Integer> hashMap);
 
-    public ArrayList<MyTextEvent> getEventHistoryInterval(int start, int end, String lamportIndex);
+    public ArrayList<MyTextEvent> getEventHistoryInterval(Map<String,Integer> timestamp);
 
     public void addEventToHistory(MyTextEvent textEvent);
 

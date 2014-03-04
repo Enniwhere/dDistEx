@@ -110,10 +110,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 area1Document.enableFilter();
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                 System.out.println("Outputstream initated");
-                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                System.out.println("Inputstream initiated");
                 outputStream.writeObject(initConnectionEvent);
                 System.out.println("Wrote initConnectionEvent");
+                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("Inputstream initiated");
                 Object setupEvent = inputStream.readObject();
                 System.out.println("Object received : " + setupEvent);
                 if(setupEvent instanceof SetupConnectionEvent) {
@@ -447,6 +447,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                     String address = socket.getInetAddress() + ":" + socket.getPort();
                                     startReceiving(inputStream, address);
                                 } else if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
+                                    System.out.println("Received Ann Init Connect Event");
                                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                                     addToClock(((InitConnectionEvent) connectionEvent).getMap());
                                     MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, scrambleLamportClock);

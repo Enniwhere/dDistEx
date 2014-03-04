@@ -44,7 +44,7 @@ public class EventReplayer implements Runnable {
                     handleInsertEvent((TextInsertEvent) obj);
                 } else if (obj instanceof TextRemoveEvent) {
                     handleRemoveEvent((TextRemoveEvent) obj);
-                }
+                } else System.out.println("What happen?");
 
             } catch (IOException e) {
                 e.printStackTrace();

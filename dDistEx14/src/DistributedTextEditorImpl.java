@@ -109,9 +109,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+                System.out.println("Outputstream initated");
                 ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("Inputstream initiated");
                 outputStream.writeObject(initConnectionEvent);
+                System.out.println("Wrote initConnectionEvent");
                 Object setupEvent = inputStream.readObject();
+                System.out.println("Object received : " + setupEvent);
                 if(setupEvent instanceof SetupConnectionEvent) {
                     handleSetupConnection((SetupConnectionEvent) setupEvent);
                 } else {

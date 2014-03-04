@@ -1,7 +1,5 @@
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 /*
 * This Runnable has a reference to a documentEventCapturer, it takes event from it and streams it through the
@@ -26,7 +24,6 @@ public class EventTransmitter implements Runnable {
         while (!wasInterrupted) {
             try {
                 MyTextEvent textEvent = documentEventCapturer.take();
-                System.out.println("Sent message with timestamp " + textEvent.getTimestamp()[0] + "," + textEvent.getTimestamp()[1]);
                 outputStream.writeObject(textEvent);
             } catch (IOException e){
                 callback.connectionClosed();
@@ -37,6 +34,5 @@ public class EventTransmitter implements Runnable {
                 _.printStackTrace();
             }
         }
-        System.out.println("I'm the thread running the EventTransmitter, now I die!");
     }
 }

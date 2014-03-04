@@ -124,16 +124,12 @@ public class DistributedTextEditor extends JFrame {
                 vectorClockArray.add(0, 0.0);
                 vectorClockArray.add(1, 0.1);
                 area1Document.enableFilter();
-                System.out.println("Vector clock initialized with values " + vectorClockArray.get(0) + " and " + vectorClockArray.get(1));
                 startTransmitting();
-                System.out.println("Transmitting thread started");
                 startReceiving();
-                System.out.println("Receiving thread started");
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
-                System.out.println("Connection established");
             } catch (ConnectException ce) {
                 ce.printStackTrace();
                 setTitle("Disconnected: Failed to connect");

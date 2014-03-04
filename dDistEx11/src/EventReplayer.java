@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInput;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -52,18 +51,15 @@ public class EventReplayer implements Runnable {
                 wasInterrupted = true;
             }
         }
-        System.out.println("I'm the thread running the EventReplayer, now I die!");
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
-        System.out.println("Received a text remove event with offset " + obj.getOffset() + " and length " + obj.getLength() + " and timestamp " + obj.getTimestamp()[0] + "," + obj.getTimestamp()[1]);
         final TextRemoveEvent textRemoveEvent = obj;
         final double[] timestamp = textRemoveEvent.getTimestamp();
         final int senderIndex = textRemoveEvent.getSender();
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
-                System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength());
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
                         Thread.sleep(100);
@@ -142,7 +138,6 @@ public class EventReplayer implements Runnable {
 
 
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
-        System.out.println("Received a text insert event with offset " + obj.getOffset() + " and text " + obj.getText() + " and timestamp " + obj.getTimestamp()[0] + "," + obj.getTimestamp()[1]);
         final TextInsertEvent textInsertEvent = obj;
         final double[] timestamp = textInsertEvent.getTimestamp();
         final int senderIndex = textInsertEvent.getSender();

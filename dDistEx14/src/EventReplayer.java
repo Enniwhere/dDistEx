@@ -140,6 +140,7 @@ public class EventReplayer implements Runnable {
         }).start();
     }
 
+    //.
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
         final TextInsertEvent textInsertEvent = obj;
         final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();

@@ -31,7 +31,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected ServerSocket serverSocket;
     protected Socket socket;
 
-    // Added Fields
+    // Added Fields.
     private int scrambleLamportClock = 0;
     private String lamportIndex;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
@@ -457,7 +457,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                     outputStream.writeObject(setupConnectionEvent);
                                     outputStream.close();
                                     inputStream.close();
-                                    scrambleNetwork(new ScrambleEvent(scrambleLamportClock+1, addedClocks));
+                                    //scrambleNetwork(new ScrambleEvent(scrambleLamportClock+1, addedClocks));
                                 }
                             }
                             setTitle("New Connection");
@@ -468,7 +468,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                         //connectionClosed();
                     }
                 }
-            };
+            }
         };
     }
 

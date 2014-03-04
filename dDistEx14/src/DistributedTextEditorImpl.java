@@ -518,7 +518,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
             System.out.println("Got following peers: " + addresses);
             for (String s : addresses) {
-                String ip = s.substring(0, s.indexOf(":")-1);
+                String ip = s.substring(0, s.indexOf(":"));
                 System.out.println("Connecting to this ip : " + ip);
                 int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
                 System.out.println("on following port :" + port);

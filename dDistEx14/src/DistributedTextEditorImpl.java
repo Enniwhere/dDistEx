@@ -31,7 +31,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected ServerSocket serverSocket;
     protected Socket socket;
 
-    // Added Fields
+    // Added Fields.
     private int scrambleLamportClock = 0;
     private String lamportIndex;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
@@ -102,6 +102,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             area1.setText("");
             setTitle("Connecting to " + getIPAddress() + ":" + getPortNumber() + "...");
             try {
+                registerOnPort();
+                listenThread = new Thread(createListenRunnable());
+                listenThread.start();
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
@@ -109,9 +112,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("Outputstream initated");
                 outputStream.writeObject(initConnectionEvent);
+                System.out.println("Wrote initConnectionEvent");
+                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("Inputstream initiated");
                 Object setupEvent = inputStream.readObject();
+                System.out.println("Object received : " + setupEvent);
                 if(setupEvent instanceof SetupConnectionEvent) {
                     handleSetupConnection((SetupConnectionEvent) setupEvent);
                 } else {
@@ -120,8 +127,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 }
                 outputStream.close();
                 inputStream.close();
-                listenThread = new Thread(createListenRunnable());
-                listenThread.start();
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
@@ -129,6 +134,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             } catch (Exception ce) {
                 ce.printStackTrace();
                 setTitle("Disconnected: Failed to connect");
+                disconnectAll();
             }
             changed = false;
         }
@@ -256,6 +262,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         } catch (UnknownHostException e) {
             System.err.println("Cannot resolve the Internet address of the local host.");
             System.err.println(e);
+            e.printStackTrace();
         }
         return localhostAddress;
     }
@@ -285,6 +292,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 serverSocket = null;
             } catch (IOException e) {
                 System.err.println(e);
+                e.printStackTrace();
             }
         }
     }
@@ -441,8 +449,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                             if(connectionEvent instanceof MyConnectionEvent) {
                                 if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.SCRAMBLE_CONNECTED)) {
                                     String address = socket.getInetAddress() + ":" + socket.getPort();
+                                    System.out.println("Got scramble event, connection to " + address);
                                     startReceiving(inputStream, address);
                                 } else if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
+                                    System.out.println("Received Ann Init Connect Event");
                                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                                     addToClock(((InitConnectionEvent) connectionEvent).getMap());
                                     MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, scrambleLamportClock);
@@ -456,11 +466,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                             connected = true;
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         //connectionClosed();
                     }
                 }
-            };
+            }
         };
     }
 
@@ -501,17 +511,21 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public synchronized void scrambleNetwork(ScrambleEvent scrambleEvent) {
         if(scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
+            System.out.println("Starting scramble");
             for(String s : eventTransmitterMap.keySet()) {
                 eventTransmitterMap.get(s).interrupt();
                 eventTransmitterMap.remove(s);
             }
 
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
+            System.out.println("Got following peers: " + addresses);
             for (String s : addresses) {
-                String ip = s.substring(0, s.indexOf(":")-1);
-                int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length() - 1));
+                String ip = s.substring(0, s.indexOf(":"));
+                System.out.println("Connecting to this ip : " + ip);
+                int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
+                System.out.println("on following port: " + port);
                 try {
-                    socket.connect(new InetSocketAddress(ip, port));
+                    socket = new Socket(ip, port);
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -522,6 +536,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 setTitle("Lost connection to all peers, left network");
             }
             scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
+            System.out.println("ScrambleLamportClock has been set");
         }
     }
 

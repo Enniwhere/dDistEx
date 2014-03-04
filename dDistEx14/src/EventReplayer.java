@@ -44,7 +44,7 @@ public class EventReplayer implements Runnable {
                     handleInsertEvent((TextInsertEvent) obj);
                 } else if (obj instanceof TextRemoveEvent) {
                     handleRemoveEvent((TextRemoveEvent) obj);
-                }
+                } else System.out.println("What happen?");
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -142,6 +142,7 @@ public class EventReplayer implements Runnable {
         }).start();
     }
 
+    //.
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
         final TextInsertEvent textInsertEvent = obj;
         final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();

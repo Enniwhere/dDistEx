@@ -449,6 +449,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                             if(connectionEvent instanceof MyConnectionEvent) {
                                 if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.SCRAMBLE_CONNECTED)) {
                                     String address = socket.getInetAddress() + ":" + socket.getPort();
+                                    System.out.println("Got scramble event, connection to " + address);
                                     startReceiving(inputStream, address);
                                 } else if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
                                     System.out.println("Received Ann Init Connect Event");
@@ -535,6 +536,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 setTitle("Lost connection to all peers, left network");
             }
             scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
+            System.out.println("ScrambleLamportClock has been set");
         }
     }
 

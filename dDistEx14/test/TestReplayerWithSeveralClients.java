@@ -75,4 +75,64 @@ public class TestReplayerWithSeveralClients {
         }
         assertEquals("Text after inserting 1432 at position 1 text should be a1432bcd", "a1432bcd", area1.getText());
     }
+
+    @Test
+    public void twoInsertsFromSameClientWithOneFromOtherClientInBetweenBeforeLocalInsert(){
+        area1.insert("1",1);
+        MyTextEvent insert2 = new TextInsertEvent(1,"2");
+        insert2.setSender("client2");
+        insert2.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        MyTextEvent insert3 = new TextInsertEvent(2,"3");
+        insert3.setSender("client3");
+        timestamp.put("client3",1);
+        timestamp.put("client2",2);
+        insert3.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        MyTextEvent insert4 = new TextInsertEvent(2,"4");
+        insert4.setSender("client2");
+        timestamp.put("client3", 0);
+        insert4.setTimestamp(new HashMap<String, Integer>(timestamp));
+        inputQueue.add(insert2);
+        inputQueue.add(insert3);
+        inputQueue.add(insert4);
+        eventReplayer.run();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals("Text after inserting 1234 at position 1 text should be a1234bcd", "a1234bcd", area1.getText());
+    }
+
+    @Test
+    public void clientInsertBeforeInsideAndAfterLocalRemove(){
+        area1.replaceRange("",1,3);
+
+        MyTextEvent insert2 = new TextInsertEvent(0,"2");
+        insert2.setSender("client2");
+        insert2.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        MyTextEvent insert3 = new TextInsertEvent(2,"3");
+        insert3.setSender("client3");
+        timestamp.put("client2",0);
+        timestamp.put("client3",1);
+        insert3.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        MyTextEvent insert4 = new TextInsertEvent(4,"4");
+        timestamp.put("client3", 0);
+        insert4.setSender("client4");
+        timestamp.put("client4", 1);
+        insert4.setTimestamp(new HashMap<String, Integer>(timestamp));
+        inputQueue.add(insert2);
+        inputQueue.add(insert3);
+        inputQueue.add(insert4);
+        eventReplayer.run();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        assertEquals("Text after inserting 2 before, 3 inside and 4 after local remove should be 2ad4", "2ad4", area1.getText());
+    }
 }

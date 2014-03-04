@@ -93,9 +93,8 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
         //TODO: IMPLEMENT THIS
 
     @Override
-    public boolean addToClock(Map<String, Integer> map) {
+    public void addToClock(Map<String, Integer> map) {
         //TODO: IMPLEMENT THIS
-        return false;
     }
 
     @Override
@@ -104,6 +103,20 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
+    public void scrambleNetwork(ScrambleEvent scrambleEvent) {
+        //This method was auto-implemented
+    }
+
+    @Override
+    public int getScrambleLamportClock() {
+        return 0;  //This method was auto-implemented
+    }
+
+    @Override
+    public Map<String, Integer> getAddedClocks() {
+        return null;  //This method was auto-implemented
+    }
+
     public void scrambleNetwork() {
 
     }

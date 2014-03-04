@@ -16,7 +16,7 @@ public class ObjectInputStreamStub implements ObjectInput {
     public Object readObject() throws ClassNotFoundException, IOException {
         try {
             if (queue.isEmpty()){
-                Thread.sleep(1000);
+                //Thread.sleep(100);
                 throw new IOException();
             }
             return this.queue.take();

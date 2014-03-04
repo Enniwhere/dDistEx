@@ -367,8 +367,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
      
-    public synchronized void incrementLamportTime() {
-        vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
+    public void incrementLamportTime() {
+        synchronized (vectorClockHashMap){
+            vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
+        }
     }
 
      
@@ -377,14 +379,16 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
      
-    public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
-        for (String s : hashMap.keySet()) {
-            vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
+    public void adjustVectorClock(Map<String, Integer> hashMap) {
+        synchronized (vectorClockHashMap){
+            for (String s : hashMap.keySet()) {
+                vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
+            }
         }
     }
 
      
-    public synchronized ArrayList<MyTextEvent> getEventHistoryInterval(Map<String,Integer> timestamp) {
+    public ArrayList<MyTextEvent> getEventHistoryInterval(Map<String,Integer> timestamp) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         synchronized (eventHistory) {
             for (MyTextEvent event : eventHistory) {

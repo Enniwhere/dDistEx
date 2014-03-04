@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 /**
@@ -7,19 +8,19 @@ import java.util.concurrent.BlockingQueue;
  */
 public class ObjectInputStreamStub implements ObjectInput {
 
-    private BlockingQueue<Object> queue;
+    private Queue<Object> queue;
 
-    public ObjectInputStreamStub(BlockingQueue<Object> queue){
+    public ObjectInputStreamStub(Queue<Object> queue){
         this.queue = queue;
     }
     @Override
     public Object readObject() throws ClassNotFoundException, IOException {
         try {
             if (queue.isEmpty()){
-                //Thread.sleep(100);
+                Thread.sleep(100);
                 throw new IOException();
             }
-            return this.queue.take();
+            return this.queue.remove();
         } catch (InterruptedException e) {
 
         }

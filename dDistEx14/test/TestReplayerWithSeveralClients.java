@@ -70,12 +70,12 @@ public class TestReplayerWithSeveralClients {
         inputQueue.add(insert4);
         inputQueue.add(insert2);
         eventReplayer.run();
-        try {
+        /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        assertEquals("Text after inserting 1432 at position 1 text should be a1432bcd", "a1432bcd", area1.getText());
+        } */
+        assertEquals("Text after inserting 1234 at position 1 text should be a1234bcd", "a1234bcd", area1.getText());
     }
 
     @Test
@@ -99,11 +99,11 @@ public class TestReplayerWithSeveralClients {
         inputQueue.add(insert2);
         inputQueue.add(insert4);
         eventReplayer.run();
-        try {
+        /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        } */
         assertEquals("Text after inserting 1234 at position 1 text should be a1234bcd", "a1234bcd", area1.getText());
     }
 
@@ -126,15 +126,15 @@ public class TestReplayerWithSeveralClients {
         insert4.setSender("client4");
         timestamp.put("client4", 1);
         insert4.setTimestamp(new HashMap<String, Integer>(timestamp));
+        inputQueue.add(insert4);
         inputQueue.add(insert2);
         inputQueue.add(insert3);
-        inputQueue.add(insert4);
         eventReplayer.run();
-        try {
+        /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        } */
         assertEquals("Text after inserting 2 before, 3 inside and 4 after local remove should be 2ad4", "2ad4", area1.getText());
     }
 }

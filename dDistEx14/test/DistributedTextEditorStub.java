@@ -49,8 +49,10 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public synchronized void incrementLamportTime() {
-        vectorClockMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
+    public void incrementLamportTime() {
+        synchronized (vectorClockMap){
+            vectorClockMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
+        }
     }
 
     @Override
@@ -59,9 +61,11 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public synchronized void adjustVectorClock(Map<String, Integer> hashMap) {
-        for (String s : hashMap.keySet()) {
-            vectorClockMap.put(s, Math.max(vectorClockMap.get(s), hashMap.get(s)));
+    public void adjustVectorClock(Map<String, Integer> hashMap) {
+        synchronized (vectorClockMap){
+            for (String s : hashMap.keySet()) {
+                vectorClockMap.put(s, Math.max(vectorClockMap.get(s), hashMap.get(s)));
+            }
         }
     }
 

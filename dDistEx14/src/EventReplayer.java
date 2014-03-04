@@ -75,7 +75,7 @@ public class EventReplayer implements Runnable {
                         synchronized (areaDocument) {
 
                             String receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp.get(receiverIndex), getCallbackLamportTime(receiverIndex), receiverIndex);
+                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             // Sort the events the other client hasn't seen
                             Collections.sort(historyInterval, comparator);
@@ -154,7 +154,7 @@ public class EventReplayer implements Runnable {
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
                             String receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp.get(receiverIndex), getCallbackLamportTime(receiverIndex), receiverIndex);
+                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             // Sort the events the other client hasn't seen
                             Collections.sort(historyInterval, comparator);

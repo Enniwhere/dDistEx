@@ -66,12 +66,15 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public ArrayList<MyTextEvent> getEventHistoryInterval(int start, int end, String lamportIndex) {
+    public ArrayList<MyTextEvent> getEventHistoryInterval(Map<String,Integer> timestamp) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         synchronized (eventHistory) {
             for (MyTextEvent event : eventHistory) {
-                int time = event.getTimestamp().get(lamportIndex);
-                if (time > start && time <= end) {
+                boolean shouldAdd = false;
+                for (String id : timestamp.keySet()){
+                    shouldAdd = shouldAdd || event.getTimestamp().get(id) > timestamp.get(id);
+                }
+                if (shouldAdd) {
                     res.add(event);
                 }
             }

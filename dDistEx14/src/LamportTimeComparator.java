@@ -16,6 +16,6 @@ public class LamportTimeComparator implements Comparator<MyTextEvent> {
         Map<String, Integer> e2Timestamp = e2.getTimestamp();
         Integer e1LamportTime = e1Timestamp.get(index);
         Integer e2LamportTime = e2Timestamp.get(index);
-        return e1LamportTime.equals(e2LamportTime) ? e1.getSender().compareTo(e2.getSender()) : e1LamportTime.compareTo(e2LamportTime);
+        return e1LamportTime.equals(e2LamportTime) ? e2.getSender().compareTo(e1.getSender()) : e1LamportTime.compareTo(e2LamportTime);
     }
 }

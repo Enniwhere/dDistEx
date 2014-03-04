@@ -457,14 +457,14 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                     outputStream.writeObject(setupConnectionEvent);
                                     outputStream.close();
                                     inputStream.close();
-                                    //scrambleNetwork(new ScrambleEvent(scrambleLamportClock+1, addedClocks));
+                                    scrambleNetwork(new ScrambleEvent(scrambleLamportClock+1, addedClocks));
                                 }
                             }
                             setTitle("New Connection");
                             connected = true;
                         }
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         //connectionClosed();
                     }
                 }
@@ -509,15 +509,19 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public synchronized void scrambleNetwork(ScrambleEvent scrambleEvent) {
         if(scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
+            System.out.println("Starting scramble");
             for(String s : eventTransmitterMap.keySet()) {
                 eventTransmitterMap.get(s).interrupt();
                 eventTransmitterMap.remove(s);
             }
 
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
+            System.out.println("Got following peers: " + addresses);
             for (String s : addresses) {
                 String ip = s.substring(0, s.indexOf(":")-1);
-                int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length() - 1));
+                System.out.println("Connecting to this ip : " + ip);
+                int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
+                System.out.println("on following port :" + port);
                 try {
                     socket.connect(new InetSocketAddress(ip, port));
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);

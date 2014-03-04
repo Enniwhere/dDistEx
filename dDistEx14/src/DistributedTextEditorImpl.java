@@ -524,7 +524,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
                 System.out.println("on following port: " + port);
                 try {
-                    socket.connect(new InetSocketAddress(ip, port));
+                    socket = new Socket(ip, port);
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);
                 } catch (IOException e) {
                     e.printStackTrace();

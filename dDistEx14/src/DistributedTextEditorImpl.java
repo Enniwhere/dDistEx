@@ -124,6 +124,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 }
                 outputStream.close();
                 inputStream.close();
+                registerOnPort();
                 listenThread = new Thread(createListenRunnable());
                 listenThread.start();
                 connected = true;
@@ -260,6 +261,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         } catch (UnknownHostException e) {
             System.err.println("Cannot resolve the Internet address of the local host.");
             System.err.println(e);
+            e.printStackTrace();
         }
         return localhostAddress;
     }
@@ -289,6 +291,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 serverSocket = null;
             } catch (IOException e) {
                 System.err.println(e);
+                e.printStackTrace();
             }
         }
     }

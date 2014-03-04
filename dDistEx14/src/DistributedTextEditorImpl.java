@@ -102,6 +102,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             area1.setText("");
             setTitle("Connecting to " + getIPAddress() + ":" + getPortNumber() + "...");
             try {
+                registerOnPort();
+                listenThread = new Thread(createListenRunnable());
+                listenThread.start();
                 socket = new Socket(getIPAddress(), getPortNumber());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
                 lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
@@ -124,9 +127,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 }
                 outputStream.close();
                 inputStream.close();
-                registerOnPort();
-                listenThread = new Thread(createListenRunnable());
-                listenThread.start();
                 connected = true;
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
@@ -134,6 +134,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             } catch (Exception ce) {
                 ce.printStackTrace();
                 setTitle("Disconnected: Failed to connect");
+                disconnectAll();
             }
             changed = false;
         }
@@ -521,7 +522,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 String ip = s.substring(0, s.indexOf(":"));
                 System.out.println("Connecting to this ip : " + ip);
                 int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
-                System.out.println("on following port :" + port);
+                System.out.println("on following port: " + port);
                 try {
                     socket.connect(new InetSocketAddress(ip, port));
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);

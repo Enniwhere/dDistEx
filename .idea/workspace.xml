@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="Did not fix the bug, but made the system work again after having the event history take events from other clients also.&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" afterPath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" afterPath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" afterPath="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/ObjectInputStreamStub.java" afterPath="$PROJECT_DIR$/dDistEx14/test/ObjectInputStreamStub.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" afterPath="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" />
+    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -765,7 +759,11 @@
       <created>1393933485335</created>
       <updated>1393933485335</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Fixed the bug by making our comparator sort in ascending order instead of descending order.">
+      <created>1393941666062</created>
+      <updated>1393941666062</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -789,7 +787,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.251875" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25614488" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25614488" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -826,7 +824,8 @@
     <MESSAGE value="Created new tests for the case of several clients and located a bug requiring a rewrite in the way we get and sort the event history." />
     <MESSAGE value="Tried to fix the case where different clients events were dependant on being received in a particular order." />
     <MESSAGE value="Did not fix the bug, but made the system work again after having the event history take events from other clients also." />
-    <option name="LAST_COMMIT_MESSAGE" value="Did not fix the bug, but made the system work again after having the event history take events from other clients also." />
+    <MESSAGE value="Fixed the bug by making our comparator sort in ascending order instead of descending order." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed the bug by making our comparator sort in ascending order instead of descending order." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

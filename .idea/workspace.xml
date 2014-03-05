@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" afterPath="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -762,7 +761,11 @@
       <created>1394024827961</created>
       <updated>1394024827961</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Made the situation with several interlaced inserts and a remove somewhat better. Only known bug is when two insert events are made by different clients who haven't seen each others' events which happen to have the same offset as the end of a remove event from another client who hasn't seen any of the other clients' events AND the events are received in a particular order.&#10;">
+      <created>1394025009101</created>
+      <updated>1394025009101</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="ToolWindowManager">

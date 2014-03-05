@@ -9,7 +9,7 @@ public interface DistributedTextEditor {
 
     public void connectionClosed();
 
-    public int getPortNumber();
+    public int getPortNumberTextField();
 
     public String getIPAddress();
 

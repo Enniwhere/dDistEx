@@ -21,7 +21,7 @@ public class NetworkTopologyHelper {
             Random rand = new Random();
             ArrayList<String> listOfIP = new ArrayList<String>();
             for (String s : clockMap.keySet()) listOfIP.add(s);
-            for (int i = 0; i < 3;) {
+            for (int i = 0; i < 3; i++) {
                 String s = listOfIP.get(rand.nextInt(listOfIP.size()));
                 res.add(s);
                 listOfIP.remove(s);

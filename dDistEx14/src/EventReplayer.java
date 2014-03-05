@@ -91,7 +91,7 @@ public class EventReplayer implements Runnable {
                                 int localEventTextLengthChange = localEvent.getTextLengthChange();
                                 String localEventIndex = localEvent.getSender();
 
-                                System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength() + " by comparing it to the event " + (localEvent instanceof TextInsertEvent ? " inserting " + ((TextInsertEvent) localEvent).getText() + " at " + localEvent.getOffset() : " removing from " + localEvent.getOffset() + " to " + (localEvent.getOffset()-localEvent.getTextLengthChange())));
+                                //System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength() + " by comparing it to the event " + (localEvent instanceof TextInsertEvent ? " inserting " + ((TextInsertEvent) localEvent).getText() + " at " + localEvent.getOffset() : " removing from " + localEvent.getOffset() + " to " + (localEvent.getOffset()-localEvent.getTextLengthChange())));
                                 // Check to see if the local event has a lower offset than the received event
                                 if (isLocalEventOffsetLower(localEventIndex, removeEventOffset, localEventOffset, senderIndex)) {
 
@@ -122,7 +122,7 @@ public class EventReplayer implements Runnable {
                                     // or we reduce the length of the received event by the length of the overlapping region (if they are both remove events)
                                     if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(textRemoveEvent.getSender()))){
                                         textRemoveEvent.setLength(removeEventLength + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
-                                        System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+                                        //System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
                                     }
                                 } else {
                                     // If the local event has a higher offset than and isn't contained by the received event, we simply adjust the offset of the local event accordingly.
@@ -179,7 +179,7 @@ public class EventReplayer implements Runnable {
                                 int localEventOffset = localEvent.getOffset() + insideRemoveEventOffsetAdjust;
                                 int localEventTextLengthChange = localEvent.getTextLengthChange();
                                 String localEventIndex = localEvent.getSender();
-                                System.out.println("Compared the event inserting " + textInsertEvent.getText() + " at offset " + textInsertEvent.getOffset() + " to the event " + (localEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) localEvent).getText() + " at offset " + localEventOffset : " removing from offset " + localEventOffset));
+                                //System.out.println("Compared the event inserting " + textInsertEvent.getText() + " at offset " + textInsertEvent.getOffset() + " to the event " + (localEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) localEvent).getText() + " at offset " + localEventOffset : " removing from offset " + localEventOffset));
                                 // Checks if the local event has a lower index than the received insert event
                                 if (isLocalEventOffsetLower(localEventIndex, insertEventOffset, localEventOffset, senderIndex)) {
 
@@ -189,7 +189,7 @@ public class EventReplayer implements Runnable {
                                         // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
                                         // Also adjust the length of the remove event in order to ensure consistency with the other
                                         // client's event history.
-                                        System.out.println("Event was ignored");
+                                        //System.out.println("Event was ignored");
                                         ignore = true;
                                         textInsertEvent.setIgnored(true);
                                         if (ignoreRemoveEvent == null || ignoreRemoveEvent.getOffset()+ignoreRemoveEvent.getLength() < localEvent.getOffset() + ((TextRemoveEvent)localEvent).getLength()) {
@@ -201,10 +201,10 @@ public class EventReplayer implements Runnable {
                                         // Just add or subtract the length of the local event from the received event.
                                         if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textInsertEvent.getTimestamp().get(textInsertEvent.getSender()))){
                                             textInsertEvent.setOffset(insertEventOffset + localEventTextLengthChange);
-                                            System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + localEventTextLengthChange);
+                                            //System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + localEventTextLengthChange);
                                         }
                                         if (ignoreRemoveEvent!= null && ignoreRemoveEvent.getOffset()+ignoreRemoveEvent.getLength()-textInsertEvent.getTextLengthChange() <= textInsertEvent.getOffset()){
-                                            System.out.println("Event was pushed out of the remove event and is no longer ignored");
+                                            //System.out.println("Event was pushed out of the remove event and is no longer ignored");
                                             ignore = false;
                                             ignoreRemoveEvent.setLength(ignoreRemoveEvent.getLength()-textInsertEvent.getTextLengthChange());
                                             textInsertEvent.setOffset(textInsertEvent.getOffset() - ignoreRemoveEvent.getLength());

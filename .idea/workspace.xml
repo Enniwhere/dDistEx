@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" afterPath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" afterPath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -68,10 +67,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="203" column="95" selection-start="14596" selection-end="14596" vertical-scroll-proportion="0.0" vertical-offset="3549" max-vertical-offset="4380">
+            <state line="267" column="43" selection-start="18712" selection-end="18712" vertical-scroll-proportion="0.5865922" vertical-offset="3540" max-vertical-offset="4380">
               <folding />
             </state>
           </provider>
@@ -122,10 +121,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DistributedTextEditorImpl.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DistributedTextEditorImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="434" column="5" selection-start="16959" selection-end="16959" vertical-scroll-proportion="0.80727273" vertical-offset="5721" max-vertical-offset="8775">
+            <state line="425" column="94" selection-start="16637" selection-end="16637" vertical-scroll-proportion="0.0" vertical-offset="6015" max-vertical-offset="8775">
               <folding />
             </state>
           </provider>
@@ -180,10 +179,10 @@
         <option value="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditor.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/MyTextEvent.java" />
-        <option value="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
         <option value="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" />
         <option value="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
+        <option value="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
       </list>
     </option>
   </component>
@@ -779,7 +778,11 @@
       <created>1394026391765</created>
       <updated>1394026391765</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Made the history interval ignore events from the same sender but with a lower timestamp for the receiver id.">
+      <created>1394027752055</created>
+      <updated>1394027752055</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -824,7 +827,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop." />
     <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop.&#10;" />
     <MESSAGE value="Tried to enforce causal communication.&#10;" />
     <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;dDistEx11/src/EventReplayer.java&#10;" />
@@ -849,7 +851,8 @@
     <MESSAGE value="Made the situation with several interlaced inserts and a remove somewhat better. Only known bug is when two insert events are made by different clients who haven't seen each others' events which happen to have the same offset as the end of a remove event from another client who hasn't seen any of the other clients' events AND the events are received in a particular order.&#10;" />
     <MESSAGE value="Fixed a bug when inserting inside remove events." />
     <MESSAGE value="Fixed a bug when inserting inside remove events.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug when inserting inside remove events.&#10;" />
+    <MESSAGE value="Made the history interval ignore events from the same sender but with a lower timestamp for the receiver id." />
+    <option name="LAST_COMMIT_MESSAGE" value="Made the history interval ignore events from the same sender but with a lower timestamp for the receiver id." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1124,16 +1127,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="203" column="95" selection-start="14596" selection-end="14596" vertical-scroll-proportion="0.0" vertical-offset="2877" max-vertical-offset="4380">
+        <state line="425" column="94" selection-start="16637" selection-end="16637" vertical-scroll-proportion="0.0" vertical-offset="6015" max-vertical-offset="8775">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="434" column="5" selection-start="16959" selection-end="16959" vertical-scroll-proportion="0.80727273" vertical-offset="5721" max-vertical-offset="8775">
+        <state line="267" column="43" selection-start="18712" selection-end="18712" vertical-scroll-proportion="0.5865922" vertical-offset="3540" max-vertical-offset="4380">
           <folding />
         </state>
       </provider>

@@ -209,6 +209,7 @@ public class EventReplayer implements Runnable {
                                             ignoreRemoveEvent.setLength(ignoreRemoveEvent.getLength()-textInsertEvent.getTextLengthChange());
                                             textInsertEvent.setOffset(textInsertEvent.getOffset() - ignoreRemoveEvent.getLength());
                                             textInsertEvent.setIgnored(false);
+                                            ignoreRemoveEvent = null;
                                         }
                                     }
                                 } else {

@@ -114,7 +114,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 listenThread.start();
                 socket = new Socket(getIPAddress(), getPortNumberTextField());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumberTextField());
-                lamportIndex = getLocalHostAddress() + ":" + getPortNumberTextField();
+                lamportIndex = getLocalHostAddress() + ":" + portNumber;
                 vectorClockHashMap.put(lamportIndex, 0);
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
@@ -454,7 +454,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
         vectorClockHashMap = new HashMap<String, Integer>(setupConnectionEvent.getMap());
-        scrambleNetwork(new ScrambleEvent(setupConnectionEvent.getScrambleLamportClock(), addedClocks));
+        scrambleNetwork(new ScrambleEvent(setupConnectionEvent.getScrambleLamportClock() + 1, addedClocks));
     }
 
     private Runnable createListenRunnable() {
@@ -546,6 +546,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 System.out.println("on following port: " + port);
                 try {
                     socket = new Socket(ip, port);
+                    System.out.println("Socket opened");
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);
                 } catch (IOException e) {
                     e.printStackTrace();

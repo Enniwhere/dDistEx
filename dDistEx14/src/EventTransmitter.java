@@ -20,6 +20,11 @@ public class EventTransmitter implements Runnable {
 
     public void run() {
         boolean wasInterrupted = false;
+        try {
+            outputStream.writeObject(new ScrambleConnectEvent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         while (!wasInterrupted) {
             try {

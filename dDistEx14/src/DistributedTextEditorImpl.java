@@ -14,6 +14,8 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,6 +34,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected Socket socket;
 
     // Added Fields.
+    private Thread eventBroadcasterThread;
+    private LinkedBlockingQueue[] eventTransmitterBlockingQueues = new LinkedBlockingQueue[3];
     private int scrambleLamportClock = 0;
     private String lamportIndex;
     private ArrayList<MyTextEvent> eventHistory = new ArrayList<MyTextEvent>();
@@ -63,13 +67,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     /*
-    Firing the "Listen" action will start a thread that listens for a client to connect.
-    The registerOnPort checks if the port could be registered
-    When a connection has been established it will start two new threads; "EventTransmitter" and "EventReplayer"
-    They are initialised and started in helper-methods at the bottom. Each thread gets a reference to this
-    DistributedTextEditor as well as either an input- or outputStream. For the sake of the EventTransmitter
-    it will also have a reference to the DocumentEventCapturer to be able to fetch events from it.
-     */
+        Firing the "Listen" action will start a thread that listens for a client to connect.
+        The registerOnPort checks if the port could be registered
+        When a connection has been established it will start two new threads; "EventTransmitter" and "EventReplayer"
+        They are initialised and started in helper-methods at the bottom. Each thread gets a reference to this
+        DistributedTextEditor as well as either an input- or outputStream. For the sake of the EventTransmitter
+        it will also have a reference to the DocumentEventCapturer to be able to fetch events from it.
+         */
     Action Listen = new AbstractAction("Listen") {
         public void actionPerformed(ActionEvent e) {
             Listen.setEnabled(false);
@@ -81,6 +85,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 lamportIndex = getLocalHostAddress() + ":" + portNumber;
                 vectorClockHashMap.put(lamportIndex, 0);
                 area1Document.enableFilter();
+                eventBroadcasterThread = new Thread(getEventBroadcasterRunnable());
+                eventBroadcasterThread.start();
                 listenThread = new Thread(createListenRunnable());
                 listenThread.start();
                 try {
@@ -112,6 +118,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 registerOnPort();
                 listenThread = new Thread(createListenRunnable());
                 listenThread.start();
+                eventBroadcasterThread = new Thread(getEventBroadcasterRunnable());
+                eventBroadcasterThread.start();
                 socket = new Socket(getIPAddress(), getPortNumberTextField());
                 setTitle("Connected to " + getIPAddress() + ":" + getPortNumberTextField());
                 lamportIndex = getLocalHostAddress() + ":" + portNumber;
@@ -317,8 +325,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     //This method is responsible for starting the eventTransmitterThread.
-    private void startTransmitting(ObjectOutputStream outputStream, String address) throws IOException {
-        EventTransmitter eventTransmitter = new EventTransmitter(documentEventCapturer, outputStream, this);
+    private void startTransmitting(ObjectOutputStream outputStream, String address, LinkedBlockingQueue<Object> eventTransmitterBlockingQueue) throws IOException {
+        EventTransmitter eventTransmitter = new EventTransmitter(eventTransmitterBlockingQueue, outputStream, this);
         eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterMap.put(address, eventTransmitterThread);
         eventTransmitterThread.start();
@@ -469,7 +477,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                             if(connectionEvent instanceof MyConnectionEvent) {
                                 if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.SCRAMBLE_CONNECTED)) {
                                     String address = socket.getInetAddress() + ":" + socket.getPort();
-                                    System.out.println("Got scramble event, connection to " + address);
+                                    System.out.println("Got scramble event, connection from " + address);
                                     startReceiving(inputStream, address);
                                 } else if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
                                     System.out.println("Received Ann Init Connect Event");
@@ -540,15 +548,16 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
             System.out.println("Got following peers: " + addresses);
-            for (String s : addresses) {
+            for (int i = 0; i < addresses.size(); i++) {
+                String s = addresses.get(i);
                 String ip = s.substring(0, s.indexOf(":"));
                 System.out.println("Connecting to this ip : " + ip);
                 int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
                 System.out.println("on following port: " + port);
                 try {
                     socket = new Socket(ip, port);
-                    System.out.println("Socket opened");
-                    startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);
+                    System.out.println("Starting thread with eventTransmitter #" + i);
+                    startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s, eventTransmitterBlockingQueues[i]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -574,5 +583,26 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public static void main(String[] args) {
         new DistributedTextEditorImpl();
+    }
+
+    public Runnable getEventBroadcasterRunnable() {
+        return new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 3; i++) {
+                    eventTransmitterBlockingQueues[i] = new LinkedBlockingQueue<Object>();
+                }
+                while(true) {
+                    try {
+                        Object object = documentEventCapturer.take();
+                        for (int i = 0; i < 3; i++) {
+                            eventTransmitterBlockingQueues[i].put(object);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
     }
 }

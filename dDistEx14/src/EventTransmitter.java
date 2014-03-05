@@ -29,6 +29,7 @@ public class EventTransmitter implements Runnable {
 
         while (!wasInterrupted) {
             try {
+
                 MyTextEvent textEvent = (MyTextEvent) linkedBlockingQueue.take();
 
                 outputStream.writeObject(textEvent);
@@ -36,13 +37,15 @@ public class EventTransmitter implements Runnable {
                 callback.connectionClosed();
                 wasInterrupted = true;
                 e.printStackTrace();
-            } catch (Exception _) {
+            } catch (Exception e) {
                 wasInterrupted = true;
-                _.printStackTrace();
+                e.printStackTrace();
             }
         }
         try {
+            System.out.println("Sending scramble event");
             outputStream.writeObject(new ScrambleEvent(callback.getScrambleLamportClock(), callback.getAddedClocks()));
+            System.out.println("Scramble event sent");
         } catch (IOException e) {
             e.printStackTrace();
         }

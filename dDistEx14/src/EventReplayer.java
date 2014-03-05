@@ -44,7 +44,7 @@ public class EventReplayer implements Runnable {
                     handleInsertEvent((TextInsertEvent) obj);
                 } else if (obj instanceof TextRemoveEvent) {
                     handleRemoveEvent((TextRemoveEvent) obj);
-                } else System.out.println("What happen?");
+                }
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -257,6 +257,7 @@ public class EventReplayer implements Runnable {
             callback.connectionClosed();
         } else if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
             callback.addToClock(((ScrambleEvent) obj).getAddedClocks());
+            System.out.println("Received scramble event, starting SCRAMBLE");
             callback.scrambleNetwork(((ScrambleEvent)obj));
         }
     }

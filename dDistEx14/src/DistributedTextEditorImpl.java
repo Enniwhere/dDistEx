@@ -384,6 +384,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
      
     public int getLamportTime(String index) {
+        System.out.println(vectorClockHashMap);
         return vectorClockHashMap.get(index);
     }
 
@@ -452,7 +453,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     public void addToClock(Map<String, Integer> map) {
         for (String s : map.keySet()) {
             if(!vectorClockHashMap.containsKey(s)) {
-                vectorClockHashMap.put(s,map.get(s));
+                System.out.println("Adding " + s + " to clock");
+                vectorClockHashMap.put(s, map.get(s));
                 addedClocks.put(s, map.get(s));
             }
         }
@@ -541,12 +543,14 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     public synchronized void scrambleNetwork(ScrambleEvent scrambleEvent) {
+        System.out.println("Trying to scramble with the clocks : " + scrambleLamportClock + " and " + scrambleEvent.getScrambleLamportClock());
         if(scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
             System.out.println("Starting scramble");
+            scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
             for(String s : eventTransmitterMap.keySet()) {
                 eventTransmitterMap.get(s).interrupt();
-                eventTransmitterMap.remove(s);
             }
+            eventTransmitterMap = new HashMap<String, Thread>();
 
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
             System.out.println("Got following peers: " + addresses);
@@ -568,8 +572,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 disconnectAll();
                 setTitle("Lost connection to all peers, left network");
             }
-            scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
-            System.out.println("ScrambleLamportClock has been set");
+            System.out.println("ScrambleLamportClock has been set to : " + scrambleLamportClock);
         }
     }
 

@@ -104,21 +104,26 @@ public class EventReplayer implements Runnable {
                                         // Else, check if the offset of the received remove event is overlapped by a local remove event.
                                         // In this case we subtract the length of the overlapping region from the length of the received event and
                                         // we set the offset of the received event to the offset of the local event.
-                                        textRemoveEvent.setLength(removeEventLength - (localEventOffset + ((TextRemoveEvent) localEvent).getLength() - removeEventOffset));
-                                        textRemoveEvent.setOffset(localEvent.getOffset());
+                                        if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(textRemoveEvent.getSender()))){
+                                            textRemoveEvent.setLength(removeEventLength - (localEventOffset + ((TextRemoveEvent) localEvent).getLength() - removeEventOffset));
+                                            textRemoveEvent.setOffset(localEvent.getOffset());
+                                        }
 
                                     } else {
                                         // Else the local event must happen at a lower index without overlap, and we simply add/subtract
                                         // the length of the event from the length of the received event.
-                                        textRemoveEvent.setOffset(removeEventOffset + localEventTextLengthChange);
+                                        if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(textRemoveEvent.getSender())))
+                                            textRemoveEvent.setOffset(removeEventOffset + localEventTextLengthChange);
                                     }
                                 } else if (isLocalEventOffsetLower("", removeEventOffset + removeEventLength, localEventOffset, "")) {
                                     // If the offset of the local event isn't lower than the offset of the received event, we check to see if the offset of the local event is
                                     // contained in the received event.
                                     // In this case we either increase the length of the received event by the length of the local event (if it is an insert event)
                                     // or we reduce the length of the received event by the length of the overlapping region (if they are both remove events)
-                                    textRemoveEvent.setLength(removeEventLength + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
-                                    System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+                                    if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(textRemoveEvent.getSender()))){
+                                        textRemoveEvent.setLength(removeEventLength + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+                                        System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+                                    }
                                 } else {
                                     // If the local event has a higher offset than and isn't contained by the received event, we simply adjust the offset of the local event accordingly.
                                     localEvent.setOffset(localEventOffset + removeEventTextLengthChange);

@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditor.java" afterPath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" afterPath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" afterPath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" afterPath="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" afterPath="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -75,8 +71,11 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="97" column="40" selection-start="4765" selection-end="4765" vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="4020">
-              <folding />
+            <state line="199" column="85" selection-start="14143" selection-end="14143" vertical-scroll-proportion="0.0" vertical-offset="2509" max-vertical-offset="4125">
+              <folding>
+                <element signature="e#2378#9874#0" expanded="true" />
+                <element signature="e#9863#9864#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,16 +83,16 @@
       <file leaf-file-name="TestReplayerWithSeveralClients.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="309" column="30" selection-start="12039" selection-end="12039" vertical-scroll-proportion="0.0" vertical-offset="4002" max-vertical-offset="4785">
+            <state line="406" column="48" selection-start="16100" selection-end="16100" vertical-scroll-proportion="0.0" vertical-offset="5764" max-vertical-offset="6225">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LamportTimeComparator.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="LamportTimeComparator.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="20" selection-start="1016" selection-end="1016" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="690">
+            <state line="23" column="34" selection-start="779" selection-end="779" vertical-scroll-proportion="0.43719807" vertical-offset="149" max-vertical-offset="690">
               <folding />
             </state>
           </provider>
@@ -102,7 +101,7 @@
       <file leaf-file-name="DistributedTextEditorStub.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="89" column="5" selection-start="1841" selection-end="2600" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="2010">
+            <state line="79" column="51" selection-start="2293" selection-end="2293" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="2010">
               <folding>
                 <element signature="e#1970#1983#0" expanded="true" />
               </folding>
@@ -110,10 +109,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DistributedTextEditorImpl.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="DistributedTextEditorImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="426" column="5" selection-start="16258" selection-end="16258" vertical-scroll-proportion="0.877193" vertical-offset="5625" max-vertical-offset="8400">
+            <state line="426" column="5" selection-start="16258" selection-end="16258" vertical-scroll-proportion="0.0" vertical-offset="5625" max-vertical-offset="8400">
               <folding>
                 <element signature="e#15628#15641#0" expanded="true" />
               </folding>
@@ -160,10 +159,10 @@
         <option value="$PROJECT_DIR$/dDistEx14/test/ObjectInputStreamStub.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditor.java" />
         <option value="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
-        <option value="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
+        <option value="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
         <option value="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
-        <option value="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
+        <option value="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
       </list>
     </option>
   </component>
@@ -398,13 +397,13 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="TestReplayerWithSeveralClients.clientInsertBeforeInsideAndAfterLocalRemove" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="TestReplayerWithSeveralClients.insertBeforeInsideAndAfterRemoveAlternativeClient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dDistEx14" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TestReplayerWithSeveralClients" />
-      <option name="METHOD_NAME" value="clientInsertBeforeInsideAndAfterLocalRemove" />
+      <option name="METHOD_NAME" value="insertBeforeInsideAndAfterRemoveAlternativeClient" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -420,13 +419,13 @@
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
-    <configuration default="false" name="TestReplayerWithSeveralClients.insertBeforeInsideAndAfterRemoveAlternativeClient" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="TestReplayerWithSeveralClients.severalInsertsAndARemoveFromSeveralClientsOnDifferentOffsetsShouldGiveIntuitiveResults" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="dDistEx14" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TestReplayerWithSeveralClients" />
-      <option name="METHOD_NAME" value="insertBeforeInsideAndAfterRemoveAlternativeClient" />
+      <option name="METHOD_NAME" value="severalInsertsAndARemoveFromSeveralClientsOnDifferentOffsetsShouldGiveIntuitiveResults" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -573,16 +572,16 @@
       <item index="0" class="java.lang.String" itemvalue="JUnit.All in dDistEx14" />
       <item index="1" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients" />
       <item index="2" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.threeInsertEventsAfterLocalInsertShouldGiveIntuitiveResults" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.clientInsertBeforeInsideAndAfterLocalRemove" />
-      <item index="4" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.insertBeforeInsideAndAfterRemoveAlternativeClient" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.insertBeforeInsideAndAfterRemoveAlternativeClient" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.severalInsertsAndARemoveFromSeveralClientsOnDifferentOffsetsShouldGiveIntuitiveResults" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.All in dDistEx14" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.insertBeforeInsideAndAfterRemoveAlternativeClient" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.threeInsertEventsAfterLocalInsertShouldGiveIntuitiveResults" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.clientInsertBeforeInsideAndAfterLocalRemove" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.severalInsertsAndARemoveFromSeveralClientsOnDifferentOffsetsShouldGiveIntuitiveResults" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.All in dDistEx14" />
+        <item index="3" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.insertBeforeInsideAndAfterRemoveAlternativeClient" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.TestReplayerWithSeveralClients.threeInsertEventsAfterLocalInsertShouldGiveIntuitiveResults" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
@@ -719,12 +718,16 @@
       <created>1394012491409</created>
       <updated>1394012491409</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Made the stresstest with several inserts from several clients work">
+      <created>1394015524784</created>
+      <updated>1394015524784</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1602" height="874" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -742,8 +745,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.251875" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25614488" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.251875" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40103492" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -784,7 +787,8 @@
     <MESSAGE value="Fixed the bug by making our comparator sort in ascending order instead of descending order.&#10;" />
     <MESSAGE value="Fixed some oversynchronization." />
     <MESSAGE value="Tried to fix some problems with many inserts from many clients." />
-    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix some problems with many inserts from many clients." />
+    <MESSAGE value="Made the stresstest with several inserts from several clients work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made the stresstest with several inserts from several clients work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1036,23 +1040,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="20" selection-start="1016" selection-end="1016" vertical-scroll-proportion="0.0" vertical-offset="149" max-vertical-offset="690">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="309" column="30" selection-start="12039" selection-end="12039" vertical-scroll-proportion="0.0" vertical-offset="4002" max-vertical-offset="4785">
-          <folding />
+        <state line="426" column="5" selection-start="16258" selection-end="16258" vertical-scroll-proportion="0.0" vertical-offset="5625" max-vertical-offset="8400">
+          <folding>
+            <element signature="e#15628#15641#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="89" column="5" selection-start="1841" selection-end="2600" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="2010">
+        <state line="79" column="51" selection-start="2293" selection-end="2293" vertical-scroll-proportion="0.0" vertical-offset="869" max-vertical-offset="2010">
           <folding>
             <element signature="e#1970#1983#0" expanded="true" />
           </folding>
@@ -1061,17 +1060,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="97" column="40" selection-start="4765" selection-end="4765" vertical-scroll-proportion="0.0" vertical-offset="1335" max-vertical-offset="4020">
+        <state line="199" column="85" selection-start="14143" selection-end="14143" vertical-scroll-proportion="0.0" vertical-offset="2509" max-vertical-offset="4125">
+          <folding>
+            <element signature="e#2378#9874#0" expanded="true" />
+            <element signature="e#9863#9864#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="406" column="48" selection-start="16100" selection-end="16100" vertical-scroll-proportion="0.0" vertical-offset="5764" max-vertical-offset="6225">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="426" column="5" selection-start="16258" selection-end="16258" vertical-scroll-proportion="0.877193" vertical-offset="5625" max-vertical-offset="8400">
-          <folding>
-            <element signature="e#15628#15641#0" expanded="true" />
-          </folding>
+        <state line="23" column="34" selection-start="779" selection-end="779" vertical-scroll-proportion="0.43719807" vertical-offset="149" max-vertical-offset="690">
+          <folding />
         </state>
       </provider>
     </entry>

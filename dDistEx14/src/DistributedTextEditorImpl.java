@@ -458,8 +458,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         }
     }
 
-
-
      
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
         area1Document.disableFilter();

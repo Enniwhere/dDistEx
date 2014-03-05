@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
-    private JTextField portNumber = new JTextField("Port number here");
+    private JTextField portNumberTextField = new JTextField("Port number here");
     private JFileChooser dialog =
             new JFileChooser(System.getProperty("user.dir"));
     private String currentFile = "Untitled";
@@ -46,6 +46,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
     private boolean debugIsOn = false;
     private DistributedDocument area1Document;
+    private int portNumber;
     //end of added fields
 
     ActionMap m = area1.getActionMap();
@@ -75,13 +76,19 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             Connect.setEnabled(false);
             Disconnect.setEnabled(true);
             if (registerOnPort()) {
-                setTitle("I'm listening on " + getLocalHostAddress() + ":" + getPortNumber());
+                setTitle("I'm listening on " + getLocalHostAddress() + ":" + portNumber);
                 area1.setText("");
-                lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                lamportIndex = getLocalHostAddress() + ":" + portNumber;
                 vectorClockHashMap.put(lamportIndex, 0);
                 area1Document.enableFilter();
                 listenThread = new Thread(createListenRunnable());
                 listenThread.start();
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                portNumberTextField.setText("");
             } else {
                 setTitle("Could not register on port, maybe its already registered?");
             }
@@ -100,14 +107,14 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         public void actionPerformed(ActionEvent e) {
             saveOld();
             area1.setText("");
-            setTitle("Connecting to " + getIPAddress() + ":" + getPortNumber() + "...");
+            setTitle("Connecting to " + getIPAddress() + ":" + getPortNumberTextField() + "...");
             try {
                 registerOnPort();
                 listenThread = new Thread(createListenRunnable());
                 listenThread.start();
-                socket = new Socket(getIPAddress(), getPortNumber());
-                setTitle("Connected to " + getIPAddress() + ":" + getPortNumber());
-                lamportIndex = getLocalHostAddress() + ":" + getPortNumber();
+                socket = new Socket(getIPAddress(), getPortNumberTextField());
+                setTitle("Connected to " + getIPAddress() + ":" + getPortNumberTextField());
+                lamportIndex = getLocalHostAddress() + ":" + portNumber;
                 vectorClockHashMap.put(lamportIndex, 0);
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
@@ -198,7 +205,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
         content.add(scroll1, BorderLayout.CENTER);
         content.add(ipAddress, BorderLayout.CENTER);
-        content.add(portNumber, BorderLayout.CENTER);
+        content.add(portNumberTextField, BorderLayout.CENTER);
         JMenuBar JMB = new JMenuBar();
         setJMenuBar(JMB);
         JMenu file = new JMenu("File");
@@ -268,19 +275,30 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     /*
-    Will register this server on the port number portNumber.
+    Will register this server on the port number portNumberTextField.
      */
     private boolean registerOnPort() {
         if (serverSocket == null) {
-            try {
-                serverSocket = new ServerSocket(getPortNumber());
-                return true;
-            } catch (IOException e) {
-                serverSocket = null;
+            for (int i = 40101; i < 65634; i++) {
+                if(isPortAvailable(i)){
+
+                    return true;
+                }
             }
         }
         return false;
     }
+
+    private boolean isPortAvailable(int portNum) {
+        try {
+            serverSocket = new ServerSocket(portNum);
+            portNumber = portNum;
+            return true;
+        } catch (IOException e) {
+        }
+        return false;
+    }
+
 
     /*
     Will deregister the server on the port
@@ -290,6 +308,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             try {
                 serverSocket.close();
                 serverSocket = null;
+                portNumber = -1;
             } catch (IOException e) {
                 System.err.println(e);
                 e.printStackTrace();
@@ -328,13 +347,12 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
      
-    public int getPortNumber() {
-        String portNumberString = portNumber.getText();
+    public int getPortNumberTextField() {
+        String portNumberString = portNumberTextField.getText();
         Matcher matcher = portPattern.matcher(portNumberString);
         if (matcher.matches()) return Integer.parseInt(portNumberString);
         return 40101;
     }
-
      
     public String getIPAddress() {
         String ipAddressString = ipAddress.getText();
@@ -416,9 +434,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return debugIsOn;
     }
 
-    public static void main(String[] args) {
-        new DistributedTextEditorImpl();
-    }
+
 
     //@return true if something where added to this clock.
     public void addToClock(Map<String, Integer> map) {
@@ -438,7 +454,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
         vectorClockHashMap = new HashMap<String, Integer>(setupConnectionEvent.getMap());
-        scrambleNetwork(new ScrambleEvent(setupConnectionEvent.getScrambleLamportClock(), addedClocks));
+        scrambleNetwork(new ScrambleEvent(setupConnectionEvent.getScrambleLamportClock() + 1, addedClocks));
     }
 
     private Runnable createListenRunnable() {
@@ -460,6 +476,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                                     addToClock(((InitConnectionEvent) connectionEvent).getMap());
                                     MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, scrambleLamportClock);
+                                    System.out.println("I made this setupConnectionEvent: " + ((InitConnectionEvent) connectionEvent).getMap());
                                     outputStream.writeObject(setupConnectionEvent);
                                     outputStream.close();
                                     inputStream.close();
@@ -530,6 +547,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 System.out.println("on following port: " + port);
                 try {
                     socket = new Socket(ip, port);
+                    System.out.println("Socket opened");
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -552,5 +570,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         Map<String, Integer> res = new HashMap<String, Integer>(addedClocks);
         addedClocks.clear();
         return res;
+    }
+
+    public static void main(String[] args) {
+        new DistributedTextEditorImpl();
     }
 }

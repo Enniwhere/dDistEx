@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -770,7 +769,11 @@
       <created>1394025013534</created>
       <updated>1394025013534</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Fixed a bug when inserting inside remove events.">
+      <created>1394026385797</created>
+      <updated>1394026385797</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -815,7 +818,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Updated exercise 11" />
     <MESSAGE value="Updated exercise 11&#10;" />
     <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop." />
     <MESSAGE value="Made the editors write to the same field, and eliminated the feedback loop.&#10;" />
@@ -840,7 +842,8 @@
     <MESSAGE value="Made the situation with several interlaced inserts and a remove somewhat better." />
     <MESSAGE value="Made the situation with several interlaced inserts and a remove somewhat better.&#10;" />
     <MESSAGE value="Made the situation with several interlaced inserts and a remove somewhat better. Only known bug is when two insert events are made by different clients who haven't seen each others' events which happen to have the same offset as the end of a remove event from another client who hasn't seen any of the other clients' events AND the events are received in a particular order.&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Made the situation with several interlaced inserts and a remove somewhat better. Only known bug is when two insert events are made by different clients who haven't seen each others' events which happen to have the same offset as the end of a remove event from another client who hasn't seen any of the other clients' events AND the events are received in a particular order.&#10;" />
+    <MESSAGE value="Fixed a bug when inserting inside remove events." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug when inserting inside remove events." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

@@ -44,7 +44,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     private Map<String, Thread> eventTransmitterMap = new HashMap<String, Thread>();
     private NetworkTopologyHelper networkTopologyHelper = new NetworkTopologyHelper();
     private Thread eventTransmitterThread;
-    private Map<String, Integer> addedClocks = new HashMap<String, Integer>();
+    private Map<String, Integer> addedClocks = new HashMap<String, Integer>();  //TODO: This isnt finished
     private Thread listenThread;
     private Pattern portPattern = Pattern.compile("^0*(?:6553[0-5]|655[0-2][0-9]|65[0-4][0-9]{2}|6[0-4][0-9]{3}|[1-5][0-9]{4}|[1-9][0-9]{1,3}|[0-9])$");
     private Pattern ipPattern = Pattern.compile("(([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})\\.){3}([0-1][\\d]{2}|[2][0-4][\\d]|25[0-5]|\\d{1,2})");
@@ -384,7 +384,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
      
     public int getLamportTime(String index) {
-        System.out.println(vectorClockHashMap);
         return vectorClockHashMap.get(index);
     }
 
@@ -468,6 +467,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
         vectorClockHashMap = new HashMap<String, Integer>(setupConnectionEvent.getMap());
+        System.out.println("THIS IS FOR TAGGINGS" + vectorClockHashMap);
         scrambleNetwork(new ScrambleEvent(setupConnectionEvent.getScrambleLamportClock() + 1, addedClocks));
     }
 
@@ -584,7 +584,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public Map<String, Integer> getAddedClocks() {
         Map<String, Integer> res = new HashMap<String, Integer>(addedClocks);
-        addedClocks.clear();
         return res;
     }
 

@@ -424,8 +424,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 for (String id : timestamp.keySet()){
                     shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
                 }
-                if (event.getSender().equals(textEvent.getSender()))
-                    shouldAdd = true;
+                shouldAdd = shouldAdd || (event.getSender().equals(textEvent.getSender()) && event.getTimestamp().get(lamportIndex) >= timestamp.get(lamportIndex));
                 if (shouldAdd) {
                     res.add(event);
                 }
@@ -458,8 +457,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             }
         }
     }
-
-
 
      
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {

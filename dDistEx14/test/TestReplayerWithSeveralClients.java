@@ -404,11 +404,12 @@ public class TestReplayerWithSeveralClients {
         insert4_1.setTimestamp(new HashMap<String, Integer>(timestamp));
 
         inputQueue.add(insert4_1);
-        inputQueue.add(insert4_4);
-        inputQueue.add(insert1_1);
         inputQueue.add(insert1_3);
         inputQueue.add(insert2_0);
         inputQueue.add(insert2_3);
+        inputQueue.add(insert4_4);
+        inputQueue.add(insert1_1);
+
         eventReplayer.run();
 
         assertEquals("Text after inserting the events should be (2_0)a(1_1)(1_3)(2_3)d(4_4)", "(2_0)a(1_1)(1_3)(2_3)d(4_4)", area1.getText());

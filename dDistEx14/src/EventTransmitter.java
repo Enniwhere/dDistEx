@@ -1,19 +1,20 @@
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /*
-* This Runnable has a reference to a documentEventCapturer, it takes event from it and streams it through the
+* This Runnable has a reference to a linkedBlockingQueue, it takes event from it and streams it through the
 * outputStream that is given to it. If connection is lost, it invokes connectionClosed.
 */
 public class EventTransmitter implements Runnable {
 
     private DistributedTextEditor callback;
-    private DocumentEventCapturer documentEventCapturer;
+    private LinkedBlockingQueue<Object> linkedBlockingQueue;
     private ObjectOutputStream outputStream;
 
 
-    public EventTransmitter(DocumentEventCapturer documentEventCapturer, ObjectOutputStream outputStream, DistributedTextEditor callback) {
-        this.documentEventCapturer = documentEventCapturer;
+    public EventTransmitter(LinkedBlockingQueue<Object> linkedBlockingQueue, ObjectOutputStream outputStream, DistributedTextEditor callback) {
+        this.linkedBlockingQueue = linkedBlockingQueue;
         this.outputStream = outputStream;
         this.callback = callback;
     }
@@ -28,7 +29,8 @@ public class EventTransmitter implements Runnable {
 
         while (!wasInterrupted) {
             try {
-                MyTextEvent textEvent = documentEventCapturer.take();
+                MyTextEvent textEvent = (MyTextEvent) linkedBlockingQueue.take();
+
                 outputStream.writeObject(textEvent);
             } catch (IOException e){
                 callback.connectionClosed();

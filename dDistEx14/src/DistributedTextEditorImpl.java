@@ -405,15 +405,19 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         }
     }
 
-     
-    public ArrayList<MyTextEvent> getEventHistoryInterval(Map<String,Integer> timestamp) {
+
+    public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent textEvent) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
+        Map<String,Integer> timestamp = textEvent.getTimestamp();
+
         synchronized (eventHistory) {
             for (MyTextEvent event : eventHistory) {
                 boolean shouldAdd = false;
                 for (String id : timestamp.keySet()){
                     shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
                 }
+                if (event.getSender().equals(textEvent.getSender()))
+                    shouldAdd = true;
                 if (shouldAdd) {
                     res.add(event);
                 }

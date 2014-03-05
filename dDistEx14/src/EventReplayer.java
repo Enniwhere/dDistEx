@@ -75,7 +75,7 @@ public class EventReplayer implements Runnable {
                         synchronized (areaDocument) {
 
                             String receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp);
+                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textRemoveEvent);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             // Sort the events the other client hasn't seen
                             Collections.sort(historyInterval, comparator);
@@ -160,7 +160,7 @@ public class EventReplayer implements Runnable {
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
                             String receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(timestamp);
+                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
                             // Sort the events the other client hasn't seen
                             Collections.sort(historyInterval, comparator);
@@ -187,7 +187,8 @@ public class EventReplayer implements Runnable {
                                     } else {
                                         // Else the local event has a lower offset than the received event.
                                         // Just add or subtract the length of the local event from the received event.
-                                        textInsertEvent.setOffset(insertEventOffset + localEventTextLengthChange);
+                                        if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textInsertEvent.getTimestamp().get(textInsertEvent.getSender())))
+                                            textInsertEvent.setOffset(insertEventOffset + localEventTextLengthChange);
                                         System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + localEventTextLengthChange);
                                     }
                                 } else {

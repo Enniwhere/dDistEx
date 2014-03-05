@@ -24,8 +24,8 @@ public class LamportTimeComparator implements Comparator<MyTextEvent> {
         } else if (e2.getSender().equals(index) && !e1.getSender().equals(index)){
             return 1;
         } */
-        if (e1.getSender().equals(e2.getSender()) && e1.getTimestamp().get(e1.getSender()) > e2.getTimestamp().get(e1.getSender())){
-            return 1;
+        if (e2.getSender().equals(e1.getSender()) && e2.getTimestamp().get(e1.getSender()) > e1.getTimestamp().get(e2.getSender())){
+            return -1;
         }
         if (e1Offset.equals(e2Offset)){
             if (e1LamportTime.equals(e2LamportTime)) {

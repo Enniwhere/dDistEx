@@ -230,6 +230,7 @@ public class EventReplayer implements Runnable {
                             if (!ignore) {
                                 areaDocument.disableFilter();
                                 int dotPosBeforeInsert = area.getCaret().getDot();
+                                System.out.println("Inserting!: " + textInsertEvent.getText() + " with offset: " + textInsertEvent.getOffset());
                                 area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
                                 // If both clients are writing to the same offset they push each others' carets in front of the text creating interlaced text.
                                 // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,

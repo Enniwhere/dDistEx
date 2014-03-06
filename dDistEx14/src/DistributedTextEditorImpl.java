@@ -21,6 +21,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+  TODO: Inconsistency ved latency
+  TODO: Optimer forsinkelse på replays
+  TODO: Death Certificate
+*/
+
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
@@ -424,7 +430,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             for (MyTextEvent event : eventHistory) {
                 boolean shouldAdd = false;
                 for (String id : timestamp.keySet()){
-                    shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
+                    if(event.getTimestamp().containsKey(id)) {
+                        shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
+                    } else shouldAdd = false;
                 }
                 if (event.getSender().equals(textEvent.getSender()))
                     shouldAdd = true;

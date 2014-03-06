@@ -69,10 +69,14 @@ public class EventReplayer implements Runnable {
 
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(10);
+                        Thread.sleep(200);
+                        if (callback.eventIsContainedInEventHistory(textRemoveEvent)) return;
+
+
                     }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
+                            if (callback.eventIsContainedInEventHistory(textRemoveEvent)) return;
 
                             String receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textRemoveEvent);
@@ -139,6 +143,7 @@ public class EventReplayer implements Runnable {
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textRemoveEvent);
+                            callback.forwardTextEvent(textRemoveEvent);
                         }
                     }
                 } catch (IllegalArgumentException ae){
@@ -160,10 +165,12 @@ public class EventReplayer implements Runnable {
             public void run() {
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(10);
+                        Thread.sleep(200);
+                        if (callback.eventIsContainedInEventHistory(textInsertEvent)) return;
                     }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
+                            if (callback.eventIsContainedInEventHistory(textInsertEvent)) return;
                             String receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);
@@ -235,6 +242,7 @@ public class EventReplayer implements Runnable {
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textInsertEvent);
+                            callback.forwardTextEvent(textInsertEvent);
                         }
                     }
                 } catch (IllegalArgumentException ae){

@@ -79,7 +79,8 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
                 for (String id : timestamp.keySet()){
                     shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
                 }
-                shouldAdd = shouldAdd || (event.getSender().equals(textEvent.getSender()) && event.getTimestamp().get(lamportIndex) >= timestamp.get(lamportIndex));
+                if (event.getSender().equals(textEvent.getSender()))
+                    shouldAdd = true;
                 if (shouldAdd) {
                     res.add(event);
                 }
@@ -124,6 +125,16 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     @Override
     public Map<String, Integer> getAddedClocks() {
         return null;  //This method was auto-implemented
+    }
+
+    @Override
+    public boolean eventIsContainedInEventHistory(Object obj) {
+        return false;
+    }
+
+    @Override
+    public void forwardTextEvent(Object obj) {
+
     }
 
     public void scrambleNetwork() {

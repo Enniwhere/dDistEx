@@ -86,7 +86,8 @@ public class TestReplayerWithSeveralClients {
         timestamp.put("client3",1);
         insert3.setTimestamp(new HashMap<String, Integer>(timestamp));
 
-        MyTextEvent insert4 = new TextInsertEvent(1,"4");
+        MyTextEvent insert4 = new TextInsertEvent(1,"4" +
+                "");
         insert4.setSender("client4");
         timestamp.put("client3",0);
         timestamp.put("client4", 1);

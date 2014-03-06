@@ -49,6 +49,6 @@ public class EventTransmitter implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("I'm the thread running the EventTransmitter, now I die!");
+
     }
 }

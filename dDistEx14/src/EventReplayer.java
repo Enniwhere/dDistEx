@@ -40,15 +40,12 @@ public class EventReplayer implements Runnable {
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);
                 }
-
-                else if(obj instanceof MyTextEvent && !callback.eventIsContainedInEventHistory(obj)){
-
-                    if (obj instanceof TextInsertEvent) {
-                        handleInsertEvent((TextInsertEvent) obj);
-                    } else if (obj instanceof TextRemoveEvent) {
-                        handleRemoveEvent((TextRemoveEvent) obj);
-                    }
+                if (obj instanceof TextInsertEvent) {
+                    handleInsertEvent((TextInsertEvent) obj);
+                } else if (obj instanceof TextRemoveEvent) {
+                    handleRemoveEvent((TextRemoveEvent) obj);
                 }
+
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -73,7 +70,10 @@ public class EventReplayer implements Runnable {
 
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(10);
+                        Thread.sleep(200);
+                        if(callback.eventIsContainedInEventHistory(textRemoveEvent)){
+                            return;
+                        }
                     }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
@@ -168,7 +168,10 @@ public class EventReplayer implements Runnable {
             public void run() {
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(10);
+                        Thread.sleep(200);
+                        if(callback.eventIsContainedInEventHistory(textInsertEvent)){
+                            return;
+                        }
                     }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {

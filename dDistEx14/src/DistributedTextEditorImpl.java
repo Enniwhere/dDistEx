@@ -36,6 +36,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected Socket socket;
 
     // Added Fields.
+    private ArrayList<MyTextEvent> receivedEvents = new ArrayList<MyTextEvent>();
     private Thread eventBroadcasterThread;
     private LinkedBlockingQueue[] eventTransmitterBlockingQueues = new LinkedBlockingQueue[3];
     private int scrambleLamportClock = 0;
@@ -588,17 +589,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     @Override
-    public boolean eventIsContainedInEventHistory(Object obj) {
-        MyTextEvent textEvent = (MyTextEvent) obj;
-        for(MyTextEvent event : eventHistory){
-            if(event.getTimestamp() == textEvent.getTimestamp()){
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void forwardTextEvent(Object obj) {
         if(obj instanceof MyTextEvent){
             for(LinkedBlockingQueue queue : eventTransmitterBlockingQueues){
@@ -609,6 +599,17 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 }
             }
         }
+    }
+
+    public boolean eventHasBeenReceived(MyTextEvent event) {
+        for(MyTextEvent textEvent : receivedEvents ) {
+            if (textEvent.getTimestamp().equals(event.getTimestamp())) return true;
+        }
+        return false;
+    }
+
+    public synchronized void addEventToReceived(MyTextEvent event) {
+        receivedEvents.add(event);
     }
 
     public static void main(String[] args) {

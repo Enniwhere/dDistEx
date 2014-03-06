@@ -40,9 +40,11 @@ public class EventReplayer implements Runnable {
 
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);
-                } else if (obj instanceof TextInsertEvent) {
+                } else if (obj instanceof TextInsertEvent && !callback.eventHasBeenReceived((MyTextEvent) obj)) {
                     handleInsertEvent((TextInsertEvent) obj);
-                } else if (obj instanceof TextRemoveEvent) {
+                    callback.addEventToReceived((MyTextEvent) obj);
+                } else if (obj instanceof TextRemoveEvent && !callback.eventHasBeenReceived((MyTextEvent) obj)) {
+                    callback.addEventToReceived((MyTextEvent) obj);
                     handleRemoveEvent((TextRemoveEvent) obj);
                 }
 
@@ -59,6 +61,7 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
+
         final TextRemoveEvent textRemoveEvent = obj;
         final Map<String, Integer> timestamp = textRemoveEvent.getTimestamp();
         final String senderIndex = textRemoveEvent.getSender();
@@ -70,13 +73,11 @@ public class EventReplayer implements Runnable {
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
                         Thread.sleep(200);
-                        if (callback.eventIsContainedInEventHistory(textRemoveEvent)) return;
 
 
                     }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
-                            if (callback.eventIsContainedInEventHistory(textRemoveEvent)) return;
 
                             String receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textRemoveEvent);
@@ -166,11 +167,9 @@ public class EventReplayer implements Runnable {
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex)) {
                         Thread.sleep(200);
-                        if (callback.eventIsContainedInEventHistory(textInsertEvent)) return;
                     }
                     if (areaDocument != null) {
                         synchronized (areaDocument) {
-                            if (callback.eventIsContainedInEventHistory(textInsertEvent)) return;
                             String receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
                             LamportTimeComparator comparator = new LamportTimeComparator(receiverIndex);

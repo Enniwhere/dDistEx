@@ -40,7 +40,9 @@ public interface DistributedTextEditor {
 
     public Map<String, Integer> getAddedClocks();
 
-    public boolean eventIsContainedInEventHistory(Object obj);
-
     public void forwardTextEvent(Object obj);
+
+    public boolean eventHasBeenReceived(MyTextEvent event);
+
+    public void addEventToReceived(MyTextEvent event);
 }

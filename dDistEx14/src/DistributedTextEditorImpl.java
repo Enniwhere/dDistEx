@@ -384,8 +384,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
      
     public int getLamportTime(String index) {
-        
-        return vectorClockHashMap.get(index);
+        if (vectorClockHashMap.containsKey(index))
+            return vectorClockHashMap.get(index);
+        return 0;
     }
 
      

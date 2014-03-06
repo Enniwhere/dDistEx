@@ -382,7 +382,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
 
-     
     public int getLamportTime(String index) {
         if (vectorClockHashMap.containsKey(index))
             return vectorClockHashMap.get(index);
@@ -584,7 +583,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public Map<String, Integer> getAddedClocks() {
         Map<String, Integer> res = new HashMap<String, Integer>(addedClocks);
-        addedClocks.clear();
         return res;
     }
 

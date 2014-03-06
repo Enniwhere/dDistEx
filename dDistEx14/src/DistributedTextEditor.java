@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -40,4 +39,8 @@ public interface DistributedTextEditor {
     public int getScrambleLamportClock();
 
     public Map<String, Integer> getAddedClocks();
+
+    public boolean eventIsContainedInEventHistory(Object obj);
+
+    public void forwardTextEvent(Object obj);
 }

@@ -27,7 +27,18 @@ public class LamportTimeComparator implements Comparator<MyTextEvent> {
         if (e2.getSender().equals(e1.getSender()) && e2.getTimestamp().get(e1.getSender()) > e1.getTimestamp().get(e2.getSender())){
             return -1;
         }
+        if (e1 instanceof TextRemoveEvent && e2.isIgnored() && e1.getOffset() < e2.getOffset() && (e1Offset != e2Offset || e1.getSender().compareTo(e2.getSender()) < 0) && e2.getOffset() < e1.getOffset() + ((TextRemoveEvent) e1).getLength()){
+            return -1;
+        } else if (e2 instanceof TextRemoveEvent && e1.isIgnored() && e2.getOffset() < e1.getOffset() && (e2Offset != e1Offset || e2.getSender().compareTo(e1.getSender()) < 0) && e1.getOffset() < e2.getOffset() + ((TextRemoveEvent) e2).getLength()){
+            return 1;
+        }
+
         if (e1Offset.equals(e2Offset)){
+            if (e1 instanceof TextRemoveEvent && !(e2 instanceof TextRemoveEvent)) {
+                return -1;
+            } else if (e2 instanceof TextRemoveEvent && !(e1 instanceof TextRemoveEvent)){
+                return 1;
+            }
             if (e1LamportTime.equals(e2LamportTime)) {
                 return e1.getSender().compareTo(e2.getSender());
             } else {

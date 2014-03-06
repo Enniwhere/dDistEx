@@ -465,7 +465,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         area1Document.disableFilter();
         area1.setText(setupConnectionEvent.getText());
         area1Document.enableFilter();
-        vectorClockHashMap = new HashMap<String, Integer>(setupConnectionEvent.getMap());
+        vectorClockHashMap = new HashMap<String, Integer>(setupConnectionEvent.getVectorClock());
+        eventHistory = new ArrayList<MyTextEvent>(setupConnectionEvent.getEventHistory());
         scrambleNetwork(new ScrambleEvent(setupConnectionEvent.getScrambleLamportClock() + 1, addedClocks));
     }
 
@@ -487,7 +488,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                     
                                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                                     addToClock(((InitConnectionEvent) connectionEvent).getMap());
-                                    MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, scrambleLamportClock);
+                                    MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, eventHistory,scrambleLamportClock);
                                     
                                     outputStream.writeObject(setupConnectionEvent);
                                     outputStream.close();

@@ -14,6 +14,10 @@ public class TextInsertEvent extends MyTextEvent {
     public String getText() { return text; }
 
     @Override
+    public void setOffset(int offset){
+        super.setOffset(offset);
+    }
+    @Override
     public int getTextLengthChange(){
         return text.length();
     }

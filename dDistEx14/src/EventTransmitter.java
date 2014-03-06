@@ -8,14 +8,16 @@ import java.util.concurrent.LinkedBlockingQueue;
 */
 public class EventTransmitter implements Runnable {
 
+    private final String index;
     private DistributedTextEditor callback;
     private LinkedBlockingQueue<Object> linkedBlockingQueue;
     private ObjectOutputStream outputStream;
 
 
-    public EventTransmitter(LinkedBlockingQueue<Object> linkedBlockingQueue, ObjectOutputStream outputStream, DistributedTextEditor callback) {
+    public EventTransmitter(LinkedBlockingQueue<Object> linkedBlockingQueue, ObjectOutputStream outputStream, String index, DistributedTextEditor callback) {
         this.linkedBlockingQueue = linkedBlockingQueue;
         this.outputStream = outputStream;
+        this.index = index;
         this.callback = callback;
     }
 
@@ -34,7 +36,9 @@ public class EventTransmitter implements Runnable {
 
                 outputStream.writeObject(textEvent);
             } catch (IOException e){
-                callback.connectionClosed();
+                callback.connectionClosed(index);
+                callback.scrambleNetwork(new ScrambleEvent(callback.getScrambleLamportClock(), callback.getTimestamp(),
+                                                index));
                 wasInterrupted = true;
                 e.printStackTrace();
             } catch (Exception e) {

@@ -7,4 +7,5 @@ public class ConnectionEventTypes {
     public static final String SETUP_CONNECTION = "setup_connection";
     public static final String SCRAMBLE_CONNECTED = "scramble_connected";
     public static final String SCRAMBLE_EVENT = "scramble_event";
+    public static final String DEATH_CERTIFICATE = "death_certificate";
 }

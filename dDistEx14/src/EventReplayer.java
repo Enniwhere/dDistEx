@@ -50,7 +50,6 @@ public class EventReplayer implements Runnable {
 
             } catch (IOException e) {
                 e.printStackTrace();
-                callback.connectionClosed();
                 wasInterrupted = true;
             } catch (Exception e2) {
                 e2.printStackTrace();
@@ -260,12 +259,11 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleConnectionEvent(MyConnectionEvent obj) {
-        if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REQUEST)) {
-            callback.replyToDisconnect(address);
-        } else if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REPLY_OK)) {
-            callback.connectionClosed();
-        } else if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
+        if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
             callback.addToClock(((ScrambleEvent) obj).getAddedClocks());
+            if(!((ScrambleEvent) obj).getDeadAddress().equals("no_dead_address")) {
+                callback.connectionClosed(((ScrambleEvent) obj).getDeadAddress());
+            }
             System.out.println("Received scramble event, starting SCRAMBLE");
             callback.scrambleNetwork(((ScrambleEvent)obj));
         }

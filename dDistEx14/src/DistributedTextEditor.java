@@ -6,7 +6,7 @@ import java.util.Map;
  */
 public interface DistributedTextEditor {
 
-    public void connectionClosed();
+    public void connectionClosed(String index);
 
     public int getPortNumberTextField();
 

@@ -21,6 +21,14 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/*
+  TODO: Optimer forsinkelse på replays (Kommer sandsynligvis af mængden af tråde der oprettets)
+  TODO: Stop med at connecte til sig selv
+  TODO: Remove med ny peer fucker.
+  TODO: Connect i tråd
+  TODO: Connecting til ufærdig state peer (threadcounter)
+*/
+
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
     private JTextField ipAddress = new JTextField("IP address here");
@@ -36,6 +44,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected Socket socket;
 
     // Added Fields.
+    private ArrayList<Object> eventBacklogSinceLastScramble = new ArrayList<Object>();
+    private Integer replayThreadCounter;
+    private ArrayList<MyTextEvent> receivedEvents = new ArrayList<MyTextEvent>();
     private Thread eventBroadcasterThread;
     private LinkedBlockingQueue[] eventTransmitterBlockingQueues = new LinkedBlockingQueue[3];
     private int scrambleLamportClock = 0;
@@ -95,13 +106,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 } catch (InterruptedException e1) {
                     e1.printStackTrace();
                 }
-                portNumberTextField.setText("");
+                portNumberTextField.setText(""+portNumber);
+                ipAddress.setText(""+getLocalHostAddress());
             } else {
                 setTitle("Could not register on port, maybe its already registered?");
             }
         }
     };
-
 
 
     /*
@@ -128,14 +139,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
                 area1Document.enableFilter();
                 ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                
                 outputStream.writeObject(initConnectionEvent);
-                
                 ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                
                 Object setupEvent = inputStream.readObject();
-                
-                if(setupEvent instanceof SetupConnectionEvent) {
+                if (setupEvent instanceof SetupConnectionEvent) {
                     handleSetupConnection((SetupConnectionEvent) setupEvent);
                 } else {
                     disconnectAll();
@@ -144,6 +151,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 outputStream.close();
                 inputStream.close();
                 connected = true;
+                portNumberTextField.setText(""+portNumber);
+                ipAddress.setText(""+getLocalHostAddress());
                 Listen.setEnabled(false);
                 Connect.setEnabled(false);
                 Disconnect.setEnabled(true);
@@ -203,7 +212,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     };
 
 
+
     public DistributedTextEditorImpl() {
+        replayThreadCounter = 0;
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
@@ -288,8 +299,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     private boolean registerOnPort() {
         if (serverSocket == null) {
             for (int i = 40101; i < 65634; i++) {
-                if(isPortAvailable(i)){
-
+                if (isPortAvailable(i)) {
                     return true;
                 }
             }
@@ -326,7 +336,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     //This method is responsible for starting the eventTransmitterThread.
     private void startTransmitting(ObjectOutputStream outputStream, String address, LinkedBlockingQueue<Object> eventTransmitterBlockingQueue) throws IOException {
-        EventTransmitter eventTransmitter = new EventTransmitter(eventTransmitterBlockingQueue, outputStream, this);
+        EventTransmitter eventTransmitter = new EventTransmitter(eventTransmitterBlockingQueue, outputStream, address, this);
         Thread eventTransmitterThread = new Thread(eventTransmitter);
         eventTransmitterMap.put(address, eventTransmitterThread);
         eventTransmitterThread.start();
@@ -347,21 +357,23 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     the Editor was currently a client or server. A client should disconnect if the server stops responding, but
     the server should keep running when a client disconnect. The transmitter and replayer are intterupted aswell.
     */
-     
-    public synchronized void connectionClosed() {
-        //TODO: This should handle single connection closed (Death certificate)
+
+    public synchronized void connectionClosed(String deadAddress) {
+        if (vectorClockHashMap.containsKey(deadAddress)) {
+            vectorClockHashMap.remove(deadAddress);
+            if (addedClocks.containsKey(deadAddress)) {
+                addedClocks.remove(deadAddress);
+            }
+        }
     }
 
-
-
-     
     public int getPortNumberTextField() {
         String portNumberString = portNumberTextField.getText();
         Matcher matcher = portPattern.matcher(portNumberString);
         if (matcher.matches()) return Integer.parseInt(portNumberString);
         return 40101;
     }
-     
+
     public String getIPAddress() {
         String ipAddressString = ipAddress.getText();
         Matcher matcher = ipPattern.matcher(ipAddressString);
@@ -370,10 +382,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
 
-     
     public void replyToDisconnect(String eventReplayerAddress) {
-        for(String s : eventReplayerThreadMap.keySet()) {
-            if(s.equals(eventReplayerAddress)) {
+        for (String s : eventReplayerThreadMap.keySet()) {
+            if (s.equals(eventReplayerAddress)) {
                 Thread t = eventReplayerThreadMap.get(s);
                 t.interrupt();
                 eventReplayerThreadMap.remove(s);
@@ -388,26 +399,26 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return 0;
     }
 
-     
+
     public String getLamportIndex() {
         return lamportIndex;
     }
 
-     
+
     public void incrementLamportTime() {
-        synchronized (vectorClockHashMap){
+        synchronized (vectorClockHashMap) {
             vectorClockHashMap.put(lamportIndex, getLamportTime(lamportIndex) + 1);
         }
     }
 
-     
+
     public Map<String, Integer> getTimestamp() {
         return new HashMap<String, Integer>(vectorClockHashMap);
     }
 
-     
+
     public void adjustVectorClock(Map<String, Integer> hashMap) {
-        synchronized (vectorClockHashMap){
+        synchronized (vectorClockHashMap) {
             for (String s : hashMap.keySet()) {
                 vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
             }
@@ -417,13 +428,15 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent textEvent) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
-        Map<String,Integer> timestamp = textEvent.getTimestamp();
+        Map<String, Integer> timestamp = textEvent.getTimestamp();
 
         synchronized (eventHistory) {
             for (MyTextEvent event : eventHistory) {
                 boolean shouldAdd = false;
-                for (String id : timestamp.keySet()){
-                    shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
+                for (String id : timestamp.keySet()) {
+                    if (event.getTimestamp().containsKey(id)) {
+                        shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
+                    } else shouldAdd = false;
                 }
                 if (event.getSender().equals(textEvent.getSender()))
                     shouldAdd = true;
@@ -435,32 +448,31 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return res;
     }
 
-     
+
     public void addEventToHistory(MyTextEvent textEvent) {
         synchronized (eventHistory) {
             eventHistory.add(textEvent);
         }
     }
 
-     
+
     public boolean isDebugging() {
         return debugIsOn;
     }
 
 
-
     //@return true if something where added to this clock.
     public void addToClock(Map<String, Integer> map) {
         for (String s : map.keySet()) {
-            if(!vectorClockHashMap.containsKey(s)) {
-                
+            if (!vectorClockHashMap.containsKey(s)) {
+
                 vectorClockHashMap.put(s, map.get(s));
                 addedClocks.put(s, map.get(s));
             }
         }
     }
 
-     
+
     public void handleSetupConnection(SetupConnectionEvent setupConnectionEvent) {
         area1Document.disableFilter();
         area1.setText(setupConnectionEvent.getText());
@@ -479,24 +491,23 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                         if (socket != null) {
                             ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
                             Object connectionEvent = inputStream.readObject();
-                            if(connectionEvent instanceof MyConnectionEvent) {
-                                if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.SCRAMBLE_CONNECTED)) {
+                            if (connectionEvent instanceof MyConnectionEvent) {
+                                if (((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.SCRAMBLE_CONNECTED)) {
                                     String address = socket.getInetAddress() + ":" + socket.getPort();
-                                    
+
                                     startReceiving(inputStream, address);
-                                } else if(((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
-                                    
+                                } else if (((MyConnectionEvent) connectionEvent).getType().equals(ConnectionEventTypes.INIT_CONNECTION)) {
+
                                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                                     addToClock(((InitConnectionEvent) connectionEvent).getMap());
-                                    MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, eventHistory,scrambleLamportClock);
-                                    
+                                    MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, eventHistory, scrambleLamportClock);
                                     outputStream.writeObject(setupConnectionEvent);
                                     outputStream.close();
                                     inputStream.close();
-                                    scrambleNetwork(new ScrambleEvent(scrambleLamportClock+1, addedClocks));
+                                    scrambleNetwork(new ScrambleEvent(scrambleLamportClock + 1, addedClocks));
                                 }
                             }
-                            setTitle("New Connection");
+                            setTitle("Connected to the network");
                             connected = true;
                         }
                     } catch (Exception e) {
@@ -524,15 +535,19 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 listenThread.interrupt();
                 listenThread = null;
             }
-            for(String s : eventReplayerThreadMap.keySet()) {
+            for (String s : eventReplayerThreadMap.keySet()) {
                 eventReplayerThreadMap.get(s).interrupt();
             }
             eventReplayerThreadMap = new HashMap<String, Thread>();
 
-            for(String s : eventTransmitterMap.keySet()) {
-               eventTransmitterMap.get(s).interrupt();
+            for (String s : eventTransmitterMap.keySet()) {
+                eventTransmitterMap.get(s).interrupt();
             }
             eventTransmitterMap = new HashMap<String, Thread>();
+            addedClocks.clear();
+            eventBroadcasterThread.interrupt();
+            eventBroadcasterThread = null;
+
         }
         scrambleLamportClock = 0;
         vectorClockHashMap.clear();
@@ -545,36 +560,40 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     public synchronized void scrambleNetwork(ScrambleEvent scrambleEvent) {
-        
-        if(scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
-            
-            scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
-            for(String s : eventTransmitterMap.keySet()) {
-                eventTransmitterMap.get(s).interrupt();
-            }
-            eventTransmitterMap = new HashMap<String, Thread>();
+        System.out.println("ScrambleNetwork with clocks: " + scrambleEvent.getScrambleLamportClock() + " and " + scrambleLamportClock);
+        int scrambleClockAtStart = scrambleLamportClock;
 
+        if (scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
+            if(scrambleClockAtStart != 0) {
+                forwardEvent(scrambleEvent);
+            }
+            scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
+            eventTransmitterMap = new HashMap<String, Thread>();
+            for (int i = 0; i < eventBacklogSinceLastScramble.size(); i++) {
+                for(LinkedBlockingQueue<Object> linkedBlockingQueue : eventTransmitterBlockingQueues){
+                    linkedBlockingQueue.add(eventBacklogSinceLastScramble.get(0));{
+                        eventBacklogSinceLastScramble.remove(0);
+                    }
+                }
+            }
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
-            
             for (int i = 0; i < addresses.size(); i++) {
                 String s = addresses.get(i);
                 String ip = s.substring(0, s.indexOf(":"));
-                
                 int port = Integer.parseInt(s.substring(s.indexOf(":") + 1, s.length()));
-                
                 try {
                     socket = new Socket(ip, port);
-                    
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s, eventTransmitterBlockingQueues[i]);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            if(eventTransmitterMap.size() == 0) {
+            if (eventTransmitterMap.size() == 0) {
                 disconnectAll();
                 setTitle("Lost connection to all peers, left network");
             }
-            
+
+            System.out.println("Scramble network done");
         }
     }
 
@@ -588,31 +607,53 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     @Override
-    public boolean eventIsContainedInEventHistory(Object obj) {
-        MyTextEvent textEvent = (MyTextEvent) obj;
-        for(MyTextEvent event : eventHistory){
-            if(event.getTimestamp() == textEvent.getTimestamp()){
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void forwardTextEvent(Object obj) {
+    public void forwardEvent(Object obj) {
         if(obj instanceof MyTextEvent){
-            for(LinkedBlockingQueue queue : eventTransmitterBlockingQueues){
+            eventBacklogSinceLastScramble.add(obj);
+        }
+        if (obj instanceof MyTextEvent || obj instanceof MyConnectionEvent) {
+            for (int i = 0; i < eventTransmitterMap.size(); i++) {
+                try {
+                    eventTransmitterBlockingQueues[i].put(obj);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } /*
+            for (LinkedBlockingQueue queue : eventTransmitterBlockingQueues) {
                 try {
                     queue.put(obj);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            } */
         }
     }
 
-    public static void main(String[] args) {
-        new DistributedTextEditorImpl();
+    public boolean eventHasBeenReceived(MyTextEvent event) {
+        synchronized (receivedEvents) {
+            for (MyTextEvent textEvent : receivedEvents) {
+                if (textEvent.getTimestamp().equals(event.getTimestamp())) return true;
+            }
+            return false;
+        }
+    }
+
+    public synchronized void addEventToReceived(MyTextEvent event) {
+        receivedEvents.add(event);
+    }
+
+    public void incrementReplayThreadCounter() {
+        synchronized (replayThreadCounter) {
+            replayThreadCounter++;
+        }
+        System.out.println("Incremented: " + replayThreadCounter);
+    }
+
+    public void decrementReplayThreadCounter() {
+        synchronized (replayThreadCounter) {
+            replayThreadCounter--;
+        }
+        System.out.println("Decremented: " + replayThreadCounter);
     }
 
     public Runnable getEventBroadcasterRunnable() {
@@ -622,7 +663,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 for (int i = 0; i < 3; i++) {
                     eventTransmitterBlockingQueues[i] = new LinkedBlockingQueue<Object>();
                 }
-                while(true) {
+                while (true) {
                     try {
                         Object object = documentEventCapturer.take();
                         for (int i = 0; i < 3; i++) {
@@ -634,5 +675,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 }
             }
         };
+    }
+
+    public static void main(String[] args) {
+        new DistributedTextEditorImpl();
     }
 }

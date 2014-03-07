@@ -16,9 +16,13 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
         lamportIndex = index;
     }
 
-    @Override
     public void connectionClosed() {
         System.out.println("Tried to close the replayer thread");
+    }
+
+    @Override
+    public void connectionClosed(String index) {
+
     }
 
     @Override
@@ -125,6 +129,16 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
+    public void incrementReplayThreadCounter() {
+
+    }
+
+    @Override
+    public void decrementReplayThreadCounter() {
+
+    }
+
+    @Override
     public int getScrambleLamportClock() {
         return 0;  //This method was auto-implemented
     }
@@ -135,12 +149,17 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public boolean eventIsContainedInEventHistory(Object obj) {
+    public void forwardEvent(Object obj) {
+
+    }
+
+    @Override
+    public boolean eventHasBeenReceived(MyTextEvent event) {
         return false;
     }
 
     @Override
-    public void forwardTextEvent(Object obj) {
+    public void addEventToReceived(MyTextEvent event) {
 
     }
 

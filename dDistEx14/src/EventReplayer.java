@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class EventReplayer implements Runnable {
 
-
+    private boolean wasInterrupted = false;
     private final String address;
     private ObjectInput inputStream;
     private final JTextArea area;
@@ -30,7 +30,6 @@ public class EventReplayer implements Runnable {
     }
 
     public void run() {
-        boolean wasInterrupted = false;
         while (!wasInterrupted) {
             try {
 
@@ -40,15 +39,16 @@ public class EventReplayer implements Runnable {
 
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);
-                } else if (obj instanceof TextInsertEvent) {
+                } else if (obj instanceof TextInsertEvent && !callback.eventHasBeenReceived((MyTextEvent) obj)) {
                     handleInsertEvent((TextInsertEvent) obj);
-                } else if (obj instanceof TextRemoveEvent) {
+                    callback.addEventToReceived((MyTextEvent) obj);
+                } else if (obj instanceof TextRemoveEvent && !callback.eventHasBeenReceived((MyTextEvent) obj)) {
+                    callback.addEventToReceived((MyTextEvent) obj);
                     handleRemoveEvent((TextRemoveEvent) obj);
                 }
 
             } catch (IOException e) {
                 e.printStackTrace();
-                callback.connectionClosed();
                 wasInterrupted = true;
             } catch (Exception e2) {
                 e2.printStackTrace();
@@ -59,19 +59,24 @@ public class EventReplayer implements Runnable {
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
+
         final TextRemoveEvent textRemoveEvent = obj;
         final Map<String, Integer> timestamp = textRemoveEvent.getTimestamp();
         final String senderIndex = textRemoveEvent.getSender();
 
         new Thread(new Runnable() {
             public void run() {
-
-
+                callback.incrementReplayThreadCounter();
+                boolean myOwnEvent = false;
                 try {
-                    while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(10);
+                    while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
+                        if(senderIndex.equals(callback.getLamportIndex())) {
+                            myOwnEvent = true;
+                        }
+                        if(!myOwnEvent) Thread.yield();
+
                     }
-                    if (areaDocument != null) {
+                    if (areaDocument != null && !myOwnEvent) {
                         synchronized (areaDocument) {
 
                             String receiverIndex = callback.getLamportIndex();
@@ -183,13 +188,14 @@ public class EventReplayer implements Runnable {
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textRemoveEvent);
+                            callback.forwardEvent(textRemoveEvent);
                         }
                     }
-                } catch (IllegalArgumentException ae){
-                    ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
+
                 }
+                callback.decrementReplayThreadCounter();
             }
         }).start();
     }
@@ -202,11 +208,18 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
+                callback.incrementReplayThreadCounter();
+                boolean myOwnEvent = false;
                 try {
-                    while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(10);
+                    while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
+                        if(senderIndex.equals(callback.getLamportIndex())) {
+                            myOwnEvent = true;
+                        }
+                        if(!myOwnEvent) Thread.yield();
+
+
                     }
-                    if (areaDocument != null) {
+                    if (areaDocument != null && !myOwnEvent) {
                         synchronized (areaDocument) {
                             String receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
@@ -304,13 +317,13 @@ public class EventReplayer implements Runnable {
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textInsertEvent);
+                            callback.forwardEvent(textInsertEvent);
                         }
                     }
-                } catch (IllegalArgumentException ae){
-                    ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                callback.decrementReplayThreadCounter();
             }
         }).start();
     }
@@ -320,15 +333,16 @@ public class EventReplayer implements Runnable {
                historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() > insertEventOffset;
     }
 
-    private void handleConnectionEvent(MyConnectionEvent obj) {
-        if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REQUEST)) {
-            callback.replyToDisconnect(address);
-        } else if (obj.getType().equals(ConnectionEventTypes.DISCONNECT_REPLY_OK)) {
-            callback.connectionClosed();
-        } else if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
+    private void handleConnectionEvent(MyConnectionEvent obj) throws IOException {
+        if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
             callback.addToClock(((ScrambleEvent) obj).getAddedClocks());
+            if(!((ScrambleEvent) obj).getDeadAddress().equals("no_dead_address")) {
+                callback.connectionClosed(((ScrambleEvent) obj).getDeadAddress());
+            }
             System.out.println("Received scramble event, starting SCRAMBLE");
             callback.scrambleNetwork(((ScrambleEvent)obj));
+            inputStream.close();
+            wasInterrupted = true;
         }
     }
 

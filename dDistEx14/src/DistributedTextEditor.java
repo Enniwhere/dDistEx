@@ -6,7 +6,7 @@ import java.util.Map;
  */
 public interface DistributedTextEditor {
 
-    public void connectionClosed();
+    public void connectionClosed(String index);
 
     public int getPortNumberTextField();
 
@@ -36,11 +36,17 @@ public interface DistributedTextEditor {
 
     public void scrambleNetwork(ScrambleEvent scrambleEvent);
 
+    public void incrementReplayThreadCounter();
+
+    public void decrementReplayThreadCounter();
+
     public int getScrambleLamportClock();
 
     public Map<String, Integer> getAddedClocks();
 
-    public boolean eventIsContainedInEventHistory(Object obj);
+    public void forwardEvent(Object obj);
 
-    public void forwardTextEvent(Object obj);
+    public boolean eventHasBeenReceived(MyTextEvent event);
+
+    public void addEventToReceived(MyTextEvent event);
 }

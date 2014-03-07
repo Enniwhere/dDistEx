@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class EventReplayer implements Runnable {
 
-
+    private boolean wasInterrupted = false;
     private final String address;
     private ObjectInput inputStream;
     private final JTextArea area;
@@ -30,7 +30,6 @@ public class EventReplayer implements Runnable {
     }
 
     public void run() {
-        boolean wasInterrupted = false;
         while (!wasInterrupted) {
             try {
 
@@ -143,7 +142,7 @@ public class EventReplayer implements Runnable {
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textRemoveEvent);
-                            callback.forwardTextEvent(textRemoveEvent);
+                            callback.forwardEvent(textRemoveEvent);
                         }
                     }
                 } catch (IllegalArgumentException ae){
@@ -241,7 +240,7 @@ public class EventReplayer implements Runnable {
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textInsertEvent);
-                            callback.forwardTextEvent(textInsertEvent);
+                            callback.forwardEvent(textInsertEvent);
                         }
                     }
                 } catch (IllegalArgumentException ae){
@@ -258,7 +257,7 @@ public class EventReplayer implements Runnable {
                historyEventOffset + ((TextRemoveEvent) historyEvent).getLength() > insertEventOffset;
     }
 
-    private void handleConnectionEvent(MyConnectionEvent obj) {
+    private void handleConnectionEvent(MyConnectionEvent obj) throws IOException {
         if (obj.getType().equals(ConnectionEventTypes.SCRAMBLE_EVENT)) {
             callback.addToClock(((ScrambleEvent) obj).getAddedClocks());
             if(!((ScrambleEvent) obj).getDeadAddress().equals("no_dead_address")) {
@@ -266,6 +265,8 @@ public class EventReplayer implements Runnable {
             }
             System.out.println("Received scramble event, starting SCRAMBLE");
             callback.scrambleNetwork(((ScrambleEvent)obj));
+            inputStream.close();
+            wasInterrupted = true;
         }
     }
 

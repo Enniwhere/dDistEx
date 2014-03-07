@@ -24,7 +24,8 @@ import java.util.regex.Pattern;
 /*
   TODO: Optimer forsinkelse på replays
   TODO: Stop med at connecte til sig selv
-  TODO: DC Før alt er modtager fucker med netværket
+  TODO: Remove med ny peer fucker.
+  TODO: Connect i tråd
 */
 
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
@@ -555,13 +556,14 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     public synchronized void scrambleNetwork(ScrambleEvent scrambleEvent) {
+        System.out.println("ScrambleNetwork with clocks: " + scrambleEvent.getScrambleLamportClock() + " and " + scrambleLamportClock);
+        int scrambleClockAtStart = scrambleLamportClock;
 
         if (scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
-
-            scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
-            for (String s : eventTransmitterMap.keySet()) {
-                eventTransmitterMap.get(s).interrupt();
+            if(scrambleClockAtStart != 0) {
+                forwardEvent(scrambleEvent);
             }
+            scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
             eventTransmitterMap = new HashMap<String, Thread>();
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
             for (int i = 0; i < addresses.size(); i++) {
@@ -579,6 +581,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 disconnectAll();
                 setTitle("Lost connection to all peers, left network");
             }
+
+            System.out.println("Scramble network done");
         }
     }
 
@@ -592,15 +596,22 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     @Override
-    public void forwardTextEvent(Object obj) {
-        if (obj instanceof MyTextEvent) {
+    public void forwardEvent(Object obj) {
+        if (obj instanceof MyTextEvent || obj instanceof MyConnectionEvent) {
+            for (int i = 0; i < eventTransmitterMap.size(); i++) {
+                try {
+                    eventTransmitterBlockingQueues[i].put(obj);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } /*
             for (LinkedBlockingQueue queue : eventTransmitterBlockingQueues) {
                 try {
                     queue.put(obj);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
+            } */
         }
     }
 

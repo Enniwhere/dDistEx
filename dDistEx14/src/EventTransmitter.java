@@ -12,6 +12,7 @@ public class EventTransmitter implements Runnable {
     private DistributedTextEditor callback;
     private LinkedBlockingQueue<Object> linkedBlockingQueue;
     private ObjectOutputStream outputStream;
+    private boolean hasReceivedScramble = false;
 
 
     public EventTransmitter(LinkedBlockingQueue<Object> linkedBlockingQueue, ObjectOutputStream outputStream, String index, DistributedTextEditor callback) {
@@ -22,6 +23,8 @@ public class EventTransmitter implements Runnable {
     }
 
     public void run() {
+        System.out.println("EventTransmitter, reporting in");
+
         boolean wasInterrupted = false;
         try {
             outputStream.writeObject(new ScrambleConnectEvent());
@@ -31,28 +34,19 @@ public class EventTransmitter implements Runnable {
 
         while (!wasInterrupted) {
             try {
-
-                MyTextEvent textEvent = (MyTextEvent) linkedBlockingQueue.take();
-
-                outputStream.writeObject(textEvent);
-            } catch (IOException e){
-                callback.connectionClosed(index);
-                callback.scrambleNetwork(new ScrambleEvent(callback.getScrambleLamportClock(), callback.getTimestamp(),
-                                                index));
-                wasInterrupted = true;
-                e.printStackTrace();
+                if(!hasReceivedScramble) {
+                    Object obj = linkedBlockingQueue.take();
+                    outputStream.writeObject(obj);
+                    if(obj instanceof ScrambleEvent) {
+                        hasReceivedScramble = true;
+                    }
+                }
+                outputStream.writeObject("crash_me_please");
             } catch (Exception e) {
                 wasInterrupted = true;
                 e.printStackTrace();
             }
         }
-        try {
-            System.out.println("Sending scramble event");
-            outputStream.writeObject(new ScrambleEvent(callback.getScrambleLamportClock(), callback.getAddedClocks()));
-            System.out.println("Scramble event sent");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        System.out.println("Im the EventTransmitterThread now i die");
     }
 }

@@ -84,17 +84,6 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
                            historyEvent.getTimestamp().get(historyEvent.getSender()) < timestamp.get(historyEvent.getSender())){
                     res.add(historyEvent);
                 }
-                /*int shouldAdd = 0;
-
-                for (String id : sortedKeys){
-                    shouldAdd = Math.max(historyEvent.getTimestamp().get(id).compareTo(timestamp.get(id)),shouldAdd);
-                }
-                if (historyEvent.getSender() == textEvent.getSender() && textEvent.getOffset() < historyEvent.getOffset() && historyEvent.getTimestamp().get(historyEvent.getSender()) < textEvent.getTimestamp().get(textEvent.getSender())){
-                    shouldAdd = 1;
-                }
-                if (shouldAdd > 0) {
-                    res.add(historyEvent);
-                } */
             }
         }
         return res;

@@ -15,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -428,20 +429,16 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent textEvent) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
-        Map<String, Integer> timestamp = textEvent.getTimestamp();
-
+        Map<String,Integer> timestamp = textEvent.getTimestamp();
+        ArrayList<String> sortedKeys = new ArrayList<String>(timestamp.keySet());
+        Collections.sort(sortedKeys, new StringDescendingComparator());
         synchronized (eventHistory) {
-            for (MyTextEvent event : eventHistory) {
-                boolean shouldAdd = false;
-                for (String id : timestamp.keySet()) {
-                    if (event.getTimestamp().containsKey(id)) {
-                        shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
-                    } else shouldAdd = false;
-                }
-                if (event.getSender().equals(textEvent.getSender()))
-                    shouldAdd = true;
-                if (shouldAdd) {
-                    res.add(event);
+            for (MyTextEvent historyEvent : eventHistory) {
+                if (historyEvent.getTimestamp().get(historyEvent.getSender()) > timestamp.get(historyEvent.getSender())){
+                    res.add(historyEvent);
+                } else if (historyEvent.getSender().equals(textEvent.getSender()) &&
+                        historyEvent.getTimestamp().get(historyEvent.getSender()) < timestamp.get(historyEvent.getSender())){
+                    res.add(historyEvent);
                 }
             }
         }

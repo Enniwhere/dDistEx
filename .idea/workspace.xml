@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -70,7 +69,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="120" column="44" selection-start="7096" selection-end="7096" vertical-scroll-proportion="0.52164006" vertical-offset="1481" max-vertical-offset="5475">
+            <state line="116" column="80" selection-start="6611" selection-end="6611" vertical-scroll-proportion="0.38496584" vertical-offset="1481" max-vertical-offset="5475">
               <folding>
                 <element signature="e#2337#14137#0" expanded="true" />
                 <element signature="e#14126#14127#0" expanded="true" />
@@ -826,12 +825,16 @@
       <created>1394200644573</created>
       <updated>1394200644573</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="FIXED THE SHIT! part 2 - the fixening">
+      <created>1394200850359</created>
+      <updated>1394200850359</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1602" height="874" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -850,7 +853,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.209375" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3518758" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3518758" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -871,7 +874,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Tried to fix offsets when writing at the end of the area" />
     <MESSAGE value="Fixed offsets when writing to the end of the array" />
     <MESSAGE value="Put the waiting for causal order into the EventQueue runnable" />
     <MESSAGE value="Put the waiting for causal order into the EventQueue runnable&#10;" />
@@ -896,7 +898,8 @@
     <MESSAGE value="Removed a lot of system outs from the event replayer" />
     <MESSAGE value="Changed the SetupConnectionEvent to also send the eventhistory, so clients are able to get a consistent state from the client they connect to." />
     <MESSAGE value="FIXED THE SHIT!" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIXED THE SHIT!" />
+    <MESSAGE value="FIXED THE SHIT! part 2 - the fixening" />
+    <option name="LAST_COMMIT_MESSAGE" value="FIXED THE SHIT! part 2 - the fixening" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1202,7 +1205,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="120" column="44" selection-start="7096" selection-end="7096" vertical-scroll-proportion="0.52164006" vertical-offset="1481" max-vertical-offset="5475">
+        <state line="116" column="80" selection-start="6611" selection-end="6611" vertical-scroll-proportion="0.38496584" vertical-offset="1481" max-vertical-offset="5475">
           <folding>
             <element signature="e#2337#14137#0" expanded="true" />
             <element signature="e#14126#14127#0" expanded="true" />

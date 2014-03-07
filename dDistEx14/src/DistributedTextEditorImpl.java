@@ -22,10 +22,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
-  TODO: Optimer forsinkelse på replays
+  TODO: Optimer forsinkelse på replays (Kommer sandsynligvis af mængden af tråde der oprettets)
   TODO: Stop med at connecte til sig selv
   TODO: Remove med ny peer fucker.
   TODO: Connect i tråd
+  TODO: Connecting til ufærdig state peer (threadcounter)
 */
 
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
@@ -43,6 +44,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected Socket socket;
 
     // Added Fields.
+    private Integer replayThreadCounter;
     private ArrayList<MyTextEvent> receivedEvents = new ArrayList<MyTextEvent>();
     private Thread eventBroadcasterThread;
     private LinkedBlockingQueue[] eventTransmitterBlockingQueues = new LinkedBlockingQueue[3];
@@ -210,6 +212,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     public DistributedTextEditorImpl() {
+        replayThreadCounter = 0;
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
@@ -628,8 +631,18 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         receivedEvents.add(event);
     }
 
-    public static void main(String[] args) {
-        new DistributedTextEditorImpl();
+    public void incrementReplayThreadCounter() {
+        synchronized (replayThreadCounter) {
+            replayThreadCounter++;
+        }
+        System.out.println("Incremented: " + replayThreadCounter);
+    }
+
+    public void decrementReplayThreadCounter() {
+        synchronized (replayThreadCounter) {
+            replayThreadCounter--;
+        }
+        System.out.println("Decremented: " + replayThreadCounter);
     }
 
     public Runnable getEventBroadcasterRunnable() {
@@ -651,5 +664,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 }
             }
         };
+    }
+
+    public static void main(String[] args) {
+        new DistributedTextEditorImpl();
     }
 }

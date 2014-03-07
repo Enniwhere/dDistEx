@@ -66,15 +66,17 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
-
-
+                callback.incrementReplayThreadCounter();
+                boolean myOwnEvent = false;
                 try {
-                    while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(200);
-
+                    while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
+                        if(senderIndex.equals(callback.getLamportIndex())) {
+                            myOwnEvent = true;
+                        }
+                        if(!myOwnEvent) Thread.yield();
 
                     }
-                    if (areaDocument != null) {
+                    if (areaDocument != null && !myOwnEvent) {
                         synchronized (areaDocument) {
 
                             String receiverIndex = callback.getLamportIndex();
@@ -145,11 +147,11 @@ public class EventReplayer implements Runnable {
                             callback.forwardEvent(textRemoveEvent);
                         }
                     }
-                } catch (IllegalArgumentException ae){
-                    ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
+
                 }
+                callback.decrementReplayThreadCounter();
             }
         }).start();
     }
@@ -162,11 +164,18 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
+                callback.incrementReplayThreadCounter();
+                boolean myOwnEvent = false;
                 try {
-                    while (isNotInCausalOrder(timestamp, senderIndex)) {
-                        Thread.sleep(200);
+                    while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
+                        if(senderIndex.equals(callback.getLamportIndex())) {
+                            myOwnEvent = true;
+                        }
+                        if(!myOwnEvent) Thread.yield();
+
+
                     }
-                    if (areaDocument != null) {
+                    if (areaDocument != null && !myOwnEvent) {
                         synchronized (areaDocument) {
                             String receiverIndex = callback.getLamportIndex();
                             ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
@@ -228,7 +237,6 @@ public class EventReplayer implements Runnable {
                             if (!ignore) {
                                 areaDocument.disableFilter();
                                 int dotPosBeforeInsert = area.getCaret().getDot();
-                                System.out.println("Inserting!: " + textInsertEvent.getText() + " with offset: " + textInsertEvent.getOffset());
                                 area.insert(textInsertEvent.getText(), textInsertEvent.getOffset());
                                 // If both clients are writing to the same offset they push each others' carets in front of the text creating interlaced text.
                                 // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,
@@ -243,11 +251,10 @@ public class EventReplayer implements Runnable {
                             callback.forwardEvent(textInsertEvent);
                         }
                     }
-                } catch (IllegalArgumentException ae){
-                    ae.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                callback.decrementReplayThreadCounter();
             }
         }).start();
     }

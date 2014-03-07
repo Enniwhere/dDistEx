@@ -44,6 +44,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     protected Socket socket;
 
     // Added Fields.
+    private ArrayList<Object> eventBacklogSinceLastScramble = new ArrayList<Object>();
     private Integer replayThreadCounter;
     private ArrayList<MyTextEvent> receivedEvents = new ArrayList<MyTextEvent>();
     private Thread eventBroadcasterThread;
@@ -209,6 +210,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             }
         }
     };
+
 
 
     public DistributedTextEditorImpl() {
@@ -499,7 +501,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                                     ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
                                     addToClock(((InitConnectionEvent) connectionEvent).getMap());
                                     MyConnectionEvent setupConnectionEvent = new SetupConnectionEvent(area1.getText(), vectorClockHashMap, eventHistory, scrambleLamportClock);
-
                                     outputStream.writeObject(setupConnectionEvent);
                                     outputStream.close();
                                     inputStream.close();
@@ -568,6 +569,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             }
             scrambleLamportClock = scrambleEvent.getScrambleLamportClock();
             eventTransmitterMap = new HashMap<String, Thread>();
+            for (int i = 0; i < eventBacklogSinceLastScramble.size(); i++) {
+                for(LinkedBlockingQueue<Object> linkedBlockingQueue : eventTransmitterBlockingQueues){
+                    linkedBlockingQueue.add(eventBacklogSinceLastScramble.get(0));{
+                        eventBacklogSinceLastScramble.remove(0);
+                    }
+                }
+            }
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
             for (int i = 0; i < addresses.size(); i++) {
                 String s = addresses.get(i);
@@ -600,6 +608,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     @Override
     public void forwardEvent(Object obj) {
+        if(obj instanceof MyTextEvent){
+            eventBacklogSinceLastScramble.add(obj);
+        }
         if (obj instanceof MyTextEvent || obj instanceof MyConnectionEvent) {
             for (int i = 0; i < eventTransmitterMap.size(); i++) {
                 try {

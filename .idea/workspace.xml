@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" afterPath="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" afterPath="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
+    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -143,7 +141,7 @@
       <file leaf-file-name="DistributedTextEditorImpl.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="443" column="25" selection-start="17719" selection-end="17719" vertical-scroll-proportion="0.5899772" vertical-offset="5996" max-vertical-offset="9750">
+            <state line="449" column="39" selection-start="17844" selection-end="17844" vertical-scroll-proportion="0.79498863" vertical-offset="5996" max-vertical-offset="9750">
               <folding />
             </state>
           </provider>
@@ -815,7 +813,11 @@
       <created>1394200868819</created>
       <updated>1394200868819</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
+      <created>1394200970719</created>
+      <updated>1394200970719</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -860,7 +862,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Put the waiting for causal order into the EventQueue runnable" />
     <MESSAGE value="Put the waiting for causal order into the EventQueue runnable&#10;" />
     <MESSAGE value="Tried to fix the mess of the last commit" />
     <MESSAGE value="Committed junit&#10;" />
@@ -885,7 +886,8 @@
     <MESSAGE value="FIXED THE SHIT!" />
     <MESSAGE value="FIXED THE SHIT! part 2 - the fixening" />
     <MESSAGE value="FIXED THE SHIT! part 2 - the fixening&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="FIXED THE SHIT! part 2 - the fixening&#10;" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1177,7 +1179,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="443" column="25" selection-start="17719" selection-end="17719" vertical-scroll-proportion="0.5899772" vertical-offset="5996" max-vertical-offset="9750">
+        <state line="449" column="39" selection-start="17844" selection-end="17844" vertical-scroll-proportion="0.79498863" vertical-offset="5996" max-vertical-offset="9750">
           <folding />
         </state>
       </provider>

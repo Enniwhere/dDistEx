@@ -12,7 +12,7 @@ public class MyTextEvent implements Serializable {
     private Map<String, Integer> timestamp;
     private String sender;
     private int offset;
-    protected boolean isIgnored = false;
+    private boolean ignored = false;
 
     MyTextEvent(int offset) {
         this.offset = offset;
@@ -45,10 +45,10 @@ public class MyTextEvent implements Serializable {
     }
 
     public boolean isIgnored() {
-        return isIgnored;
+        return ignored;
     }
 
-    public void setIgnored(boolean isIgnored) {
-        this.isIgnored = isIgnored;
+    public void setIgnored(boolean ignored) {
+        this.ignored = ignored;
     }
 }

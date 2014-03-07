@@ -1,7 +1,5 @@
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by simon on 2/26/14.
@@ -72,18 +70,27 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent textEvent) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         Map<String,Integer> timestamp = textEvent.getTimestamp();
-
+        ArrayList<String> sortedKeys = new ArrayList<String>(timestamp.keySet());
+        Collections.sort(sortedKeys, new StringDescendingComparator());
         synchronized (eventHistory) {
-            for (MyTextEvent event : eventHistory) {
-                boolean shouldAdd = false;
-                for (String id : timestamp.keySet()){
-                    shouldAdd = shouldAdd || (event.getTimestamp().get(id) > timestamp.get(id));
+            for (MyTextEvent historyEvent : eventHistory) {
+                if (historyEvent.getTimestamp().get(historyEvent.getSender()) > timestamp.get(historyEvent.getSender())){
+                    res.add(historyEvent);
+                } else if (historyEvent.getSender().equals(textEvent.getSender()) &&
+                           historyEvent.getTimestamp().get(historyEvent.getSender()) < timestamp.get(historyEvent.getSender())){
+                    res.add(historyEvent);
                 }
-                if (event.getSender().equals(textEvent.getSender()))
-                    shouldAdd = true;
-                if (shouldAdd) {
-                    res.add(event);
+                /*int shouldAdd = 0;
+
+                for (String id : sortedKeys){
+                    shouldAdd = Math.max(historyEvent.getTimestamp().get(id).compareTo(timestamp.get(id)),shouldAdd);
                 }
+                if (historyEvent.getSender() == textEvent.getSender() && textEvent.getOffset() < historyEvent.getOffset() && historyEvent.getTimestamp().get(historyEvent.getSender()) < textEvent.getTimestamp().get(textEvent.getSender())){
+                    shouldAdd = 1;
+                }
+                if (shouldAdd > 0) {
+                    res.add(historyEvent);
+                } */
             }
         }
         return res;

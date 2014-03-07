@@ -116,8 +116,10 @@ public class EventReplayer implements Runnable {
                                         // Else, check if the offset of the received remove event is overlapped by a local remove event.
                                         // In this case we subtract the length of the overlapping region from the length of the received event and
                                         // we set the offset of the received event to the offset of the local event.
-                                        removeEventPlacementLength = removeEventPlacementLength - (localEventOffset + ((TextRemoveEvent) localEvent).getLength() - removeEventOffset);
-                                        removeEventPlacementOffset = localEvent.getOffset();
+                                        if (!localEvent.isIgnored()){
+                                            removeEventPlacementLength = removeEventPlacementLength - (localEventOffset + ((TextRemoveEvent) localEvent).getLength() - removeEventOffset);
+                                            removeEventPlacementOffset = localEvent.getOffset();
+                                        }
 
 
                                     } else {

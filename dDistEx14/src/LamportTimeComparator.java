@@ -17,6 +17,7 @@ public class LamportTimeComparator implements Comparator<MyTextEvent> {
 
         ArrayList<String> sortedKeys = new ArrayList<String>(e1Timestamp.keySet());
         Collections.sort(sortedKeys,new StringDescendingComparator());
+        // We get the events from the given index first, because we have to
         if (e1.getSender().equals(index) && !e2.getSender().equals(index)){
             return -1;
         } else if (e2.getSender().equals(index) && !e1.getSender().equals(index)){

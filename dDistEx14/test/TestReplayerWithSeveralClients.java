@@ -403,10 +403,12 @@ public class TestReplayerWithSeveralClients {
         timestamp.put("client4", 2);
         insert4_1.setTimestamp(new HashMap<String, Integer>(timestamp));
 
-        inputQueue.add(insert4_1);
-        inputQueue.add(insert1_3);
         inputQueue.add(insert2_0);
         inputQueue.add(insert2_3);
+
+        inputQueue.add(insert4_1);
+        inputQueue.add(insert1_3);
+
         inputQueue.add(insert4_4);
         inputQueue.add(insert1_1);
 

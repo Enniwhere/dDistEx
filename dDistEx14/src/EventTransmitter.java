@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.SocketException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /*
@@ -23,7 +24,7 @@ public class EventTransmitter implements Runnable {
     }
 
     public void run() {
-        System.out.println("EventTransmitter, reporting in");
+
 
         boolean wasInterrupted = false;
         try {
@@ -42,11 +43,17 @@ public class EventTransmitter implements Runnable {
                     }
                 }
                 outputStream.writeObject("crash_me_please");
+            } catch (InterruptedException e) {
+                wasInterrupted = true;
+                //Not a harmful Exception
+            } catch (SocketException e) {
+                wasInterrupted = true;
+                //Not a harmful Exception
             } catch (Exception e) {
                 wasInterrupted = true;
                 e.printStackTrace();
             }
         }
-        System.out.println("Im the EventTransmitterThread now i die");
+
     }
 }

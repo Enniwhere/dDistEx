@@ -23,11 +23,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
-  TODO: Optimer forsinkelse på replays (Kommer sandsynligvis af mængden af tråde der oprettets)
-  TODO: Stop med at connecte til sig selv
   TODO: Remove med ny peer fucker.
-  TODO: Connect i tråd
-  TODO: Connecting til ufærdig state peer (threadcounter)
+  TODO: Test disconnects og connect
 */
 
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
@@ -46,7 +43,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     // Added Fields.
     private ArrayList<Object> eventBacklogSinceLastScramble = new ArrayList<Object>();
-    private Integer replayThreadCounter;
     private ArrayList<MyTextEvent> receivedEvents = new ArrayList<MyTextEvent>();
     private Thread eventBroadcasterThread;
     private LinkedBlockingQueue[] eventTransmitterBlockingQueues = new LinkedBlockingQueue[3];
@@ -102,13 +98,8 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 listenThread.start();
                 eventBroadcasterThread = new Thread(getEventBroadcasterRunnable());
                 eventBroadcasterThread.start();
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                portNumberTextField.setText(""+portNumber);
-                ipAddress.setText(""+getLocalHostAddress());
+                portNumberTextField.setText(portNumber + " - You are listening on this IP");
+                ipAddress.setText(getLocalHostAddress() + " - You are listening on this IP");
             } else {
                 setTitle("Could not register on port, maybe its already registered?");
             }
@@ -124,45 +115,56 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
      */
     Action Connect = new AbstractAction("Connect") {
         public void actionPerformed(ActionEvent e) {
-            saveOld();
-            area1.setText("");
-            setTitle("Connecting to " + getIPAddress() + ":" + getPortNumberTextField() + "...");
-            try {
-                registerOnPort();
-                listenThread = new Thread(createListenRunnable());
-                listenThread.start();
-                eventBroadcasterThread = new Thread(getEventBroadcasterRunnable());
-                eventBroadcasterThread.start();
-                socket = new Socket(getIPAddress(), getPortNumberTextField());
-                setTitle("Connected to " + getIPAddress() + ":" + getPortNumberTextField());
-                lamportIndex = getLocalHostAddress() + ":" + portNumber;
-                vectorClockHashMap.put(lamportIndex, 0);
-                MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
-                area1Document.enableFilter();
-                ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
-                outputStream.writeObject(initConnectionEvent);
-                ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
-                Object setupEvent = inputStream.readObject();
-                if (setupEvent instanceof SetupConnectionEvent) {
-                    handleSetupConnection((SetupConnectionEvent) setupEvent);
-                } else {
-                    disconnectAll();
-                    return; //We wanna stop this!
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    saveOld();
+                    area1.setText("");
+                    setTitle("Connecting to " + getIPAddress() + ":" + getPortNumberTextField() + "...");
+                    try {
+                        registerOnPort();
+                        listenThread = new Thread(createListenRunnable());
+                        listenThread.start();
+                        eventBroadcasterThread = new Thread(getEventBroadcasterRunnable());
+                        eventBroadcasterThread.start();
+                        socket = new Socket(getIPAddress(), getPortNumberTextField());
+                        if(getIPAddress().equals(getLocalHostAddress()) && getPortNumberTextField() == portNumber) {
+                            throw new ConnectingToSelfException("Peer tried to connect to itself");
+                        }
+                        setTitle("Connected to " + getIPAddress() + ":" + getPortNumberTextField());
+                        lamportIndex = getLocalHostAddress() + ":" + portNumber;
+                        vectorClockHashMap.put(lamportIndex, 0);
+                        MyConnectionEvent initConnectionEvent = new InitConnectionEvent(vectorClockHashMap);
+                        area1Document.enableFilter();
+                        ObjectOutputStream outputStream = new ObjectOutputStream(socket.getOutputStream());
+                        outputStream.writeObject(initConnectionEvent);
+                        ObjectInputStream inputStream = new ObjectInputStream(socket.getInputStream());
+                        Object setupEvent = inputStream.readObject();
+                        if (setupEvent instanceof SetupConnectionEvent) {
+                            handleSetupConnection((SetupConnectionEvent) setupEvent);
+                        } else {
+                            disconnectAll();
+                            return; //We wanna stop this!
+                        }
+                        outputStream.close();
+                        inputStream.close();
+                        connected = true;
+                        portNumberTextField.setText(portNumber + " - You are listening on this port");
+                        ipAddress.setText(getLocalHostAddress() + " - You are listening on this IP");
+                        Listen.setEnabled(false);
+                        Connect.setEnabled(false);
+                        Disconnect.setEnabled(true);
+                    } catch (Exception ce) {
+                        ce.printStackTrace();
+                        setTitle("Disconnected: Failed to connect");
+                        disconnectAll();
+                    } catch (ConnectingToSelfException e1) {
+                        disconnectAll();
+                        setTitle("Disconnected: Peer tried to connect to itself");
+                    }
+                    changed = false;
                 }
-                outputStream.close();
-                inputStream.close();
-                connected = true;
-                portNumberTextField.setText(""+portNumber);
-                ipAddress.setText(""+getLocalHostAddress());
-                Listen.setEnabled(false);
-                Connect.setEnabled(false);
-                Disconnect.setEnabled(true);
-            } catch (Exception ce) {
-                ce.printStackTrace();
-                setTitle("Disconnected: Failed to connect");
-                disconnectAll();
-            }
-            changed = false;
+            }).start();
         }
     };
 
@@ -215,7 +217,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     public DistributedTextEditorImpl() {
-        replayThreadCounter = 0;
         area1.setFont(new Font("Monospaced", Font.PLAIN, 12));
         area1.addKeyListener(k1);
         ((AbstractDocument) area1.getDocument()).setDocumentFilter(documentEventCapturer);
@@ -379,7 +380,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         String ipAddressString = ipAddress.getText();
         Matcher matcher = ipPattern.matcher(ipAddressString);
         if (matcher.matches()) return ipAddressString;
-        return "localhost";
+        return getLocalHostAddress();
     }
 
 
@@ -553,12 +554,14 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         area1Document.disableFilter();
         deregisterOnPort();
         setTitle("Disconnected");
+        portNumberTextField.setText("Port number here");
+        ipAddress.setText("IP address here");
         changed = false;
     }
 
 
     public synchronized void scrambleNetwork(ScrambleEvent scrambleEvent) {
-        System.out.println("ScrambleNetwork with clocks: " + scrambleEvent.getScrambleLamportClock() + " and " + scrambleLamportClock);
+
         int scrambleClockAtStart = scrambleLamportClock;
 
         if (scrambleEvent.getScrambleLamportClock() > scrambleLamportClock) {
@@ -591,7 +594,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 setTitle("Lost connection to all peers, left network");
             }
 
-            System.out.println("Scramble network done");
+
         }
     }
 
@@ -640,20 +643,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         receivedEvents.add(event);
     }
 
-    public void incrementReplayThreadCounter() {
-        synchronized (replayThreadCounter) {
-            replayThreadCounter++;
-        }
-        System.out.println("Incremented: " + replayThreadCounter);
-    }
-
-    public void decrementReplayThreadCounter() {
-        synchronized (replayThreadCounter) {
-            replayThreadCounter--;
-        }
-        System.out.println("Decremented: " + replayThreadCounter);
-    }
-
     public Runnable getEventBroadcasterRunnable() {
         return new Runnable() {
             @Override
@@ -668,7 +657,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                             eventTransmitterBlockingQueues[i].put(object);
                         }
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        //Not a harmful exception
                     }
                 }
             }
@@ -677,5 +666,10 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     public static void main(String[] args) {
         new DistributedTextEditorImpl();
+    }
+
+    private class ConnectingToSelfException extends Throwable {
+        public ConnectingToSelfException(String s) {
+        }
     }
 }

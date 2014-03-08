@@ -36,10 +36,6 @@ public interface DistributedTextEditor {
 
     public void scrambleNetwork(ScrambleEvent scrambleEvent);
 
-    public void incrementReplayThreadCounter();
-
-    public void decrementReplayThreadCounter();
-
     public int getScrambleLamportClock();
 
     public Map<String, Integer> getAddedClocks();

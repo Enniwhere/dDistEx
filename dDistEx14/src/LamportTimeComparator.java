@@ -24,7 +24,9 @@ public class LamportTimeComparator implements Comparator<MyTextEvent> {
             return 1;
         }
         for (String key : sortedKeys){
-            if (e1Timestamp.get(key).compareTo(e2Timestamp.get(key)) != 0){
+
+            if (e1Timestamp.get(key) != null && e2Timestamp.get(key) != null &&
+                    e1Timestamp.get(key).compareTo(e2Timestamp.get(key)) != 0){
                 return e1Timestamp.get(key).compareTo(e2Timestamp.get(key));
             }
         }

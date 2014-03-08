@@ -1,6 +1,9 @@
 import javax.swing.*;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,6 +50,12 @@ public class EventReplayer implements Runnable {
                     handleRemoveEvent((TextRemoveEvent) obj);
                 }
 
+            } catch(SocketException e) {
+                wasInterrupted = true;
+                //Not a harmfull exception
+            } catch (EOFException e) {
+                wasInterrupted = true;
+                //Not a harmful exception
             } catch (IOException e) {
                 e.printStackTrace();
                 wasInterrupted = true;
@@ -55,7 +64,7 @@ public class EventReplayer implements Runnable {
                 wasInterrupted = true;
             }
         }
-        System.out.println("I'm the thread running the EventReplayer, now I die!");
+
     }
 
     private void handleRemoveEvent(TextRemoveEvent obj) throws InterruptedException {
@@ -66,7 +75,6 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
-                callback.incrementReplayThreadCounter();
                 boolean myOwnEvent = false;
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
@@ -108,7 +116,7 @@ public class EventReplayer implements Runnable {
                                 int localEventTextLengthChange = localEvent.getTextLengthChange();
                                 String localEventIndex = localEvent.getSender();
 
-                                System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength() + " by comparing it to the event " + (localEvent instanceof TextInsertEvent ? " inserting " + ((TextInsertEvent) localEvent).getText() + " at " + localEvent.getOffset() : " removing from " + localEvent.getOffset() + " to " + (localEvent.getOffset()-localEvent.getTextLengthChange())));
+
                                 // Check to see if the local event has a lower offset than the received event
                                 if (isLocalEventOffsetLower(localEventIndex, removeEventOffset, localEventOffset, senderIndex)) {
 
@@ -141,14 +149,14 @@ public class EventReplayer implements Runnable {
                                             textRemoveEvent.setOffset(removeEventOffset - localEventTextLengthChange);
                                             removeEventOffset -= localEventTextLengthChange;
                                             removeOffsetAdjust -= localEventTextLengthChange;
-                                            System.out.println("Modified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + (-localEventTextLengthChange));
+
                                         } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
                                             //textInsertEvent.setOffset(textInsertEvent.getOffset() + localEventTextLengthChange);
                                             removeEventOffset +=localEventTextLengthChange;
                                             //insertOffsetAdjust += localEventTextLengthChange;
                                             removeEventPlacementOffset += localEventTextLengthChange;
-                                            System.out.println("Modified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + localEventTextLengthChange);
-                                            System.out.println("Placement offset is now " + removeEventPlacementOffset);
+
+
                                         }
 
                                     }
@@ -159,7 +167,7 @@ public class EventReplayer implements Runnable {
                                     // or we reduce the length of the received event by the length of the overlapping region (if they are both remove events)
                                     //if (!(localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(textRemoveEvent.getSender()))){
                                         //
-                                        System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+
                                     //}
                                     if ((localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(senderIndex))){
 
@@ -188,9 +196,9 @@ public class EventReplayer implements Runnable {
                             callback.adjustVectorClock(timestamp);
                             if (!ignore){
                                 areaDocument.disableFilter();
-                                System.out.println("Going to remove from " + removeEventPlacementOffset + " to " + removeEventPlacementLength);
+
                                 area.replaceRange(null, removeEventPlacementOffset, removeEventPlacementOffset + removeEventPlacementLength);
-                                System.out.println("Text is now " + area.getText());
+
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textRemoveEvent);
@@ -201,7 +209,6 @@ public class EventReplayer implements Runnable {
                     e.printStackTrace();
 
                 }
-                callback.decrementReplayThreadCounter();
             }
         }).start();
     }
@@ -214,7 +221,6 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
-                callback.incrementReplayThreadCounter();
                 boolean myOwnEvent = false;
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
@@ -249,7 +255,7 @@ public class EventReplayer implements Runnable {
                                 int localEventTextLengthChange = localEvent.getTextLengthChange();
                                 String localEventIndex = localEvent.getSender();
                                 lastEvent = localEvent;
-                                System.out.println("Compared the event inserting " + textInsertEvent.getText() + " at offset " + insertEventOffset + " to the event " + (localEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) localEvent).getText() + " at offset " + localEventOffset : " removing from offset " + localEventOffset));
+
                                 // Checks if the local event has a lower index than the received insert event
                                 if (isLocalEventOffsetLower(localEventIndex, insertEventOffset, localEventOffset, senderIndex)) {
 
@@ -259,7 +265,7 @@ public class EventReplayer implements Runnable {
                                         // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
                                         // Also adjust the length of the remove event in order to ensure consistency with the other
                                         // client's event history.
-                                        System.out.println("Event was ignored");
+
                                         ignore = true;
                                         textInsertEvent.setIgnored(true);
                                         /*
@@ -275,21 +281,21 @@ public class EventReplayer implements Runnable {
                                             insertEventOffset -= localEventTextLengthChange;
                                             insertOffsetAdjust -= localEventTextLengthChange;
                                             //insertEventPlacementOffset -= localEventTextLengthChange;
-                                            System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + (-localEventTextLengthChange));
+
                                         } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
                                             //textInsertEvent.setOffset(textInsertEvent.getOffset() + localEventTextLengthChange);
                                             insertEventOffset +=localEventTextLengthChange;
                                             //insertOffsetAdjust += localEventTextLengthChange;
                                             insertEventPlacementOffset += localEventTextLengthChange;
-                                            System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + localEventTextLengthChange);
+
 
                                         }
-                                        System.out.println("Placement index is now " + insertEventPlacementOffset);
+
 
 
                                         //}
                                         /*if (ignoreRemoveEvent!= null && ignoreRemoveEvent.getOffset()+ignoreRemoveEvent.getLength()-textInsertEvent.getTextLengthChange() <= textInsertEvent.getOffset()){
-                                            //System.out.println("Event was pushed out of the remove event and is no longer ignored");
+                                            //
                                             ignore = false;
                                             ignoreRemoveEvent.setLength(ignoreRemoveEvent.getLength()-textInsertEvent.getTextLengthChange());
                                             textInsertEvent.setOffset(textInsertEvent.getOffset() - ignoreRemoveEvent.getLength());
@@ -320,7 +326,7 @@ public class EventReplayer implements Runnable {
                                 if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex.compareTo(receiverIndex) < 0){
                                     area.getCaret().setDot(dotPosBeforeInsert);
                                 }
-                                System.out.println("Text is now " + area.getText());
+
                                 areaDocument.enableFilter();
                             }
                             callback.addEventToHistory(textInsertEvent);
@@ -330,7 +336,6 @@ public class EventReplayer implements Runnable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                callback.decrementReplayThreadCounter();
             }
         }).start();
     }
@@ -346,7 +351,7 @@ public class EventReplayer implements Runnable {
             if(!((ScrambleEvent) obj).getDeadAddress().equals("no_dead_address")) {
                 callback.connectionClosed(((ScrambleEvent) obj).getDeadAddress());
             }
-            System.out.println("Received scramble event, starting SCRAMBLE");
+
             callback.scrambleNetwork(((ScrambleEvent)obj));
             inputStream.close();
             wasInterrupted = true;

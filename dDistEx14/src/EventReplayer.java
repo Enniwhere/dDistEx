@@ -87,7 +87,8 @@ public class EventReplayer implements Runnable {
                             boolean ignore = false;
                             int removeEventPlacementOffset = textRemoveEvent.getOffset();
                             int removeEventPlacementLength = textRemoveEvent.getLength();
-                            MyTextEvent lastEvent = historyInterval.get(0);
+                            MyTextEvent lastEvent = null;
+                            if (!historyInterval.isEmpty()) lastEvent = historyInterval.get(0);
                             int oldRemoveEventOffset = textRemoveEvent.getOffset();
                             int oldRemoveEventLength = textRemoveEvent.getLength();
                             int removeOffsetAdjust = 0;
@@ -235,7 +236,8 @@ public class EventReplayer implements Runnable {
                             int insertEventPlacementOffset = textInsertEvent.getOffset();
                             // TextRemoveEvent ignoreRemoveEvent = null;
                             // Iterate through the events the other client hasn't seen in order to resolve corrupted events.
-                            MyTextEvent lastEvent =historyInterval.get(0);
+                            MyTextEvent lastEvent = null;
+                            if (!historyInterval.isEmpty()) lastEvent = historyInterval.get(0);
                             int oldInsertEventOffset = textInsertEvent.getOffset();
                             int insertOffsetAdjust = 0;
                             for (int i = 0; i < historyInterval.size(); i++) {

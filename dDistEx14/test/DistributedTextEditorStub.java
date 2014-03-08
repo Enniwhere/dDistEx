@@ -118,16 +118,6 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
     }
 
     @Override
-    public void incrementReplayThreadCounter() {
-
-    }
-
-    @Override
-    public void decrementReplayThreadCounter() {
-
-    }
-
-    @Override
     public int getScrambleLamportClock() {
         return 0;  //This method was auto-implemented
     }

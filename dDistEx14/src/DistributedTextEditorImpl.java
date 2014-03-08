@@ -422,7 +422,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     public void adjustVectorClock(Map<String, Integer> hashMap) {
         synchronized (vectorClockHashMap) {
             for (String s : hashMap.keySet()) {
-                vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
+                if (vectorClockHashMap.get(s) != null){
+                    vectorClockHashMap.put(s, Math.max(vectorClockHashMap.get(s), hashMap.get(s)));
+                } else {
+                    vectorClockHashMap.put(s, hashMap.get(s));
+                }
             }
         }
     }

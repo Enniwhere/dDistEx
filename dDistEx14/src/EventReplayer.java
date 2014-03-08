@@ -66,7 +66,6 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
-                callback.incrementReplayThreadCounter();
                 boolean myOwnEvent = false;
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
@@ -201,7 +200,6 @@ public class EventReplayer implements Runnable {
                     e.printStackTrace();
 
                 }
-                callback.decrementReplayThreadCounter();
             }
         }).start();
     }
@@ -214,7 +212,6 @@ public class EventReplayer implements Runnable {
 
         new Thread(new Runnable() {
             public void run() {
-                callback.incrementReplayThreadCounter();
                 boolean myOwnEvent = false;
                 try {
                     while (isNotInCausalOrder(timestamp, senderIndex) && !myOwnEvent) {
@@ -330,7 +327,6 @@ public class EventReplayer implements Runnable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                callback.decrementReplayThreadCounter();
             }
         }).start();
     }

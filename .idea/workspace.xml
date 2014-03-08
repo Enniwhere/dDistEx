@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" afterPath="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" afterPath="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -831,7 +829,11 @@
       <created>1394277863226</created>
       <updated>1394277863226</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Fixed getting out of bounds exceptions when the history is empty.">
+      <created>1394278067454</created>
+      <updated>1394278067454</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -876,7 +878,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Committed junit&#10;" />
     <MESSAGE value="Made the event replayer check for causal order with several peers" />
     <MESSAGE value="Created new tests for the case of several clients and located a bug requiring a rewrite in the way we get and sort the event history." />
     <MESSAGE value="Tried to fix the case where different clients events were dependant on being received in a particular order." />
@@ -901,7 +902,8 @@
     <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
     <MESSAGE value="Merge conflicts" />
     <MESSAGE value="Fixed the final conflicts with ignored events affecting events inserted after." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed the final conflicts with ignored events affecting events inserted after." />
+    <MESSAGE value="Fixed getting out of bounds exceptions when the history is empty." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed getting out of bounds exceptions when the history is empty." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />

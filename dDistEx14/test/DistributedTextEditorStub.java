@@ -1,4 +1,5 @@
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -78,21 +79,55 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
         Collections.sort(sortedKeys, new StringDescendingComparator());
         synchronized (eventHistory) {
             for (MyTextEvent historyEvent : eventHistory) {
-                if (historyEvent.getTimestamp().get(historyEvent.getSender()) > timestamp.get(historyEvent.getSender())){
+                String historyEventSender = historyEvent.getSender();
+                /*boolean eventAlreadySeen = false;
+                for (String key : timestamp.keySet()){
+                    if (timestamp.get(key))
+                }    */
+                if (!historyEventSender.equals(textEvent.getSender()) && historyEvent.getTimestamp().get(historyEventSender) > timestamp.get(historyEventSender)){
                     res.add(historyEvent);
-                } else if (historyEvent.getSender().equals(textEvent.getSender()) &&
-                           historyEvent.getTimestamp().get(historyEvent.getSender()) < timestamp.get(historyEvent.getSender())){
+                }/* else if (historyEventSender.equals(textEvent.getSender()) &&
+                        historyEvent.getTimestamp().get(historyEventSender) < timestamp.get(historyEventSender) &&
+                        historyEvent.getOffset() - historyEvent.getTextLengthChange() <= textEvent.getOffset()){
                     res.add(historyEvent);
-                }
+                } */
             }
         }
         return res;
     }
 
     @Override
+    public ArrayList<MyTextEvent> getEventPast(MyTextEvent event, int time) {
+        ArrayList<MyTextEvent> past = new ArrayList<MyTextEvent>();
+        for (MyTextEvent historyEvent : eventHistory){
+            if (event.getSender().equals(historyEvent.getSender()) && event.getTimestamp().get(event.getSender()) >= time){
+                past.add(historyEvent);
+            }
+        }
+        return past;
+    }
+
+    @Override
     public void addEventToHistory(MyTextEvent textEvent) {
         synchronized (eventHistory) {
             eventHistory.add(textEvent);
+        }
+    }
+
+    @Override
+    public void removeOldHistoryEvents() {
+        synchronized (eventHistory){
+            ArrayList<MyTextEvent> tempArray = new ArrayList<MyTextEvent>(eventHistory);
+            for (MyTextEvent historyEvent : tempArray){
+                boolean shouldRemove = true;
+                for (String key : historyEvent.getTimestamp().keySet()){
+                    shouldRemove = shouldRemove && historyEvent.getTimestamp().get(key) < getLamportTime(key);
+                }
+                if (shouldRemove) {
+                    System.out.println("Removed the event " + (historyEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) historyEvent).getText() + " at offset " + historyEvent.getOffset() : " removing from offset " + historyEvent.getOffset()));
+                    eventHistory.remove(historyEvent);
+                }
+            }
         }
     }
 

@@ -26,7 +26,11 @@ public interface DistributedTextEditor {
 
     public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent event);
 
+    public ArrayList<MyTextEvent> getEventPast(MyTextEvent event, int time);
+
     public void addEventToHistory(MyTextEvent textEvent);
+
+    public void removeOldHistoryEvents();
 
     public boolean isDebugging();
 

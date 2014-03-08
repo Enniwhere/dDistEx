@@ -396,9 +396,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
 
     public int getLamportTime(String index) {
-        if (vectorClockHashMap.containsKey(index))
-            return vectorClockHashMap.get(index);
-        return 0;
+        synchronized (vectorClockHashMap){
+            if (vectorClockHashMap.containsKey(index))
+                return vectorClockHashMap.get(index);
+            return 0;
+        }
     }
 
 
@@ -431,6 +433,18 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         }
     }
 
+    public void removeOldHistoryEvents(){
+        synchronized (eventHistory){
+            for (MyTextEvent historyEvent : eventHistory){
+                boolean shouldRemove = true;
+                for (String key : historyEvent.getTimestamp().keySet()){
+                    shouldRemove = shouldRemove && historyEvent.getTimestamp().get(key) <= getLamportTime(key);
+                }
+                if (shouldRemove) eventHistory.remove(historyEvent);
+            }
+        }
+    }
+
 
     public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent textEvent) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
@@ -440,10 +454,15 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         synchronized (eventHistory) {
             for (MyTextEvent historyEvent : eventHistory) {
                 String historyEventSender = historyEvent.getSender();
+                /*boolean eventAlreadySeen = false;
+                for (String key : timestamp.keySet()){
+                    if (timestamp.get(key))
+                }    */
                 if (historyEvent.getTimestamp().get(historyEventSender) > timestamp.get(historyEventSender)){
                     res.add(historyEvent);
                 } else if (historyEventSender.equals(textEvent.getSender()) &&
-                           historyEvent.getTimestamp().get(historyEventSender) < timestamp.get(historyEventSender)){
+                           historyEvent.getTimestamp().get(historyEventSender) < timestamp.get(historyEventSender) &&
+                           historyEvent.getOffset() - historyEvent.getTextLengthChange() <= textEvent.getOffset()){
                     res.add(historyEvent);
                 }
             }
@@ -451,8 +470,20 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         return res;
     }
 
+    @Override
+    public ArrayList<MyTextEvent> getEventPast(MyTextEvent event, int time) {
+        ArrayList<MyTextEvent> past = new ArrayList<MyTextEvent>();
+        for (MyTextEvent historyEvent : eventHistory){
+            if (event.getSender().equals(historyEvent.getSender()) && event.getTimestamp().get(event.getSender()) >= time){
+                past.add(historyEvent);
+            }
+        }
+        return past;
+    }
+
 
     public void addEventToHistory(MyTextEvent textEvent) {
+
         synchronized (eventHistory) {
             eventHistory.add(textEvent);
         }

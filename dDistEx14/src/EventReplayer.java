@@ -161,13 +161,18 @@ public class EventReplayer implements Runnable {
                                         System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
                                     //}
                                     if ((localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(senderIndex))){
+
                                         textRemoveEvent.setLength(removeEventLength - Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
                                         removeEventLength -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                         removeLengthAdjust -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
-                                    } else if (!localEventIndex.equals(senderIndex)){
+                                    } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
+                                        if ( localEventOffset - localEventTextLengthChange < removeEventOffset + removeEventLength){
+                                            localEvent.setIgnored(true);
+                                        }
                                         removeEventLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                         removeEventPlacementLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                     }
+
                                 } else {
                                     // If the local event has a higher offset than and isn't contained by the received event, we simply adjust the offset of the local event accordingly.
                                     if (localEvent.getSender().equals(textRemoveEvent.getSender()) && localEvent.getOffset() < textRemoveEvent.getOffset()){

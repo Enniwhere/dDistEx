@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="">
+    <list default="true" id="652a4ba6-3eaf-4003-ba45-d6251f669314" name="Default" comment="Fixed a bug with remove events inside remove events not being ignored properly.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="dDistEx.iws" />
@@ -69,7 +69,7 @@
       <file leaf-file-name="EventReplayer.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="239" column="95" selection-start="16897" selection-end="16897" vertical-scroll-proportion="0.6833713" vertical-offset="3150" max-vertical-offset="5730">
+            <state line="303" column="40" selection-start="21567" selection-end="21567" vertical-scroll-proportion="0.5196305" vertical-offset="4170" max-vertical-offset="6060">
               <folding />
             </state>
           </provider>
@@ -87,12 +87,8 @@
       <file leaf-file-name="TestReplayerWithSeveralClients.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="407" column="51" selection-start="16101" selection-end="16101" vertical-scroll-proportion="0.0" vertical-offset="5786" max-vertical-offset="6270">
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#821#838#0" expanded="false" />
-                <element signature="e#1884#1901#0" expanded="false" />
-              </folding>
+            <state line="472" column="126" selection-start="18678" selection-end="18678" vertical-scroll-proportion="0.0" vertical-offset="6602" max-vertical-offset="7110">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,7 +96,7 @@
       <file leaf-file-name="LamportTimeComparator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="75" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1185">
+            <state line="30" column="59" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.0" vertical-offset="163" max-vertical-offset="690">
               <folding />
             </state>
           </provider>
@@ -109,7 +105,7 @@
       <file leaf-file-name="StringDescendingComparator.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/StringDescendingComparator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="33" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0" vertical-offset="135" max-vertical-offset="270">
+            <state line="9" column="18" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
@@ -127,7 +123,7 @@
       <file leaf-file-name="DistributedTextEditorStub.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="4" selection-start="1842" selection-end="2795" vertical-scroll-proportion="0.0" vertical-offset="1095" max-vertical-offset="2475">
+            <state line="73" column="4" selection-start="1842" selection-end="2795" vertical-scroll-proportion="0.0" vertical-offset="1095" max-vertical-offset="2415">
               <folding />
             </state>
           </provider>
@@ -145,7 +141,7 @@
       <file leaf-file-name="DistributedTextEditorImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="493" column="74" selection-start="19611" selection-end="19611" vertical-scroll-proportion="0.0" vertical-offset="6735" max-vertical-offset="9750">
+            <state line="336" column="28" selection-start="13231" selection-end="13231" vertical-scroll-proportion="0.0" vertical-offset="4665" max-vertical-offset="9765">
               <folding />
             </state>
           </provider>
@@ -154,8 +150,17 @@
       <file leaf-file-name="SetupConnectionEvent.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dDistEx14/src/SetupConnectionEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="15" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="420" max-vertical-offset="555">
-              <folding />
+            <state line="28" column="15" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#300#301#0" expanded="false" />
+                <element signature="e#327#328#0" expanded="false" />
+                <element signature="e#379#380#0" expanded="false" />
+                <element signature="e#413#414#0" expanded="false" />
+                <element signature="method#getScrambleLamportClock#0;class#SetupConnectionEvent#0" expanded="false" />
+                <element signature="e#941#942#0" expanded="false" />
+                <element signature="e#976#977#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -194,9 +199,9 @@
         <option value="$PROJECT_DIR$/dDistEx14/test/TestOffsetAdjusting.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/MyTextEvent.java" />
         <option value="$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java" />
+        <option value="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java" />
         <option value="$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java" />
-        <option value="$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java" />
         <option value="$PROJECT_DIR$/dDistEx14/src/EventReplayer.java" />
       </list>
     </option>
@@ -833,7 +838,19 @@
       <created>1394278067454</created>
       <updated>1394278067454</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Fixed getting out of bounds exceptions when the history is empty.&#10;">
+      <created>1394278074200</created>
+      <updated>1394278074200</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Added comments to the EventReplayer and the LamportTimeComparator">
+      <created>1394281058059</created>
+      <updated>1394281058059</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Fixed a bug with remove events inside remove events not being ignored properly.">
+      <created>1394288417960</created>
+      <updated>1394288417960</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -857,7 +874,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.209375" sideWeight="0.7437673" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3518758" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35963777" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -878,9 +895,6 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
-    <MESSAGE value="Made the event replayer check for causal order with several peers" />
-    <MESSAGE value="Created new tests for the case of several clients and located a bug requiring a rewrite in the way we get and sort the event history." />
-    <MESSAGE value="Tried to fix the case where different clients events were dependant on being received in a particular order." />
     <MESSAGE value="Did not fix the bug, but made the system work again after having the event history take events from other clients also." />
     <MESSAGE value="Fixed the bug by making our comparator sort in ascending order instead of descending order." />
     <MESSAGE value="Fixed the bug by making our comparator sort in ascending order instead of descending order.&#10;" />
@@ -903,7 +917,10 @@
     <MESSAGE value="Merge conflicts" />
     <MESSAGE value="Fixed the final conflicts with ignored events affecting events inserted after." />
     <MESSAGE value="Fixed getting out of bounds exceptions when the history is empty." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed getting out of bounds exceptions when the history is empty." />
+    <MESSAGE value="Fixed getting out of bounds exceptions when the history is empty.&#10;" />
+    <MESSAGE value="Added comments to the EventReplayer and the LamportTimeComparator" />
+    <MESSAGE value="Fixed a bug with remove events inside remove events not being ignored properly." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed a bug with remove events inside remove events not being ignored properly." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1130,23 +1147,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/SetupConnectionEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="15" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventTransmitter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="38" column="42" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0" vertical-offset="178" max-vertical-offset="870">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/StringDescendingComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="33" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
           <folding />
         </state>
       </provider>
@@ -1165,6 +1168,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="59" selection-start="1362" selection-end="1362" vertical-scroll-proportion="0.0" vertical-offset="163" max-vertical-offset="690">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/SetupConnectionEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="15" selection-start="958" selection-end="958" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#300#301#0" expanded="false" />
+            <element signature="e#327#328#0" expanded="false" />
+            <element signature="e#379#380#0" expanded="false" />
+            <element signature="e#413#414#0" expanded="false" />
+            <element signature="method#getScrambleLamportClock#0;class#SetupConnectionEvent#0" expanded="false" />
+            <element signature="e#941#942#0" expanded="false" />
+            <element signature="e#976#977#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/StringDescendingComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="18" selection-start="221" selection-end="221" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/test/DistributedTextEditorStub.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="73" column="4" selection-start="1842" selection-end="2795" vertical-scroll-proportion="0.0" vertical-offset="990" max-vertical-offset="2415">
@@ -1172,34 +1205,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="493" column="74" selection-start="19611" selection-end="19611" vertical-scroll-proportion="0.0" vertical-offset="6735" max-vertical-offset="9750">
+        <state line="472" column="126" selection-start="18678" selection-end="18678" vertical-scroll-proportion="0.0" vertical-offset="6602" max-vertical-offset="7110">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/test/TestReplayerWithSeveralClients.java">
+    <entry file="file://$PROJECT_DIR$/dDistEx14/src/DistributedTextEditorImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="407" column="51" selection-start="16101" selection-end="16101" vertical-scroll-proportion="0.0" vertical-offset="5786" max-vertical-offset="6270">
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#821#838#0" expanded="false" />
-            <element signature="e#1884#1901#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dDistEx14/src/LamportTimeComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="75" selection-start="638" selection-end="638" vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1185">
+        <state line="336" column="28" selection-start="13231" selection-end="13231" vertical-scroll-proportion="0.0" vertical-offset="4665" max-vertical-offset="9765">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/dDistEx14/src/EventReplayer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="239" column="95" selection-start="16897" selection-end="16897" vertical-scroll-proportion="0.6833713" vertical-offset="3150" max-vertical-offset="5730">
+        <state line="303" column="40" selection-start="21567" selection-end="21567" vertical-scroll-proportion="0.5196305" vertical-offset="4170" max-vertical-offset="6060">
           <folding />
         </state>
       </provider>

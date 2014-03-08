@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.xml.soap.Text;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.util.ArrayList;
@@ -182,7 +183,7 @@ public class EventReplayer implements Runnable {
                                         removeEventLength -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                         removeLengthAdjust -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                     } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
-                                        if ( localEventOffset - localEventTextLengthChange < removeEventOffset + removeEventLength){
+                                        if ( localEventOffset - localEventTextLengthChange <= removeEventOffset + removeEventLength){
                                             localEvent.setIgnored(true);
                                         }
                                         removeEventLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));

@@ -418,5 +418,61 @@ public class TestReplayerWithSeveralClients {
 
     }
 
+    @Test
+    public void severalInsertsAndARemoveFromSeveralClientsOnDifferentOffsetsShouldGiveIntuitiveResultsAltClientExtraEvent(){
+        setUpAlt("client3");
+
+        area1.insert("(3_1)",1);
+        area1.replaceRange("",1,8);
+
+        MyTextEvent insert2_0 = new TextInsertEvent(0,"(2_0)");
+        insert2_0.setSender("client2");
+        timestamp.put("client2",1);
+        insert2_0.setTimestamp(new HashMap<String, Integer>(timestamp));
+        MyTextEvent insert2_3 = new TextInsertEvent(3+5,"(2_3)");
+        insert2_3.setSender("client2");
+        timestamp.put("client2",2);
+        insert2_3.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        MyTextEvent insert1_1 = new TextInsertEvent(1,"(1_1)");
+        insert1_1.setSender("client1");
+        timestamp.put("client2",0);
+        timestamp.put("client1",1);
+        insert1_1.setTimestamp(new HashMap<String, Integer>(timestamp));
+        MyTextEvent insert1_3 = new TextInsertEvent(3+5,"(1_3)");
+        insert1_3.setSender("client1");
+        timestamp.put("client1",2);
+        insert1_3.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        MyTextEvent insert4_4 = new TextInsertEvent(4,"(4_4)");
+        timestamp.put("client1", 0);
+        insert4_4.setSender("client4");
+        timestamp.put("client4", 1);
+        insert4_4.setTimestamp(new HashMap<String, Integer>(timestamp));
+        MyTextEvent insert4_1 = new TextInsertEvent(1,"(4_1)");
+        insert4_1.setSender("client4");
+        timestamp.put("client4", 2);
+        insert4_1.setTimestamp(new HashMap<String, Integer>(timestamp));
+        MyTextEvent insert4_3 = new TextInsertEvent(3+5+5,"(4_3)");
+        insert4_3.setSender("client4");
+        timestamp.put("client1", 1);
+        timestamp.put("client4", 3);
+        insert4_3.setTimestamp(new HashMap<String, Integer>(timestamp));
+
+        inputQueue.add(insert2_0);
+        inputQueue.add(insert2_3);
+        inputQueue.add(insert4_3);
+        inputQueue.add(insert4_1);
+        inputQueue.add(insert1_3);
+
+        inputQueue.add(insert4_4);
+        inputQueue.add(insert1_1);
+
+        eventReplayer.run();
+
+        assertEquals("Text after inserting the events should be (2_0)a(1_1)(1_3)(2_3)(4_3)d(4_4)", "(2_0)a(1_1)(1_3)(2_3)(4_3)d(4_4)", area1.getText());
+
+    }
+
 
 }

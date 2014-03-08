@@ -434,10 +434,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         Collections.sort(sortedKeys, new StringDescendingComparator());
         synchronized (eventHistory) {
             for (MyTextEvent historyEvent : eventHistory) {
-                if (historyEvent.getTimestamp().get(historyEvent.getSender()) > timestamp.get(historyEvent.getSender())){
+                String historyEventSender = historyEvent.getSender();
+                if (historyEvent.getTimestamp().get(historyEventSender) > timestamp.get(historyEventSender)){
                     res.add(historyEvent);
-                } else if (historyEvent.getSender().equals(textEvent.getSender()) &&
-                        historyEvent.getTimestamp().get(historyEvent.getSender()) < timestamp.get(historyEvent.getSender())){
+                } else if (historyEventSender.equals(textEvent.getSender()) &&
+                           historyEvent.getTimestamp().get(historyEventSender) < timestamp.get(historyEventSender)){
                     res.add(historyEvent);
                 }
             }

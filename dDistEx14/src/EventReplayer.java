@@ -206,9 +206,9 @@ public class EventReplayer implements Runnable {
                                         removeEventLength -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                         removeLengthAdjust -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                     } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
-                                        if ( localEventOffset - localEventTextLengthChange <= removeEventOffset + removeEventLength){
+                                        /*if ( localEventOffset - localEventTextLengthChange <= removeEventOffset + removeEventLength){
                                             localEvent.setIgnored(true);
-                                        }
+                                        }  */
                                         removeEventLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                         removeEventPlacementLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
                                     }

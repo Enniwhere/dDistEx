@@ -490,7 +490,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         }
     }
 
-
     public boolean isDebugging() {
         return debugIsOn;
     }

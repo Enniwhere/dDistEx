@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.xml.soap.Text;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.util.ArrayList;
@@ -192,7 +191,6 @@ public class EventReplayer implements Runnable {
                                              //System.out.println("Modified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + localEventTextLengthChange);
                                              //System.out.println("Placement offset is now " + removeEventPlacementOffset);
                                         }
-
                                     }
                                 } else if (isLocalEventOffsetLower("", removeEventOffset + removeEventLength, localEventOffset, "")) {
                                     // If the offset of the local event isn't lower than the offset of the received event, we check to see if the offset of the local event is
@@ -256,7 +254,6 @@ public class EventReplayer implements Runnable {
         }).start();
     }
 
-    //.
     private void handleInsertEvent(TextInsertEvent obj) throws InterruptedException {
         final TextInsertEvent textInsertEvent = obj;
         final Map<String, Integer> timestamp = textInsertEvent.getTimestamp();
@@ -394,7 +391,7 @@ public class EventReplayer implements Runnable {
                                 // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,
                                 // thereby avoiding scrambled text.
                                 if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex.compareTo(receiverIndex) < 0){
-                                    area.getCaret().setDot(dotPosBeforeInsert);
+                                    area.getCaret().setDot(dotPosBeforeInsert-1);
                                 }
                                 //System.out.println("Text is now " + area.getText());
                                 areaDocument.enableFilter();

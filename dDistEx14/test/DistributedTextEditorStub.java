@@ -98,15 +98,16 @@ public class DistributedTextEditorStub implements DistributedTextEditor {
 
     @Override
     public ArrayList<MyTextEvent> getEventPast(MyTextEvent event, int time) {
-        ArrayList<MyTextEvent> past = new ArrayList<MyTextEvent>();
-        for (MyTextEvent historyEvent : eventHistory){
-            if (event.getSender().equals(historyEvent.getSender()) && event.getTimestamp().get(event.getSender()) >= time){
-                past.add(historyEvent);
+        synchronized (eventHistory){
+            ArrayList<MyTextEvent> past = new ArrayList<MyTextEvent>();
+            for (MyTextEvent historyEvent : eventHistory){
+                if (event.getSender().equals(historyEvent.getSender()) && historyEvent.getTimestamp().get(event.getSender()) > time){
+                    past.add(historyEvent);
+                }
             }
+            return past;
         }
-        return past;
     }
-
     @Override
     public void addEventToHistory(MyTextEvent textEvent) {
         synchronized (eventHistory) {

@@ -445,7 +445,6 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         }
     }
 
-
     public ArrayList<MyTextEvent> getEventHistoryInterval(MyTextEvent textEvent) {
         ArrayList<MyTextEvent> res = new ArrayList<MyTextEvent>();
         Map<String,Integer> timestamp = textEvent.getTimestamp();
@@ -458,13 +457,13 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 for (String key : timestamp.keySet()){
                     if (timestamp.get(key))
                 }    */
-                if (historyEvent.getTimestamp().get(historyEventSender) > timestamp.get(historyEventSender)){
+                if (!historyEventSender.equals(textEvent.getSender()) && historyEvent.getTimestamp().get(historyEventSender) > timestamp.get(historyEventSender)){
                     res.add(historyEvent);
-                } else if (historyEventSender.equals(textEvent.getSender()) &&
-                           historyEvent.getTimestamp().get(historyEventSender) < timestamp.get(historyEventSender) &&
-                           historyEvent.getOffset() - historyEvent.getTextLengthChange() <= textEvent.getOffset()){
+                }/* else if (historyEventSender.equals(textEvent.getSender()) &&
+                        historyEvent.getTimestamp().get(historyEventSender) < timestamp.get(historyEventSender) &&
+                        historyEvent.getOffset() - historyEvent.getTextLengthChange() <= textEvent.getOffset()){
                     res.add(historyEvent);
-                }
+                } */
             }
         }
         return res;
@@ -472,13 +471,15 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
 
     @Override
     public ArrayList<MyTextEvent> getEventPast(MyTextEvent event, int time) {
-        ArrayList<MyTextEvent> past = new ArrayList<MyTextEvent>();
-        for (MyTextEvent historyEvent : eventHistory){
-            if (event.getSender().equals(historyEvent.getSender()) && event.getTimestamp().get(event.getSender()) >= time){
-                past.add(historyEvent);
+        synchronized (eventHistory){
+            ArrayList<MyTextEvent> past = new ArrayList<MyTextEvent>();
+            for (MyTextEvent historyEvent : eventHistory){
+                if (event.getSender().equals(historyEvent.getSender()) && historyEvent.getTimestamp().get(event.getSender()) > time){
+                    past.add(historyEvent);
+                }
             }
+            return past;
         }
-        return past;
     }
 
 

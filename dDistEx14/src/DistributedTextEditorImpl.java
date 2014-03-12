@@ -22,10 +22,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*
-  TODO: Remove med ny peer fucker.
-  TODO: Test disconnects og connect
-*/
 
 public class DistributedTextEditorImpl extends JFrame implements DistributedTextEditor {
     private JTextArea area1 = new JTextArea(new DistributedDocument(), "", 35, 120);
@@ -607,11 +603,11 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
             eventTransmitterMap = new HashMap<String, Thread>();
             for (int i = 0; i < eventBacklogSinceLastScramble.size(); i++) {
                 for(LinkedBlockingQueue<Object> linkedBlockingQueue : eventTransmitterBlockingQueues){
-                    linkedBlockingQueue.add(eventBacklogSinceLastScramble.get(0));{
-                        eventBacklogSinceLastScramble.remove(0);
-                    }
+                    linkedBlockingQueue.add(eventBacklogSinceLastScramble.get(0));
+                    eventBacklogSinceLastScramble.remove(0);
                 }
             }
+
             ArrayList<String> addresses = networkTopologyHelper.selectThreePeers(lamportIndex, vectorClockHashMap);
             for (int i = 0; i < addresses.size(); i++) {
                 String s = addresses.get(i);
@@ -620,6 +616,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
                 try {
                     socket = new Socket(ip, port);
                     startTransmitting(new ObjectOutputStream(socket.getOutputStream()), s, eventTransmitterBlockingQueues[i]);
+                    System.out.println("Connecting to: "+ port);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -665,7 +662,7 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
         }
     }
 
-    public boolean eventHasBeenReceived(MyTextEvent event) {
+    public synchronized boolean eventHasBeenReceived(MyTextEvent event) {
         synchronized (receivedEvents) {
             for (MyTextEvent textEvent : receivedEvents) {
                 if (textEvent.getTimestamp().equals(event.getTimestamp())) return true;
@@ -675,7 +672,9 @@ public class DistributedTextEditorImpl extends JFrame implements DistributedText
     }
 
     public synchronized void addEventToReceived(MyTextEvent event) {
-        receivedEvents.add(event);
+        synchronized (receivedEvents){
+            receivedEvents.add(event);
+        }
     }
 
     public Runnable getEventBroadcasterRunnable() {

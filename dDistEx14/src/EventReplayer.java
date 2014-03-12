@@ -40,8 +40,8 @@ public class EventReplayer implements Runnable {
                 if (obj instanceof MyConnectionEvent) {
                     handleConnectionEvent((MyConnectionEvent) obj);
                 } else if (obj instanceof TextInsertEvent && !callback.eventHasBeenReceived((MyTextEvent) obj)) {
-                    handleInsertEvent((TextInsertEvent) obj);
                     callback.addEventToReceived((MyTextEvent) obj);
+                    handleInsertEvent((TextInsertEvent) obj);
                 } else if (obj instanceof TextRemoveEvent && !callback.eventHasBeenReceived((MyTextEvent) obj)) {
                     callback.addEventToReceived((MyTextEvent) obj);
                     handleRemoveEvent((TextRemoveEvent) obj);
@@ -77,173 +77,177 @@ public class EventReplayer implements Runnable {
                     }
                     if (areaDocument != null && !myOwnEvent) {
                         synchronized (areaDocument) {
+                            synchronized (area){
 
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textRemoveEvent);
-                            LamportTimeComparator comparator = new LamportTimeComparator(senderIndex);
-                            InvertedLamportTimeComparator invertedComparator = new InvertedLamportTimeComparator(senderIndex);
+                                ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textRemoveEvent);
+                                LamportTimeComparator comparator = new LamportTimeComparator(senderIndex);
+                                InvertedLamportTimeComparator invertedComparator = new InvertedLamportTimeComparator(senderIndex);
 
-                            // Sort the events the other client hasn't seen by their timestamps.
-                            Collections.sort(historyInterval, comparator);
+                                // Sort the events the other client hasn't seen by their timestamps.
+                                Collections.sort(historyInterval, comparator);
 
-                            boolean ignore = false;
+                                boolean ignore = false;
 
-                            // Since an event can be unseen by several clients at the same time, we cannot adjust the
-                            // actual offsets of the events any longer, since this might result in inconsistent ordering
-                            // of the events based on the order they were received in. Instead we save their actual
-                            // placement in the variables below.
-                            int removeEventPlacementOffset = textRemoveEvent.getOffset();
-                            int removeEventPlacementLength = textRemoveEvent.getLength();
+                                // Since an event can be unseen by several clients at the same time, we cannot adjust the
+                                // actual offsets of the events any longer, since this might result in inconsistent ordering
+                                // of the events based on the order they were received in. Instead we save their actual
+                                // placement in the variables below.
+                                int removeEventPlacementOffset = textRemoveEvent.getOffset();
+                                int removeEventPlacementLength = textRemoveEvent.getLength();
 
-                            // The lastEvent is used to keep track of series of events received from a single client
-                            // in which the events have effected each other in their local textArea (for an example
-                            // we have to take into consideration if one event happens at an offset which only exists
-                            // because of a previous insert from the same client).
-                            MyTextEvent lastEvent = null;
-                            if (!historyInterval.isEmpty()) lastEvent = historyInterval.get(0);
-                            int oldRemoveEventOffset = textRemoveEvent.getOffset();
-                            int oldRemoveEventLength = textRemoveEvent.getLength();
+                                // The lastEvent is used to keep track of series of events received from a single client
+                                // in which the events have effected each other in their local textArea (for an example
+                                // we have to take into consideration if one event happens at an offset which only exists
+                                // because of a previous insert from the same client).
+                                MyTextEvent lastEvent = null;
+                                if (!historyInterval.isEmpty()) lastEvent = historyInterval.get(0);
+                                int oldRemoveEventOffset = textRemoveEvent.getOffset();
+                                int oldRemoveEventLength = textRemoveEvent.getLength();
 
-                            // These variables represent temporary adjustments to the remove event which we have to
-                            // roll back in order to bring the event back to it's original values, once the correct
-                            // offset and length have been found. We adjust the values in order to take into consideration
-                            // other events from ourselves which the received event hasn't seen.
-                            int removeOffsetAdjust = 0;
-                            int removeLengthAdjust = 0;
+                                // These variables represent temporary adjustments to the remove event which we have to
+                                // roll back in order to bring the event back to it's original values, once the correct
+                                // offset and length have been found. We adjust the values in order to take into consideration
+                                // other events from ourselves which the received event hasn't seen.
+                                int removeOffsetAdjust = 0;
+                                int removeLengthAdjust = 0;
 
-                            // Iterate through the events the other client hasn't seen in order to place the new event.
-                            for (int i = 0; i < historyInterval.size(); i++) {
+                                // Iterate through the events the other client hasn't seen in order to place the new event.
+                                for (int i = 0; i < historyInterval.size(); i++) {
 
-                                MyTextEvent localEvent = historyInterval.get(i);
+                                    MyTextEvent localEvent = historyInterval.get(i);
 
-                                // These two variables are used to keep track of the offset and length we are comparing on,
-                                // since a series of events from the same client might require us to adjust the two values temporarily.
-                                int removeEventOffset = lastEvent.getSender().equals(localEvent.getSender()) && lastEvent.getOffset() <= localEvent.getOffset()
-                                        ? oldRemoveEventOffset
-                                        : textRemoveEvent.getOffset();
-                                int removeEventLength = lastEvent.getSender().equals(localEvent.getSender()) && lastEvent.getOffset() <= localEvent.getOffset()
-                                        ? oldRemoveEventLength
-                                        : textRemoveEvent.getLength();
+                                    // These two variables are used to keep track of the offset and length we are comparing on,
+                                    // since a series of events from the same client might require us to adjust the two values temporarily.
+                                    int removeEventOffset = lastEvent.getSender().equals(localEvent.getSender()) && lastEvent.getOffset() <= localEvent.getOffset()
+                                            ? oldRemoveEventOffset
+                                            : textRemoveEvent.getOffset();
+                                    int removeEventLength = lastEvent.getSender().equals(localEvent.getSender()) && lastEvent.getOffset() <= localEvent.getOffset()
+                                            ? oldRemoveEventLength
+                                            : textRemoveEvent.getLength();
 
-                                int localEventOffset = localEvent.getOffset();
-                                int localEventTextLengthChange = localEvent.getTextLengthChange();
-                                String localEventIndex = localEvent.getSender();
-                                lastEvent = localEvent;
+                                    int localEventOffset = localEvent.getOffset();
+                                    int localEventTextLengthChange = localEvent.getTextLengthChange();
+                                    String localEventIndex = localEvent.getSender();
+                                    lastEvent = localEvent;
 
-                                // If there are events in our past, which the local event hasn't seen, we have to pretend those events
-                                // aren't there. This is accomplished by subtracting the past event's influence on the received event from the received event
-                                // temporarily in order to simulate a time without the event.
-                                ArrayList<MyTextEvent> past = callback.getEventPast(textRemoveEvent,localEvent.getTimestamp().get(senderIndex));
-                                if (!past.isEmpty()) Collections.sort(past,invertedComparator);
-                                int pastOffsetAdjust = 0;
-                                int pastLengthAdjust = 0;
-                                for (MyTextEvent pastEvent : past){
-                                    if (pastEvent.getTimestamp().get(senderIndex) < textRemoveEvent.getTimestamp().get(senderIndex) &&
-                                        pastEvent.getOffset() < textRemoveEvent.getOffset() + pastOffsetAdjust){
+                                    // If there are events in our past, which the local event hasn't seen, we have to pretend those events
+                                    // aren't there. This is accomplished by subtracting the past event's influence on the received event from the received event
+                                    // temporarily in order to simulate a time without the event.
+                                    ArrayList<MyTextEvent> past = callback.getEventPast(textRemoveEvent,localEvent.getTimestamp().get(senderIndex));
+                                    if (!past.isEmpty()) Collections.sort(past,invertedComparator);
+                                    int pastOffsetAdjust = 0;
+                                    int pastLengthAdjust = 0;
+                                    for (MyTextEvent pastEvent : past){
+                                        if (pastEvent.getTimestamp().get(senderIndex) < textRemoveEvent.getTimestamp().get(senderIndex) &&
+                                                pastEvent.getOffset() < textRemoveEvent.getOffset() + pastOffsetAdjust){
 
-                                        //textInsertEvent.setOffset(insertEventOffset - localEventTextLengthChange);
-                                        removeEventOffset -= pastEvent.getTextLengthChange();
-                                        removeOffsetAdjust -= pastEvent.getTextLengthChange();
-                                        pastOffsetAdjust -= pastEvent.getTextLengthChange();
-                                        ////System.out.println("XXModified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + (-localEventTextLengthChange));
-                                    } else if (pastEvent.getTimestamp().get(senderIndex) < textRemoveEvent.getTimestamp().get(senderIndex) &&
-                                               pastEvent.getOffset() <= textRemoveEvent.getOffset() + textRemoveEvent.getLength() + pastLengthAdjust) {
-                                        removeEventLength -= Math.max(pastEvent.getTextLengthChange(), -(removeEventPlacementOffset + removeEventPlacementLength - pastEvent.getOffset()));
-                                        removeLengthAdjust -= Math.max(pastEvent.getTextLengthChange(), -(removeEventPlacementOffset + removeEventPlacementLength - pastEvent.getOffset()));
-                                        pastLengthAdjust -= Math.max(pastEvent.getTextLengthChange(), -(removeEventPlacementOffset + removeEventPlacementLength - pastEvent.getOffset()));
-                                    }
-                                }
-
-                                //System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength() + " by comparing it to the event " + (localEvent instanceof TextInsertEvent ? " inserting " + ((TextInsertEvent) localEvent).getText() + " at " + localEvent.getOffset() : " removing from " + localEvent.getOffset() + " to " + (localEvent.getOffset()-localEvent.getTextLengthChange())));
-                                // Check to see if the local event has a lower offset than the received event
-                                if (isLocalEventOffsetLower(localEventIndex, removeEventOffset, localEventOffset, senderIndex)) {
-
-                                    // Check to see if our received event is contained inside a local remove event
-                                    if (isRemoveContainedInHistoryEvent(localEventIndex, localEvent, removeEventOffset, removeEventLength, localEventOffset, senderIndex)){
-                                        // If the received event is contained inside a local remove event, we simply ignore it.
-                                        ignore = true;
-                                        textRemoveEvent.setIgnored(true);
-
-                                    } else if (isEventOffsetOverlapped(localEventIndex, localEvent, removeEventOffset, localEventOffset, senderIndex)) {
-                                        // Else, check if the offset of the received remove event is overlapped by a local remove event.
-                                        // In this case we subtract the length of the overlapping region from the placement length of the received event and
-                                        // we set the placement offset of the received event to the offset of the local event.
-                                        if (!localEvent.isIgnored()){
-                                            removeEventPlacementLength = removeEventPlacementLength - (localEventOffset + ((TextRemoveEvent) localEvent).getLength() - removeEventOffset);
-                                            removeEventPlacementOffset = localEvent.getOffset();
+                                            //textInsertEvent.setOffset(insertEventOffset - localEventTextLengthChange);
+                                            removeEventOffset -= pastEvent.getTextLengthChange();
+                                            removeOffsetAdjust -= pastEvent.getTextLengthChange();
+                                            pastOffsetAdjust -= pastEvent.getTextLengthChange();
+                                            ////System.out.println("XXModified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + (-localEventTextLengthChange));
+                                        } else if (pastEvent.getTimestamp().get(senderIndex) < textRemoveEvent.getTimestamp().get(senderIndex) &&
+                                                pastEvent.getOffset() <= textRemoveEvent.getOffset() + textRemoveEvent.getLength() + pastLengthAdjust) {
+                                            removeEventLength -= Math.max(pastEvent.getTextLengthChange(), -(removeEventPlacementOffset + removeEventPlacementLength - pastEvent.getOffset()));
+                                            removeLengthAdjust -= Math.max(pastEvent.getTextLengthChange(), -(removeEventPlacementOffset + removeEventPlacementLength - pastEvent.getOffset()));
+                                            pastLengthAdjust -= Math.max(pastEvent.getTextLengthChange(), -(removeEventPlacementOffset + removeEventPlacementLength - pastEvent.getOffset()));
                                         }
+                                    }
 
+                                    //System.out.println("Started manipulating a remove event with offset " + textRemoveEvent.getOffset() + " and length " + textRemoveEvent.getLength() + " by comparing it to the event " + (localEvent instanceof TextInsertEvent ? " inserting " + ((TextInsertEvent) localEvent).getText() + " at " + localEvent.getOffset() : " removing from " + localEvent.getOffset() + " to " + (localEvent.getOffset()-localEvent.getTextLengthChange())));
+                                    // Check to see if the local event has a lower offset than the received event
+                                    if (isLocalEventOffsetLower(localEventIndex, removeEventOffset, localEventOffset, senderIndex)) {
+
+                                        // Check to see if our received event is contained inside a local remove event
+                                        if (isRemoveContainedInHistoryEvent(localEventIndex, localEvent, removeEventOffset, removeEventLength, localEventOffset, senderIndex)){
+                                            // If the received event is contained inside a local remove event, we simply ignore it.
+                                            ignore = true;
+                                            textRemoveEvent.setIgnored(true);
+
+                                        } else if (isEventOffsetOverlapped(localEventIndex, localEvent, removeEventOffset, localEventOffset, senderIndex)) {
+                                            // Else, check if the offset of the received remove event is overlapped by a local remove event.
+                                            // In this case we subtract the length of the overlapping region from the placement length of the received event and
+                                            // we set the placement offset of the received event to the offset of the local event.
+                                            if (!localEvent.isIgnored()){
+                                                removeEventPlacementLength = removeEventPlacementLength - (localEventOffset + ((TextRemoveEvent) localEvent).getLength() - removeEventOffset);
+                                                removeEventPlacementOffset = localEvent.getOffset();
+                                            }
+
+
+                                        } else {
+                                            // Else the local event must happen at a lower index without overlap.
+
+                                            if (localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(senderIndex)){
+                                                // If the received event is from the same sender as the local event,
+                                                // we invert the adjustment of the placement.
+                                                //textRemoveEvent.setOffset(removeEventOffset - localEventTextLengthChange);
+                                                removeEventOffset -= localEventTextLengthChange;
+                                                removeOffsetAdjust -= localEventTextLengthChange;
+                                                //System.out.println("XXModified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + (-localEventTextLengthChange));
+                                            } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
+                                                // If the event isn't ignored and is from another sender, we add the change in text length
+                                                // to the placement of the received event.
+                                                removeEventOffset +=localEventTextLengthChange;
+                                                removeEventPlacementOffset += localEventTextLengthChange;
+                                                //System.out.println("Modified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + localEventTextLengthChange);
+                                                //System.out.println("Placement offset is now " + removeEventPlacementOffset);
+                                            }
+                                        }
+                                    } else if (isLocalEventOffsetLower("", removeEventOffset + removeEventLength, localEventOffset, "")) {
+                                        // If the offset of the local event isn't lower than the offset of the received event, we check to see if the offset of the local event is
+                                        // contained in the received event.
+                                        // In this case we either increase the placement length of the received event by the length of the local event (if it is an insert event)
+                                        // or we reduce the placement length of the received event by the length of the overlapping region (if they are both remove events)
+
+                                        //System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+
+                                        if ((localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(senderIndex))){
+
+                                            //textRemoveEvent.setLength(removeEventLength - Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
+                                            removeEventLength -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
+                                            removeLengthAdjust -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
+                                        } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
+                                            if ( localEventOffset - localEventTextLengthChange <= removeEventOffset + removeEventLength){
+                                                localEvent.setIgnored(true);
+                                            }
+                                            removeEventLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
+                                            removeEventPlacementLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
+                                        }
 
                                     } else {
-                                        // Else the local event must happen at a lower index without overlap.
-
-                                        if (localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(senderIndex)){
-                                            // If the received event is from the same sender as the local event,
-                                            // we invert the adjustment of the placement.
-                                            //textRemoveEvent.setOffset(removeEventOffset - localEventTextLengthChange);
-                                            removeEventOffset -= localEventTextLengthChange;
-                                            removeOffsetAdjust -= localEventTextLengthChange;
-                                             //System.out.println("XXModified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + (-localEventTextLengthChange));
-                                        } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
-                                            // If the event isn't ignored and is from another sender, we add the change in text length
-                                            // to the placement of the received event.
-                                            removeEventOffset +=localEventTextLengthChange;
-                                            removeEventPlacementOffset += localEventTextLengthChange;
-                                             //System.out.println("Modified the offset of the event removing by " + textRemoveEvent.getLength() + " by moving it by " + localEventTextLengthChange);
-                                             //System.out.println("Placement offset is now " + removeEventPlacementOffset);
-                                        }
-                                    }
-                                } else if (isLocalEventOffsetLower("", removeEventOffset + removeEventLength, localEventOffset, "")) {
-                                    // If the offset of the local event isn't lower than the offset of the received event, we check to see if the offset of the local event is
-                                    // contained in the received event.
-                                    // In this case we either increase the placement length of the received event by the length of the local event (if it is an insert event)
-                                    // or we reduce the placement length of the received event by the length of the overlapping region (if they are both remove events)
-
-                                     //System.out.println("Modified the event removing from " + textRemoveEvent.getOffset() + " to " + (textRemoveEvent.getOffset()+textRemoveEvent.getLength()) + " by adjusting the length by " + Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
-
-                                    if ((localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textRemoveEvent.getTimestamp().get(senderIndex))){
-
-                                        //textRemoveEvent.setLength(removeEventLength - Math.max(localEventTextLengthChange, -(removeEventOffset + removeEventLength - localEventOffset)));
-                                        removeEventLength -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
-                                        removeLengthAdjust -= Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
-                                    } else if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
-                                        /*if ( localEventOffset - localEventTextLengthChange <= removeEventOffset + removeEventLength){
-                                            localEvent.setIgnored(true);
-                                        }  */
-                                        removeEventLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
-                                        removeEventPlacementLength += Math.max(localEventTextLengthChange, -(removeEventPlacementOffset + removeEventPlacementLength - localEventOffset));
-                                    }
-
-                                } else {
-                                    // If the local event has a higher offset than and isn't contained by the received event,
-                                    // we simply adjust the offset of the local event accordingly, but only if the received event
-                                    // is from the same sender, since the event would have been moved in the local timeframe.
+                                        // If the local event has a higher offset than and isn't contained by the received event,
+                                        // we simply adjust the offset of the local event accordingly, but only if the received event
+                                        // is from the same sender, since the event would have been moved in the local timeframe.
                                     /*if (localEvent.getSender().equals(textRemoveEvent.getSender()) && localEvent.getOffset() < textRemoveEvent.getOffset()){
                                         localEvent.setOffset(localEventOffset - removeEventLength);
                                     }  */
+                                    }
+
+                                    // Reset the event to it's original values.
+
+                                    removeEventOffset -= removeOffsetAdjust;
+                                    oldRemoveEventOffset = removeEventOffset;
+                                    removeEventLength -= removeLengthAdjust;
+                                    oldRemoveEventLength = removeEventLength;
+
+                                    removeOffsetAdjust = 0;
+                                    removeLengthAdjust = 0;
                                 }
 
-                                // Reset the event to it's original values.
-
-                                removeEventOffset -= removeOffsetAdjust;
-                                oldRemoveEventOffset = removeEventOffset;
-                                removeEventLength -= removeLengthAdjust;
-                                oldRemoveEventLength = removeEventLength;
-
-                                removeOffsetAdjust = 0;
-                                removeLengthAdjust = 0;
+                                callback.adjustVectorClock(timestamp);
+                                synchronized (area){
+                                    if (!ignore){
+                                        areaDocument.disableFilter();
+                                        //System.out.println("Going to remove from " + removeEventPlacementOffset + " to " + removeEventPlacementLength);
+                                        area.replaceRange(null, removeEventPlacementOffset, removeEventPlacementOffset + removeEventPlacementLength);
+                                        //System.out.println("Text is now " + area.getText());
+                                        areaDocument.enableFilter();
+                                    }
+                                    callback.addEventToHistory(textRemoveEvent);
+                                    //callback.removeOldHistoryEvents();
+                                    callback.forwardEvent(textRemoveEvent);
+                                }
                             }
-
-                            callback.adjustVectorClock(timestamp);
-                            if (!ignore){
-                                areaDocument.disableFilter();
-                                 //System.out.println("Going to remove from " + removeEventPlacementOffset + " to " + removeEventPlacementLength);
-                                area.replaceRange(null, removeEventPlacementOffset, removeEventPlacementOffset + removeEventPlacementLength);
-                                 //System.out.println("Text is now " + area.getText());
-                                areaDocument.enableFilter();
-                            }
-                            callback.addEventToHistory(textRemoveEvent);
-                            //callback.removeOldHistoryEvents();
-                            callback.forwardEvent(textRemoveEvent);
                         }
                     }
                 } catch (Exception e) {
@@ -273,132 +277,137 @@ public class EventReplayer implements Runnable {
                     }
                     if (areaDocument != null && !myOwnEvent) {
                         synchronized (areaDocument) {
-                            String receiverIndex = callback.getLamportIndex();
-                            ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
-                            LamportTimeComparator comparator = new LamportTimeComparator(senderIndex);
-                            InvertedLamportTimeComparator invertedComparator = new InvertedLamportTimeComparator(senderIndex);
-                            // Sort the events the other client hasn't seen by their timestamps.
-                            Collections.sort(historyInterval, comparator);
+                            synchronized (area){
+                                String receiverIndex = callback.getLamportIndex();
+                                ArrayList<MyTextEvent> historyInterval = callback.getEventHistoryInterval(textInsertEvent);
+                                LamportTimeComparator comparator = new LamportTimeComparator(senderIndex);
+                                InvertedLamportTimeComparator invertedComparator = new InvertedLamportTimeComparator(senderIndex);
+                                // Sort the events the other client hasn't seen by their timestamps.
+                                Collections.sort(historyInterval, comparator);
 
-                            boolean ignore = false;
+                                boolean ignore = false;
 
-                            // Since an event can be unseen by several clients at the same time, we cannot adjust the
-                            // actual offsets of the events any longer, since this might result in inconsistent ordering
-                            // of the events based on the order they were received in. Instead we save their actual
-                            // placement in the variable below.
-                            int insertEventPlacementOffset = textInsertEvent.getOffset();
+                                // Since an event can be unseen by several clients at the same time, we cannot adjust the
+                                // actual offsets of the events any longer, since this might result in inconsistent ordering
+                                // of the events based on the order they were received in. Instead we save their actual
+                                // placement in the variable below.
+                                int insertEventPlacementOffset = textInsertEvent.getOffset();
 
-                            // The lastEvent is used to keep track of series of events received from a single client
-                            // in which the events have effected each other in their local textArea (for an example
-                            // we have to take into consideration if one event happens at an offset which only exists
-                            // because of a previous insert from the same client).
-                            MyTextEvent lastEvent = null;
-                            if (!historyInterval.isEmpty()) lastEvent = historyInterval.get(0);
-                            int oldInsertEventOffset = textInsertEvent.getOffset();
+                                // The lastEvent is used to keep track of series of events received from a single client
+                                // in which the events have effected each other in their local textArea (for an example
+                                // we have to take into consideration if one event happens at an offset which only exists
+                                // because of a previous insert from the same client).
+                                MyTextEvent lastEvent = null;
+                                if (!historyInterval.isEmpty()) lastEvent = historyInterval.get(0);
+                                int oldInsertEventOffset = textInsertEvent.getOffset();
 
-                            // This variable represent temporary adjustments to the received event which we have to
-                            // roll back in order to bring the event back to it's original values, once the correct
-                            // offset and length have been found. We adjust the values in order to take into consideration
-                            // other events from ourselves which the received event hasn't seen.
-                            int insertOffsetAdjust = 0;
+                                // This variable represent temporary adjustments to the received event which we have to
+                                // roll back in order to bring the event back to it's original values, once the correct
+                                // offset and length have been found. We adjust the values in order to take into consideration
+                                // other events from ourselves which the received event hasn't seen.
+                                int insertOffsetAdjust = 0;
 
-                            // Iterate through the events the other client hasn't seen in order to place the new event.
-                            for (int i = 0; i < historyInterval.size(); i++) {
-                                MyTextEvent localEvent = historyInterval.get(i);
+                                // Iterate through the events the other client hasn't seen in order to place the new event.
+                                for (int i = 0; i < historyInterval.size(); i++) {
+                                    MyTextEvent localEvent = historyInterval.get(i);
 
-                                // This variable is used to keep track of the offset we are comparing on,
-                                // since a series of events from the same client might require us to adjust the value temporarily.
-                                int insertEventOffset = lastEvent.getSender().equals(localEvent.getSender()) && lastEvent.getOffset() <= localEvent.getOffset() ? oldInsertEventOffset : textInsertEvent.getOffset();
+                                    // This variable is used to keep track of the offset we are comparing on,
+                                    // since a series of events from the same client might require us to adjust the value temporarily.
+                                    int insertEventOffset = lastEvent.getSender().equals(localEvent.getSender()) && lastEvent.getOffset() <= localEvent.getOffset() ? oldInsertEventOffset : textInsertEvent.getOffset();
 
-                                int localEventOffset = localEvent.getOffset();
-                                int localEventTextLengthChange = localEvent.getTextLengthChange();
+                                    int localEventOffset = localEvent.getOffset();
+                                    int localEventTextLengthChange = localEvent.getTextLengthChange();
 
 
-                                String localEventIndex = localEvent.getSender();
-                                lastEvent = localEvent;
+                                    String localEventIndex = localEvent.getSender();
+                                    lastEvent = localEvent;
 
-                                // If there are events in our past, which the local event hasn't seen, we have to pretend those events
-                                // aren't there. This is accomplished by subtracting the past event's influence on the received event from the received event
-                                // temporarily in order to simulate a time without the event.
-                                ArrayList<MyTextEvent> past = callback.getEventPast(textInsertEvent,localEvent.getTimestamp().get(senderIndex));
-                                if (!past.isEmpty()) Collections.sort(past,invertedComparator);
-                                int pastOffsetAdjust = 0;
-                                for (MyTextEvent pastEvent : past){
-                                    if (pastEvent.getTimestamp().get(senderIndex) < textInsertEvent.getTimestamp().get(senderIndex) &&
-                                        pastEvent.getOffset() < textInsertEvent.getOffset()+pastOffsetAdjust){
-                                        //System.out.println("Compared the event at offset " + (textInsertEvent.getOffset()+pastOffsetAdjust) +" with the past event " + (pastEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) pastEvent).getText() + " at offset " + pastEvent.getOffset() : " removing from offset " + pastEvent.getOffset()));
-                                        //textInsertEvent.setOffset(insertEventOffset - localEventTextLengthChange);
-                                        insertEventOffset -= pastEvent.getTextLengthChange();
-                                        insertOffsetAdjust -= pastEvent.getTextLengthChange();
-                                        pastOffsetAdjust -= pastEvent.getTextLengthChange();
-                                        //System.out.println("XXModified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + (-pastEvent.getTextLengthChange()));
+                                    // If there are events in our past, which the local event hasn't seen, we have to pretend those events
+                                    // aren't there. This is accomplished by subtracting the past event's influence on the received event from the received event
+                                    // temporarily in order to simulate a time without the event.
+                                    ArrayList<MyTextEvent> past = callback.getEventPast(textInsertEvent,localEvent.getTimestamp().get(senderIndex));
+                                    if (!past.isEmpty()) Collections.sort(past,invertedComparator);
+                                    int pastOffsetAdjust = 0;
+                                    for (MyTextEvent pastEvent : past){
+                                        if (pastEvent.getTimestamp().get(senderIndex) < textInsertEvent.getTimestamp().get(senderIndex) &&
+                                                pastEvent.getOffset() < textInsertEvent.getOffset()+pastOffsetAdjust){
+                                            //System.out.println("Compared the event at offset " + (textInsertEvent.getOffset()+pastOffsetAdjust) +" with the past event " + (pastEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) pastEvent).getText() + " at offset " + pastEvent.getOffset() : " removing from offset " + pastEvent.getOffset()));
+                                            //textInsertEvent.setOffset(insertEventOffset - localEventTextLengthChange);
+                                            insertEventOffset -= pastEvent.getTextLengthChange();
+                                            insertOffsetAdjust -= pastEvent.getTextLengthChange();
+                                            pastOffsetAdjust -= pastEvent.getTextLengthChange();
+                                            //System.out.println("XXModified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + (-pastEvent.getTextLengthChange()));
+                                        }
                                     }
-                                }
-                                //System.out.println("Compared the event inserting " + textInsertEvent.getText() + " at offset " + insertEventOffset + " to the event " + (localEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) localEvent).getText() + " at offset " + localEventOffset : " removing from offset " + localEventOffset));
+                                    //System.out.println("Compared the event inserting " + textInsertEvent.getText() + " at offset " + insertEventOffset + " to the event " + (localEvent instanceof TextInsertEvent ? "inserting " + ((TextInsertEvent) localEvent).getText() + " at offset " + localEventOffset : " removing from offset " + localEventOffset));
 
-                                // Checks if the local event has a lower index than the received insert event
-                                if (isLocalEventOffsetLower(localEventIndex, insertEventOffset, localEventOffset, senderIndex)) {
+                                    // Checks if the local event has a lower index than the received insert event
+                                    if (isLocalEventOffsetLower(localEventIndex, insertEventOffset, localEventOffset, senderIndex)) {
 
-                                    // Checks to see if the event we just received is contained in a local remove event.
-                                    if (isInsertedInsideRemove(localEvent, insertEventOffset, localEventOffset)) {
-                                        // Ignore insert events contained in a local remove event, because the other client will delete the text
-                                        // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
-                                         //System.out.println("Event was ignored");
-                                        ignore = true;
-                                        textInsertEvent.setIgnored(true);
+                                        // Checks to see if the event we just received is contained in a local remove event.
+                                        if (isInsertedInsideRemove(localEvent, insertEventOffset, localEventOffset)) {
+                                            // Ignore insert events contained in a local remove event, because the other client will delete the text
+                                            // when our remove arrives. The end of the interval is non-inclusive when we decide to ignore.
+                                            //System.out.println("Event was ignored");
+                                            ignore = true;
+                                            textInsertEvent.setIgnored(true);
 
-                                    } else {
-                                        // Else the local event has a lower offset than the received event.
-                                        // Just add or subtract the length of the local event from the placement of the received event.
+                                        } else {
+                                            // Else the local event has a lower offset than the received event.
+                                            // Just add or subtract the length of the local event from the placement of the received event.
                                         /*if ((localEventIndex.equals(senderIndex) && localEvent.getTimestamp().get(localEvent.getSender()) < textInsertEvent.getTimestamp().get(senderIndex))){
                                             textInsertEvent.setOffset(insertEventOffset - localEventTextLengthChange);
                                             insertEventOffset -= localEventTextLengthChange;
                                             insertOffsetAdjust -= localEventTextLengthChange;
                                             //System.out.println("XXModified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + (-localEventTextLengthChange));
                                         } else */
-                                        if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
-                                            insertEventOffset +=localEventTextLengthChange;
-                                            insertEventPlacementOffset += localEventTextLengthChange;
-                                            //System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + localEventTextLengthChange);
+                                            if (!localEventIndex.equals(senderIndex) && !localEvent.isIgnored()){
+                                                insertEventOffset +=localEventTextLengthChange;
+                                                insertEventPlacementOffset += localEventTextLengthChange;
+                                                //System.out.println("Modified the offset of the event inserting " + textInsertEvent.getText() + " by moving it by " + localEventTextLengthChange);
 
+                                            }
+                                            //System.out.println("Placement index is now " + insertEventPlacementOffset);
                                         }
-                                         //System.out.println("Placement index is now " + insertEventPlacementOffset);
-                                    }
-                                } else {
-                                    // Else we must have a local event with a higher offset than the received event.
-                                    // Add the length of the received text to the local event in order to keep the
-                                    // history consistent with the text, if the local event is from the same client
-                                    // as the received event.
+                                    } else {
+                                        // Else we must have a local event with a higher offset than the received event.
+                                        // Add the length of the received text to the local event in order to keep the
+                                        // history consistent with the text, if the local event is from the same client
+                                        // as the received event.
                                     /*if (localEvent.getSender().equals(textInsertEvent.getSender()) && localEvent.getOffset() > textInsertEvent.getOffset()){
                                         localEvent.setOffset(localEventOffset + textInsertEvent.getTextLengthChange());
                                     }*/
-                                }
-                                insertEventOffset -= insertOffsetAdjust;
-                                oldInsertEventOffset = insertEventOffset;
+                                    }
+                                    insertEventOffset = 0;
+                                    oldInsertEventOffset = insertEventOffset;
 
-                                // Reset the event to it's original values.
-                                // textInsertEvent.setOffset(textInsertEvent.getOffset() - insertOffsetAdjust);
-                                insertOffsetAdjust = 0;
-                                //System.out.println("Insert event offset is " + insertEventOffset + " and offset of insert event is " + textInsertEvent.getOffset());
-                            }
-
-                            callback.adjustVectorClock(timestamp);
-                            if (!ignore) {
-                                areaDocument.disableFilter();
-                                int dotPosBeforeInsert = area.getCaret().getDot();
-                                area.insert(textInsertEvent.getText(),insertEventPlacementOffset);
-                                // If both clients are writing to the same offset they push each others' carets in front of the text creating interlaced text.
-                                // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,
-                                // thereby avoiding scrambled text.
-                                if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex.compareTo(receiverIndex) < 0){
-                                    area.getCaret().setDot(dotPosBeforeInsert-1);
+                                    // Reset the event to it's original values.
+                                    // textInsertEvent.setOffset(textInsertEvent.getOffset() - insertOffsetAdjust);
+                                    insertOffsetAdjust = 0;
+                                    //System.out.println("Insert event offset is " + insertEventOffset + " and offset of insert event is " + textInsertEvent.getOffset());
                                 }
-                                //System.out.println("Text is now " + area.getText());
-                                areaDocument.enableFilter();
+
+                                callback.adjustVectorClock(timestamp);
+                                synchronized (area){
+                                    if (!ignore && callback.eventHasBeenReceived(textInsertEvent)) {
+                                        areaDocument.disableFilter();
+                                        int dotPosBeforeInsert = area.getCaret().getDot();
+                                        area.insert(textInsertEvent.getText(),insertEventPlacementOffset);
+                                        // If both clients are writing to the same offset they push each others' carets in front of the text creating interlaced text.
+                                        // In order to avoid this, the client with the highest index yields the position in front and moves his caret one letter back,
+                                        // thereby avoiding scrambled text.
+                                        if (textInsertEvent.getOffset() == dotPosBeforeInsert && senderIndex.compareTo(receiverIndex) < 0){
+                                            area.getCaret().setDot(dotPosBeforeInsert-1);
+                                        }
+                                        //System.out.println("Text is now " + area.getText());
+                                        areaDocument.enableFilter();
+                                    }
+
+                                    callback.addEventToHistory(textInsertEvent);
+                                    //callback.removeOldHistoryEvents();
+                                    callback.forwardEvent(textInsertEvent);
+                                }
                             }
-                            callback.addEventToHistory(textInsertEvent);
-                            //callback.removeOldHistoryEvents();
-                            callback.forwardEvent(textInsertEvent);
                         }
                     }
                 } catch (IllegalArgumentException ae){
